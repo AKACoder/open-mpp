@@ -1,7 +1,7 @@
 {
   "app": {
-    "title": "通道浏览器",
-    "description": "可视化查看支付通道状态"
+    "title": "Channel Explorer",
+    "description": "可视化查看 MPP Session 浏览器"
   },
   "common": {
     "loading": "加载中…",

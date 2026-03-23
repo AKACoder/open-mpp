@@ -1,7 +1,7 @@
 {
   "app": {
     "title": "Channel Explorer",
-    "description": "Visualize and inspect payment channel states"
+    "description": "Visualize and inspect MPP Session channel states"
   },
   "common": {
     "loading": "Loading…",

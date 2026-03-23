@@ -1,0 +1,105 @@
+{
+  "app": {
+    "title": "通道浏览器",
+    "description": "可视化查看支付通道状态"
+  },
+  "common": {
+    "loading": "加载中…",
+    "error": "出错了",
+    "retry": "重试",
+    "noData": "暂无数据",
+    "copied": "已复制到剪贴板"
+  },
+  "nav": {
+    "allChannels": "全部通道",
+    "actionable": "待操作",
+    "finalized": "已终结"
+  },
+  "search": {
+    "placeholder": "搜索地址 / 通道 ID…"
+  },
+  "status": {
+    "open": "活跃",
+    "close_requested": "请求关闭",
+    "closed": "已关闭",
+    "expired": "已过期",
+    "finalized": "已终结"
+  },
+  "countdown": {
+    "ready": "可提现"
+  },
+  "pagination": {
+    "prev": "上一页",
+    "next": "下一页",
+    "info": "第 {{current}} 页 / 共 {{total}} 页"
+  },
+  "table": {
+    "channelId": "通道 ID",
+    "payer": "付款方",
+    "payee": "收款方",
+    "deposit": "存款",
+    "settled": "已结算",
+    "delta": "变动",
+    "status": "状态",
+    "createdAt": "创建时间",
+    "updatedAt": "更新时间",
+    "from": "付方",
+    "to": "收方",
+    "block": "区块",
+    "event": "事件",
+    "timestamp": "时间",
+    "txHash": "交易哈希"
+  },
+  "timeline": {
+    "block": "区块 {{number}}",
+    "tx": "交易",
+    "eventData": "事件数据"
+  },
+  "detail": {
+    "title": "通道详情",
+    "notFound": "未找到通道",
+    "channelId": "通道 ID",
+    "payer": "付款方",
+    "payee": "收款方",
+    "deposit": "存款额",
+    "settled": "已结算",
+    "token": "代币",
+    "authorizedSigner": "授权签名者",
+    "createdAt": "创建时间",
+    "updatedAt": "更新时间",
+    "createdBlock": "创建区块",
+    "updatedBlock": "更新区块",
+    "lifecycle": "生命周期事件",
+    "balanceHistory": "资金演进",
+    "noEvents": "暂无生命周期事件记录",
+    "noBalance": "暂无资金变动记录"
+  },
+  "actionable": {
+    "inputPlaceholder": "输入你的 Payer 地址…",
+    "inputHint": "输入 Payer 地址以查看可操作通道",
+    "withdrawAvailable": "可提现",
+    "withdrawReady": "等待宽限期",
+    "requestWithdraw": "可申请关闭",
+    "noChannels": "该状态下暂无通道"
+  },
+  "pages": {
+    "home": {
+      "title": "全部通道"
+    },
+    "addressView": {
+      "title": "地址视图"
+    },
+    "actionable": {
+      "title": "待操作通道"
+    },
+    "finalized": {
+      "title": "已终结通道"
+    },
+    "channelDetail": {
+      "title": "通道详情"
+    }
+  },
+  "footer": {
+    "powered": "由链下索引器驱动"
+  }
+}

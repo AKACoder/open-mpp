@@ -1,0 +1,105 @@
+{
+  "app": {
+    "title": "Channel Explorer",
+    "description": "Visualize and inspect payment channel states"
+  },
+  "common": {
+    "loading": "Loading…",
+    "error": "Something went wrong",
+    "retry": "Retry",
+    "noData": "No data available",
+    "copied": "Copied to clipboard"
+  },
+  "nav": {
+    "allChannels": "All Channels",
+    "actionable": "Actionable",
+    "finalized": "Finalized"
+  },
+  "search": {
+    "placeholder": "Search Address / Channel ID…"
+  },
+  "status": {
+    "open": "Open",
+    "close_requested": "Close Requested",
+    "closed": "Closed",
+    "expired": "Expired",
+    "finalized": "Finalized"
+  },
+  "countdown": {
+    "ready": "Ready to Withdraw"
+  },
+  "pagination": {
+    "prev": "Previous",
+    "next": "Next",
+    "info": "Page {{current}} of {{total}}"
+  },
+  "table": {
+    "channelId": "Channel ID",
+    "payer": "Payer",
+    "payee": "Payee",
+    "deposit": "Deposit",
+    "settled": "Settled",
+    "delta": "Delta",
+    "status": "Status",
+    "createdAt": "Created",
+    "updatedAt": "Updated",
+    "from": "From",
+    "to": "To",
+    "block": "Block",
+    "event": "Event",
+    "timestamp": "Time",
+    "txHash": "Tx Hash"
+  },
+  "timeline": {
+    "block": "Block {{number}}",
+    "tx": "Tx",
+    "eventData": "Event data"
+  },
+  "detail": {
+    "title": "Channel Detail",
+    "notFound": "Channel not found",
+    "channelId": "CHANNEL ID",
+    "payer": "PAYER",
+    "payee": "PAYEE",
+    "deposit": "DEPOSIT",
+    "settled": "SETTLED",
+    "token": "TOKEN",
+    "authorizedSigner": "AUTHORIZED SIGNER",
+    "createdAt": "CREATED",
+    "updatedAt": "UPDATED",
+    "createdBlock": "CREATED BLOCK",
+    "updatedBlock": "UPDATED BLOCK",
+    "lifecycle": "Lifecycle Events",
+    "balanceHistory": "Balance Evolution",
+    "noEvents": "No lifecycle events recorded.",
+    "noBalance": "No balance updates recorded yet."
+  },
+  "actionable": {
+    "inputPlaceholder": "Enter your Payer Address…",
+    "inputHint": "Enter a Payer address to view actionable channels",
+    "withdrawAvailable": "Ready to Withdraw",
+    "withdrawReady": "Waiting for Grace Period",
+    "requestWithdraw": "Can Request Close",
+    "noChannels": "No channels in this state."
+  },
+  "pages": {
+    "home": {
+      "title": "All Channels"
+    },
+    "addressView": {
+      "title": "Address View"
+    },
+    "actionable": {
+      "title": "Actionable Channels"
+    },
+    "finalized": {
+      "title": "Finalized Channels"
+    },
+    "channelDetail": {
+      "title": "Channel Detail"
+    }
+  },
+  "footer": {
+    "powered": "Powered by Off-chain Indexer"
+  }
+}

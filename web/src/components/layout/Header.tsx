@@ -15,8 +15,8 @@ import { useTheme } from "../../hooks/useTheme";
 
 const NAV_ITEMS = [
   { to: "/", key: "nav.allChannels", end: true },
-  { to: "/actionable", key: "nav.actionable" },
-  { to: "/finalized", key: "nav.finalized" },
+  { to: "/actionable", key: "nav.actionable", end: false },
+  { to: "/finalized", key: "nav.finalized", end: false },
 ] as const;
 
 export default function Header() {

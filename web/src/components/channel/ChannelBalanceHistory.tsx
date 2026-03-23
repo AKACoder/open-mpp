@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import type { ChannelBalance } from "../../types/channel";
-import { formatAmount, formatDate, shortenAddress } from "../../utils/format";
-import AddressWithCopy from "./AddressWithCopy";
+import { formatAmount, formatDate } from "../../utils/format";
+import TxHashLink from "./TxHashLink";
 
 interface Props {
   balances: ChannelBalance[];
@@ -77,11 +77,7 @@ function DesktopTable({ balances }: { balances: ChannelBalance[] }) {
                   {b.c_block_number.toLocaleString()}
                 </td>
                 <td className="px-4 py-3">
-                  <AddressWithCopy
-                    value={b.c_transaction_hash}
-                    chars={6}
-                    className="group inline-flex items-center gap-1 font-mono text-xs text-slate-500 transition-colors hover:text-accent dark:text-zinc-500 dark:hover:text-accent"
-                  />
+                  <TxHashLink hash={b.c_transaction_hash} chars={6} />
                 </td>
                 <td className="px-4 py-3 text-xs text-slate-500 dark:text-zinc-500">
                   {formatDate(b.c_block_timestamp)}
@@ -143,11 +139,7 @@ function MobileCards({ balances }: { balances: ChannelBalance[] }) {
             <span className="font-mono">
               Block {b.c_block_number.toLocaleString()}
             </span>
-            <AddressWithCopy
-              value={b.c_transaction_hash}
-              chars={6}
-              className="group inline-flex items-center gap-1 font-mono text-xs text-slate-500 transition-colors hover:text-accent dark:text-zinc-500 dark:hover:text-accent"
-            />
+            <TxHashLink hash={b.c_transaction_hash} chars={6} />
           </div>
         </div>
       ))}

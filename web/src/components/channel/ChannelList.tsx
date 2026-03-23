@@ -5,6 +5,7 @@ import type { Channel } from "../../types/channel";
 import { useChannelMeta } from "../../hooks/useChannels";
 import { formatAmount, formatDate, shortenAddress } from "../../utils/format";
 import AddressWithCopy from "./AddressWithCopy";
+import CopyIconButton from "./CopyIconButton";
 import ChannelStatusBadge from "./ChannelStatusBadge";
 import WithdrawCountdown from "./WithdrawCountdown";
 import LoadingState from "../ui/LoadingState";
@@ -113,8 +114,13 @@ function DesktopTable({ channels }: { channels: Channel[] }) {
                 onClick={() => navigate(`/channel/${ch.c_channel_id}`)}
                 className="cursor-pointer transition-colors hover:bg-slate-50 dark:hover:bg-zinc-900/50"
               >
-                <td className="px-4 py-3 font-mono text-xs text-accent">
-                  {shortenAddress(ch.c_channel_id, 6)}
+                <td className="px-4 py-3">
+                  <span className="inline-flex items-center gap-1">
+                    <span className="font-mono text-xs text-accent">
+                      {shortenAddress(ch.c_channel_id, 6)}
+                    </span>
+                    <CopyIconButton value={ch.c_channel_id} />
+                  </span>
                 </td>
                 <td className="px-4 py-3">
                   <AddressWithCopy value={ch.c_payer} />

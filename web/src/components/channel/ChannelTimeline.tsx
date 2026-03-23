@@ -3,7 +3,7 @@ import { clsx } from "clsx";
 import { motion } from "framer-motion";
 import type { ChannelEvent } from "../../types/channel";
 import { formatDate } from "../../utils/format";
-import AddressWithCopy from "./AddressWithCopy";
+import TxHashLink from "./TxHashLink";
 
 interface Props {
   events: ChannelEvent[];
@@ -81,11 +81,7 @@ export default function ChannelTimeline({ events }: Props) {
                   <span className="text-slate-400 dark:text-zinc-600">
                     {t("timeline.tx")}
                   </span>
-                  <AddressWithCopy
-                    value={ev.c_transaction_hash}
-                    chars={8}
-                    className="group inline-flex items-center gap-1 font-mono text-xs text-slate-500 transition-colors hover:text-accent dark:text-zinc-500 dark:hover:text-accent"
-                  />
+                  <TxHashLink hash={ev.c_transaction_hash} chars={8} />
                 </span>
               </div>
 

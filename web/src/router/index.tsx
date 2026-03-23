@@ -5,6 +5,7 @@ import AddressView from "../pages/AddressView";
 import Actionable from "../pages/Actionable";
 import Finalized from "../pages/Finalized";
 import ChannelDetail from "../pages/ChannelDetail";
+import GuidePage from "../pages/GuidePage";
 
 export const router = createBrowserRouter([
   {
@@ -15,6 +16,7 @@ export const router = createBrowserRouter([
       { path: "address/:type/:address", element: <AddressView /> },
       { path: "actionable", element: <Actionable /> },
       { path: "finalized", element: <Finalized /> },
+      { path: "guide", element: <GuidePage /> },
       { path: "channel/:id", element: <ChannelDetail /> },
     ],
   },

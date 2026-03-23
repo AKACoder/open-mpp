@@ -17,6 +17,7 @@ const NAV_ITEMS = [
   { to: "/", key: "nav.allChannels", end: true },
   { to: "/actionable", key: "nav.actionable", end: false },
   { to: "/finalized", key: "nav.finalized", end: false },
+  { to: "/guide", key: "nav.guide", end: false },
 ] as const;
 
 export default function Header() {

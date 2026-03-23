@@ -6,6 +6,8 @@ The UI presents channel lifecycle, balances, and events in a clear, explorer-sty
 
 This repository contains **the frontend only**. The indexing service that powers the live app is not open-sourced.
 
+**Ecosystem:** [Tempo](https://tempo.xyz/) (payments-focused L1) · [Machine Payments Protocol](https://mpp.dev/) (MPP)
+
 ---
 
 ## Who it’s for

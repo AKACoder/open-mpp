@@ -3,6 +3,8 @@ import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
 import { Github, Twitter } from "lucide-react";
 import Header from "./Header";
+import SeoRouteHead from "../seo/SeoRouteHead";
+import JsonLd from "../seo/JsonLd";
 
 const SOCIAL_X = "https://x.com/0xLucasStable";
 const SOCIAL_GITHUB = "https://github.com/AKACoder/open-mpp";
@@ -14,6 +16,8 @@ export default function AppLayout() {
 
   return (
     <>
+      <SeoRouteHead />
+      <JsonLd />
       <Header />
       <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-6 sm:px-6 lg:px-8">
         <AnimatePresence mode="wait">

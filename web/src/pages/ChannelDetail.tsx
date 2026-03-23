@@ -1,10 +1,12 @@
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import {
   useChannelDetail,
   useChannelEvents,
   useChannelBalance,
 } from "../hooks/useChannels";
+import type { Channel } from "../types/channel";
+import { shortenAddress, formatAmount } from "../utils/format";
 import BackButton from "../components/ui/BackButton";
 import LoadingState from "../components/ui/LoadingState";
 import EmptyState from "../components/ui/EmptyState";
@@ -12,9 +14,16 @@ import ErrorState from "../components/ui/ErrorState";
 import ChannelBasicInfo from "../components/channel/ChannelBasicInfo";
 import ChannelTimeline from "../components/channel/ChannelTimeline";
 import ChannelBalanceHistory from "../components/channel/ChannelBalanceHistory";
+import SeoHead from "../components/seo/SeoHead";
+
+function channelMetaDescription(channel: Channel): string {
+  const text = `TempoStreamChannel on Tempo — status ${channel.c_status}; deposit ${formatAmount(channel.c_deposit)}. MPP Session channel.`;
+  return text.length > 160 ? `${text.slice(0, 157)}…` : text;
+}
 
 export default function ChannelDetail() {
   const { t } = useTranslation();
+  const { pathname } = useLocation();
   const { id = "" } = useParams<{ id: string }>();
 
   const {
@@ -42,23 +51,30 @@ export default function ChannelDetail() {
       ) : !channel ? (
         <EmptyState message={t("detail.notFound")} />
       ) : (
-        <div className="mt-6 space-y-8">
-          <ChannelBasicInfo channel={channel} />
+        <>
+          <SeoHead
+            title={`Channel ${shortenAddress(channel.c_channel_id, 8)} — ${channel.c_status}`}
+            description={channelMetaDescription(channel)}
+            path={pathname}
+          />
+          <div className="mt-6 space-y-8">
+            <ChannelBasicInfo channel={channel} />
 
-          <section>
-            <h2 className="mb-4 text-lg font-semibold tracking-tight">
-              {t("detail.lifecycle")}
-            </h2>
-            <ChannelTimeline events={events} />
-          </section>
+            <section>
+              <h2 className="mb-4 text-lg font-semibold tracking-tight">
+                {t("detail.lifecycle")}
+              </h2>
+              <ChannelTimeline events={events} />
+            </section>
 
-          <section>
-            <h2 className="mb-4 text-lg font-semibold tracking-tight">
-              {t("detail.balanceHistory")}
-            </h2>
-            <ChannelBalanceHistory balances={balances} />
-          </section>
-        </div>
+            <section>
+              <h2 className="mb-4 text-lg font-semibold tracking-tight">
+                {t("detail.balanceHistory")}
+              </h2>
+              <ChannelBalanceHistory balances={balances} />
+            </section>
+          </div>
+        </>
       )}
     </div>
   );

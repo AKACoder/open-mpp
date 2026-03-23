@@ -13,7 +13,8 @@
   "nav": {
     "allChannels": "全部通道",
     "actionable": "待操作",
-    "finalized": "已终结"
+    "finalized": "已终结",
+    "guide": "指南"
   },
   "search": {
     "placeholder": "搜索地址 / 通道 ID…"

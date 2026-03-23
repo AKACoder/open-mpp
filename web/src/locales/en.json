@@ -13,7 +13,8 @@
   "nav": {
     "allChannels": "All Channels",
     "actionable": "Actionable",
-    "finalized": "Finalized"
+    "finalized": "Finalized",
+    "guide": "Guide"
   },
   "search": {
     "placeholder": "Search Address / Channel ID…"

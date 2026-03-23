@@ -42,6 +42,13 @@ export function getChannelBalance(channelId: string) {
   );
 }
 
+export function getFinalizedChannels(page = 1, pageSize = 20) {
+  return request.get<unknown, PaginatedResponse<Channel>>(
+    "/channels/finalized",
+    { params: { page, pageSize } },
+  );
+}
+
 export function getActionableChannels(payer: string, action: ActionType) {
   return request.get<unknown, Channel[]>(
     `/channels/actions/${action}/${payer}`,

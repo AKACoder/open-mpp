@@ -1,4 +1,4 @@
-import dayjs from "dayjs";
+import dayjs from "./dayjs";
 
 export function shortenAddress(address: string, chars = 4): string {
   if (address.length <= chars * 2 + 2) return address;
@@ -20,5 +20,5 @@ export function formatAmount(
 }
 
 export function formatDate(dateString: string): string {
-  return dayjs(dateString).format("MMM DD, YYYY HH:mm");
+  return dayjs.utc(dateString).local().format("MMM DD, YYYY HH:mm");
 }

@@ -17,21 +17,12 @@ export default function Actionable() {
   const [input, setInput] = useState(
     () => localStorage.getItem(STORAGE_KEY) ?? "",
   );
-  const [payer, setPayer] = useState(
-    () => {
-      const stored = localStorage.getItem(STORAGE_KEY) ?? "";
-      return isValidAddress(stored) ? stored : "";
-    },
-  );
+
+  const payer = isValidAddress(input) ? input : "";
 
   useEffect(() => {
-    if (isValidAddress(input)) {
-      setPayer(input);
-      localStorage.setItem(STORAGE_KEY, input);
-    } else {
-      setPayer("");
-    }
-  }, [input]);
+    if (payer) localStorage.setItem(STORAGE_KEY, payer);
+  }, [payer]);
 
   return (
     <div>
@@ -39,7 +30,6 @@ export default function Actionable() {
         {t("pages.actionable.title")}
       </h1>
 
-      {/* Address input */}
       <div className="relative mt-4">
         <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-400 dark:text-zinc-500" />
         <input

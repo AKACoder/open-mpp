@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import dayjs from "dayjs";
+import dayjs from "../../utils/dayjs";
 import { Clock, CircleCheckBig } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
@@ -10,7 +10,7 @@ interface Props {
 }
 
 function calcRemaining(requestedAt: string, gracePeriod: number): number {
-  const target = dayjs(requestedAt).add(gracePeriod, "second");
+  const target = dayjs.utc(requestedAt).local().add(gracePeriod, "second");
   return Math.max(0, target.diff(dayjs(), "second"));
 }
 

@@ -6,6 +6,7 @@ import {
 import {
   getChannelMeta,
   getAllChannels,
+  getFinalizedChannels,
   getChannelsByPayer,
   getChannelsByPayee,
   getChannelById,
@@ -35,6 +36,8 @@ export const channelKeys = {
   detail: (id: string) => [...channelKeys.details(), id] as const,
   events: (id: string) => [...channelKeys.all, "events", id] as const,
   balance: (id: string) => [...channelKeys.all, "balance", id] as const,
+  finalized: (page: number, pageSize: number) =>
+    [...channelKeys.all, "finalized", { page, pageSize }] as const,
   meta: ["channel-meta"] as const,
   actionable: (payer: string, action: ActionType) =>
     [...channelKeys.all, "actionable", action, payer] as const,
@@ -55,6 +58,14 @@ export function useAllChannels(page = 1, pageSize = 20) {
   return useQuery<PaginatedResponse<Channel>>({
     queryKey: channelKeys.list(page, pageSize),
     queryFn: () => getAllChannels(page, pageSize),
+    placeholderData: keepPreviousData,
+  });
+}
+
+export function useFinalizedChannels(page = 1, pageSize = 20) {
+  return useQuery<PaginatedResponse<Channel>>({
+    queryKey: channelKeys.finalized(page, pageSize),
+    queryFn: () => getFinalizedChannels(page, pageSize),
     placeholderData: keepPreviousData,
   });
 }

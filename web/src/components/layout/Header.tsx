@@ -40,7 +40,7 @@ export default function Header() {
   const handleSearch = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key !== "Enter" || !searchQuery.trim()) return;
     const q = searchQuery.trim();
-    if (/^\d+$/.test(q)) {
+    if (/^0x[0-9a-fA-F]{64}$/.test(q)) {
       navigate(`/channel/${q}`);
     } else {
       navigate(`/address/payer/${q}`);

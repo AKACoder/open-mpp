@@ -100,6 +100,9 @@
     }
   },
   "footer": {
-    "powered": "Powered by Off-chain Indexer"
+    "powered": "Powered by Off-chain Indexer",
+    "copyright": "© {{year}} open-mpp.akacoder.net",
+    "linkX": "Open on X",
+    "linkGithub": "View source on GitHub"
   }
 }

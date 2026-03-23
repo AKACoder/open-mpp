@@ -100,6 +100,9 @@
     }
   },
   "footer": {
-    "powered": "由链下索引器驱动"
+    "powered": "由链下索引器驱动",
+    "copyright": "© {{year}} open-mpp.akacoder.net",
+    "linkX": "在 X 上打开",
+    "linkGithub": "在 GitHub 查看源码"
   }
 }

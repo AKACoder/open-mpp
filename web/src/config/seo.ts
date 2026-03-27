@@ -39,7 +39,6 @@ export function getSeoForPath(pathname: string): {
     };
   }
 
-  // Full list vs finalized-only metadata is set in `ChannelsList` via `SeoHead` (URL `?finalized=1`).
   if (p.startsWith("/channels")) {
     return {
       title: `All Channels — ${SITE_NAME}`,

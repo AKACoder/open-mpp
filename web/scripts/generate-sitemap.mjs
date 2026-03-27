@@ -19,11 +19,6 @@ const paths = [
   { loc: "/analytics", priority: "0.9", changefreq: "weekly" },
   { loc: "/guide", priority: "0.9", changefreq: "monthly" },
   { loc: "/actionable", priority: "0.8", changefreq: "weekly" },
-  {
-    loc: "/channels?finalized=1",
-    priority: "0.8",
-    changefreq: "weekly",
-  },
 ];
 
 const urlEntries = paths

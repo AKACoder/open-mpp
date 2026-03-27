@@ -197,13 +197,8 @@
     "copyPageTsv": "Copy page as TSV",
     "copyPageTsvAria": "Copy current page of channels as tab-separated values",
     "copyPageTsvFailed": "Could not copy to clipboard.",
-    "filterChain": "Chain",
-    "filterChainAll": "All chains",
     "filterStatusLegend": "Status",
-    "sortLabel": "Sort",
-    "sortUpdatedAt": "Updated at",
-    "sortCreatedBlock": "Created block",
-    "sortUpdatedBlock": "Updated block"
+    "filterStatusAll": "All"
   },
   "pages": {
     "home": {
@@ -298,7 +293,7 @@
     "howSearch": "Header or Overview search: type a 42-character EVM address (0x + 40 hex) to open the unified address page (Payer tab by default; switch to Payee in-page), or a 66-character channel ID (0x + 64 hex) for channel detail. Legacy URLs /address/payer/… and /address/payee/… redirect to the same page with the matching tab.",
     "howDetail": "Channel detail — payer, payee, token, deposits, status, lifecycle events, balance evolution; links to the block explorer when available.",
     "howActionable": "Payer actionable states (withdraw-available, grace / withdraw-ready, request-close) appear on the unified address page when the Payer tab is selected, plus the legacy shortcut /actionable that jumps there. Read-only indexer /channels/actions/*.",
-    "howFinalized": "Channels — switch to Ended or open /channels?finalized=1 (query name unchanged); data from GET /channels?c_finalized=1&sort=c_updated_block.",
+    "howFinalized": "Channels — filter by status (e.g. Closed and Expired for terminal rows); default lists all with API sort by updated time. Legacy /finalized opens /channels.",
     "readOnly": "The app is read-only: no wallet connection and no transaction broadcast.",
     "settlementTitle": "Settlement (high level)",
     "settlementBody": "While a channel is open, value moves under protocol rules without every micro-update on-chain. Settlement aligns with lifecycle: close or expiry brings agreed balances on-chain; a grace period may apply after a close request. Rules come from Tempo and the contracts; the UI shows indexed status, events, and balances.",

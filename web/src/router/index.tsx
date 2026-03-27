@@ -33,7 +33,7 @@ export const router = createBrowserRouter([
       { path: "actionable", element: <Actionable /> },
       {
         path: "finalized",
-        element: <Navigate to="/channels?finalized=1" replace />,
+        element: <Navigate to="/channels" replace />,
       },
       { path: "guide", element: <GuidePage /> },
       { path: "faq", element: <Navigate to="/guide" replace /> },

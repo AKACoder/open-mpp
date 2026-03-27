@@ -25,13 +25,13 @@ This repository contains **the frontend only** (`web/`). The indexing service th
 | Area | Capabilities |
 |------|----------------|
 | **Overview** `/` | Network KPIs (from `/analytics/summary`), unified quick search (40‑hex address → `/address/:addr?role=payer` by default, 64‑hex channel ID → `/channel/:id`), links to channels / analytics / guide. |
-| **Channels** `/channels` | Paginated all channels; row → detail. **Ended (terminal) only** view: `/channels?finalized=1` → `GET /channels?c_finalized=1&sort=c_updated_block` (query key `finalized` unchanged). |
+| **Channels** `/channels` | Paginated list (default API sort by updated time); optional **status** filter via UI or URL (`?status=closed,expired`, etc.); row → detail. Legacy `/finalized` redirects to `/channels`. |
 | **Analytics** `/analytics` | **`view`**: **Charts** (default) — full-width line charts for opens / events / settlement volume; **Rankings**, **Breakdown**, **Indexer** for tables; Tempo-only defaults (no on-page filters); metric definitions in **Guide** FAQ; optional `view` in URL; KPIs and `/meta/sync`. |
 | **Partner analytics** `/analytics/payer/:addr`, `/analytics/payee/:addr` | Summary + payer event time series (with row-limit error UX); query params for chain / dates / bucket. |
 | **Address lists** `/address/:addr` + `?role=payer` or `?role=payee` | Paginated payer or payee channel lists (tabs; legacy `/address/payer/:addr` and `/address/payee/:addr` redirect here). |
 | **Channel detail** `/channel/:id` | Metadata, **events summary**, lifecycle timeline, balance history, on-chain storage note, tx hash links. |
 | **Actionable** `/actionable` | Legacy shortcut: enter payer address → **`/address/:addr?role=payer`** (actionable sections + full list, read-only). |
-| **Ended channels** `/channels?finalized=1` | Paginated terminal-state channels (legacy path `/finalized` redirects here; URL param name unchanged). |
+| **Ended channels** (filter) | On `/channels`, select status **Closed** / **Expired** (or share `?status=` deep links); not a separate route. |
 | **Guide** `/guide` | On-chain-only scope; no voucher / 402 replay claims. |
 
 **Internationalization:** English and Chinese (`web/src/locales`).
@@ -88,7 +88,7 @@ Manual sign-off target (see `todo/session-onchain-analytics-product-plan.md` §6
 |-----------|--------|
 | **3-minute path** | Overview → search or analytics → channel detail: primary nav and QuickSearch cover this path. |
 | **No misleading copy** | Guide + glossary + Session tooltip state on-chain vs off-chain boundaries. |
-| **Pagination** | Payer/payee/actionable lists, **channels** (all and `?finalized=1`), and rankings use `PaginatedResponse` + UI pagination. |
+| **Pagination** | Payer/payee/actionable lists, **channels**, and rankings use `PaginatedResponse` + UI pagination. |
 | **`c Chain_id` consistency** | Shared filter drives summary, timeseries, rankings, breakdown; partner pages pass `c_chain_id` to summaries and payer TS. |
 
 Re-validate against a live indexer before each release.

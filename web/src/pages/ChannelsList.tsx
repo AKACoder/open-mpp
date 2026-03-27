@@ -1,11 +1,10 @@
-import { useMemo, useCallback } from "react";
+import { useMemo, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
 import { ClipboardCopy, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 import { clsx } from "clsx";
 import { useFilteredChannels } from "../hooks/useChannels";
-import { useMetaChains } from "../hooks/useMeta";
 import ChannelList from "../components/channel/ChannelList";
 import Pagination from "../components/ui/Pagination";
 import ErrorState from "../components/ui/ErrorState";
@@ -15,6 +14,7 @@ import {
   channelsListToSearchParams,
   channelsListToApiFilters,
   channelsListStateWithPatch,
+  CHANNELS_LIST_URL_KEYS,
   type ChannelsListUrlState,
 } from "../utils/channelsUrlState";
 import { channelsPageToTsv } from "../utils/channelsTsv";
@@ -29,24 +29,40 @@ const STATUS_ORDER: ChannelStatus[] = [
   "expired",
 ];
 
+/** From “All” (no filter): first explicit status selection sets exactly that set. */
 function toggleStatus(
   current: ChannelStatus[],
   st: ChannelStatus,
 ): ChannelStatus[] {
-  if (current.includes(st)) return current.filter((x) => x !== st);
+  if (current.length === 0) return [st];
+  if (current.includes(st)) {
+    return current.filter((x) => x !== st);
+  }
   return [...current, st].sort((a, b) => a.localeCompare(b));
 }
 
-/** Paginated channel list: filters + `?finalized=1` per API. */
+/** Paginated channel list; optional status filter; default sort `c_updated_at` (API default). */
 export default function ChannelsList() {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
-  const chainsQuery = useMetaChains();
 
   const listState = useMemo(
     () => channelsListFromSearchParams(searchParams),
     [searchParams],
   );
+
+  useEffect(() => {
+    let dirty = false;
+    const sp = new URLSearchParams(searchParams);
+    for (const key of [...sp.keys()]) {
+      if (!CHANNELS_LIST_URL_KEYS.has(key)) {
+        dirty = true;
+        sp.delete(key);
+      }
+    }
+    if (!dirty) return;
+    setSearchParams(sp, { replace: true });
+  }, [searchParams, setSearchParams]);
 
   const apiFilters = useMemo(
     () => channelsListToApiFilters(listState),
@@ -70,11 +86,6 @@ export default function ChannelsList() {
 
   const totalPages = data ? Math.ceil(data.total / PAGE_SIZE) : 0;
   const pageRows = data?.data ?? [];
-
-  const sortDefault = listState.finalizedOnly
-    ? "c_updated_block"
-    : "c_updated_at";
-  const sortSelectValue = listState.sort ?? sortDefault;
 
   const handleCopyPageTsv = async () => {
     if (pageRows.length === 0) return;
@@ -100,141 +111,58 @@ export default function ChannelsList() {
         })
       : null;
 
-  const { finalizedOnly } = listState;
+  const statusAll = listState.statusFilters.length === 0;
 
   return (
     <div>
       <SeoHead
-        title={
-          finalizedOnly
-            ? t("pages.channelsList.seoTitleFinalized")
-            : t("pages.channelsList.seoTitleAll")
-        }
-        description={
-          finalizedOnly
-            ? t("pages.channelsList.seoDescFinalized")
-            : t("pages.channelsList.seoDescAll")
-        }
-        path={finalizedOnly ? "/channels?finalized=1" : "/channels"}
+        title={t("pages.channelsList.seoTitleAll")}
+        description={t("pages.channelsList.seoDescAll")}
+        path="/channels"
       />
 
       <h1 className="text-2xl font-semibold tracking-tight">
-        {finalizedOnly
-          ? t("pages.channelsList.titleFinalized")
-          : t("pages.channelsList.title")}
+        {t("pages.channelsList.title")}
       </h1>
       <p className="mt-2 max-w-2xl text-sm text-slate-600 dark:text-zinc-400">
-        {finalizedOnly
-          ? t("pages.channelsList.subtitleFinalized")
-          : t("pages.channelsList.subtitle")}
+        {t("pages.channelsList.subtitle")}
       </p>
 
       <div className="mt-4 flex w-full flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
-        <div className="flex min-w-0 flex-1 flex-col gap-3">
-          <div
-            className="inline-flex h-9 w-fit shrink-0 rounded-lg border border-slate-200 bg-slate-50 p-0.5 text-xs font-medium dark:border-zinc-700 dark:bg-zinc-900"
-            role="group"
-            aria-label={t("channels.filterScopeAria")}
-          >
-            <button
-              type="button"
-              onClick={() => applyPatch({ finalizedOnly: false })}
-              className={clsx(
-                "rounded-md px-3 py-1.5 transition-colors",
-                !finalizedOnly
-                  ? "bg-white text-slate-900 shadow-sm dark:bg-zinc-800 dark:text-zinc-100"
-                  : "text-slate-500 hover:text-slate-800 dark:text-zinc-400 dark:hover:text-zinc-200",
-              )}
-            >
-              {t("channels.filterAll")}
-            </button>
-            <button
-              type="button"
-              onClick={() => applyPatch({ finalizedOnly: true })}
-              className={clsx(
-                "rounded-md px-3 py-1.5 transition-colors",
-                finalizedOnly
-                  ? "bg-white text-slate-900 shadow-sm dark:bg-zinc-800 dark:text-zinc-100"
-                  : "text-slate-500 hover:text-slate-800 dark:text-zinc-400 dark:hover:text-zinc-200",
-              )}
-            >
-              {t("channels.filterFinalized")}
-            </button>
-          </div>
-
-          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end">
-            <label className="flex min-w-0 flex-col gap-1 text-xs font-medium text-slate-500 dark:text-zinc-400">
-              {t("channels.filterChain")}
-              <select
-                value={listState.chainId ?? ""}
-                onChange={(e) => {
-                  const v = e.target.value;
-                  applyPatch({
-                    chainId: v === "" ? undefined : Number(v),
-                  });
-                }}
-                className="h-9 min-w-[10rem] rounded-lg border border-slate-200 bg-white px-2 text-sm text-slate-900 dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100"
-              >
-                <option value="">{t("channels.filterChainAll")}</option>
-                {(chainsQuery.data ?? []).map((c) => (
-                  <option key={c.c_chain_id} value={c.c_chain_id}>
-                    {c.c_chain_name} ({c.c_chain_id})
-                  </option>
-                ))}
-              </select>
+        <fieldset className="min-w-0 flex-1 border-0 p-0">
+          <legend className="mb-1.5 text-xs font-medium text-slate-500 dark:text-zinc-400">
+            {t("channels.filterStatusLegend")}
+          </legend>
+          <div className="flex flex-wrap gap-x-4 gap-y-2">
+            <label className="flex cursor-pointer items-center gap-2 text-sm text-slate-600 dark:text-zinc-400">
+              <input
+                type="checkbox"
+                checked={statusAll}
+                onChange={() => applyPatch({ statusFilters: [] })}
+                className="rounded border-slate-300 dark:border-zinc-600"
+              />
+              <span>{t("channels.filterStatusAll")}</span>
             </label>
-
-            <label className="flex min-w-0 flex-col gap-1 text-xs font-medium text-slate-500 dark:text-zinc-400">
-              {t("channels.sortLabel")}
-              <select
-                value={sortSelectValue}
-                onChange={(e) => {
-                  const v = e.target.value;
-                  applyPatch({
-                    sort: v === sortDefault ? undefined : v,
-                  });
-                }}
-                className="h-9 min-w-[11rem] rounded-lg border border-slate-200 bg-white px-2 text-sm dark:border-zinc-700 dark:bg-zinc-950 dark:text-zinc-100"
+            {STATUS_ORDER.map((st) => (
+              <label
+                key={st}
+                className="flex cursor-pointer items-center gap-2 text-sm text-slate-600 dark:text-zinc-400"
               >
-                <option value="c_updated_at">
-                  {t("channels.sortUpdatedAt")}
-                </option>
-                <option value="c_created_block">
-                  {t("channels.sortCreatedBlock")}
-                </option>
-                <option value="c_updated_block">
-                  {t("channels.sortUpdatedBlock")}
-                </option>
-              </select>
-            </label>
+                <input
+                  type="checkbox"
+                  checked={listState.statusFilters.includes(st)}
+                  onChange={() =>
+                    applyPatch({
+                      statusFilters: toggleStatus(listState.statusFilters, st),
+                    })
+                  }
+                  className="rounded border-slate-300 dark:border-zinc-600"
+                />
+                <span>{t(`status.${st}`)}</span>
+              </label>
+            ))}
           </div>
-
-          <fieldset className="min-w-0 border-0 p-0">
-            <legend className="mb-1.5 text-xs font-medium text-slate-500 dark:text-zinc-400">
-              {t("channels.filterStatusLegend")}
-            </legend>
-            <div className="flex flex-wrap gap-x-4 gap-y-2">
-              {STATUS_ORDER.map((st) => (
-                <label
-                  key={st}
-                  className="flex cursor-pointer items-center gap-2 text-sm text-slate-600 dark:text-zinc-400"
-                >
-                  <input
-                    type="checkbox"
-                    checked={listState.statusFilters.includes(st)}
-                    onChange={() =>
-                      applyPatch({
-                        statusFilters: toggleStatus(listState.statusFilters, st),
-                      })
-                    }
-                    className="rounded border-slate-300 dark:border-zinc-600"
-                  />
-                  <span>{t(`status.${st}`)}</span>
-                </label>
-              ))}
-            </div>
-          </fieldset>
-        </div>
+        </fieldset>
 
         <div className="flex w-full flex-wrap items-center justify-end gap-x-3 gap-y-2 sm:w-auto sm:shrink-0">
           {lastUpdated ? (

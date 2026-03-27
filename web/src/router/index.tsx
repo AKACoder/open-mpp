@@ -26,6 +26,7 @@ export const router = createBrowserRouter([
         element: <Navigate to="/channels?finalized=1" replace />,
       },
       { path: "guide", element: <GuidePage /> },
+      { path: "faq", element: <Navigate to="/guide" replace /> },
       { path: "channel/:id", element: <ChannelDetail /> },
     ],
   },

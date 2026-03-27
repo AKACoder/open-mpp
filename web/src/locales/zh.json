@@ -239,8 +239,8 @@
     }
   },
   "guide": {
-    "title": "Open MPP Explorer — 指南",
-    "intro": "说明 Tempo 上 MPP Session 如何借助 TempoStreamChannel 完成托管与结算、本站展示的范围（仅限链上），以及各入口用途。",
+    "title": "Open MPP Explorer — 指南与常见问题",
+    "intro": "说明 Tempo 上 MPP Session 如何借助 TempoStreamChannel 完成托管与结算、本站展示的范围（仅限链上），以及各入口——以简明问答形式组织。",
     "onchainTitle": "仅链上：不含链下 HTTP 支付界面",
     "onchainLead": "本站反映索引后的链上事实：通道表、合约事件与衍生余额。不展示 HTTP 402、Payment-Authorization 头、按请求的 voucher、SSE 回执等链下会话机制。单次 API「会话」除非体现在通道状态或链上事件中，否则无法在此回放。",
     "tempoTitle": "Tempo、MPP 与 TempoStreamChannel",
@@ -252,7 +252,7 @@
     "howTitle": "如何使用本站",
     "howOverview": "概览 — 核心 KPI（活跃/已终结数量、剩余托管）与快捷检索。",
     "howChannels": "通道列表 — 全量分页列表。",
-    "howAnalytics": "分析 — 同步高度、链信息，后续将扩展时间序列等。",
+    "howAnalytics": "分析 — 网络 KPI、按 UTC 分桶的时间序列、排行榜、代币/合约拆分、索引同步；筛选与 URL 同步便于分享。",
     "howSearch": "顶栏或概览搜索 — 付款方地址或 66 字符通道 ID（0x + 64 hex）。按收款方筛选请使用路径 /address/payee/ 加地址。",
     "howDetail": "通道详情 — 收付方、代币、存款与状态、生命周期事件、资金演进；可跳转浏览器查看交易。",
     "howActionable": "导航「关单」/ 付款方 — 列表对应可提现、宽限或可申请关单等状态（只读，接口 /channels/actions/*）。",
@@ -260,7 +260,27 @@
     "readOnly": "应用为只读：不连接钱包、不广播交易。",
     "settlementTitle": "结算（概要）",
     "settlementBody": "通道存续期间，价值按协议规则流动，并非每次微调都上链。结算与生命周期绑定：关单或过期将把约定余额落实到链上；关单请求后可能存在宽限期。具体规则以 Tempo 与合约为准；界面展示的是索引中的状态、事件与余额。",
-    "backChannels": "全部通道"
+    "backChannels": "全部通道",
+    "faq": {
+      "kicker": "常见问题",
+      "groupBoundaries": "范围 — 链上与链下",
+      "qScope": "本站展示什么、刻意不展示什么？",
+      "groupProtocol": "Tempo、MPP 与通道",
+      "qTempoMpp": "Tempo、MPP 与 TempoStreamChannel 是什么？",
+      "aTempoMpp": "<tempo>Tempo</tempo> 是面向大规模支付的 L1（含稳定币与机器支付等场景）。<mpp>MPP（Machine Payments Protocol）</mpp> 定义机器到机器的支付（例如按 API 调用计费）。本站所说的「MPP Session」指通过链上 TempoStreamChannel 协调价值的流程。",
+      "qChannelModel": "通道在业务上如何理解？",
+      "groupUsing": "如何使用本站",
+      "qOverview": "概览（首页）能看到什么？",
+      "qChannels": "通道列表与仅已终结历史在哪里？",
+      "qAnalytics": "「分析」页包含什么？",
+      "qSearch": "如何按地址或通道 ID 搜索？",
+      "qDetail": "通道详情页包含哪些信息？",
+      "qActionable": "导航「关单」（付款方）展示什么？",
+      "qFinalized": "如何浏览已终结通道？",
+      "groupOther": "只读边界与结算",
+      "qReadOnly": "能否在本站连接钱包或发送交易？",
+      "qSettlement": "结算与我在链上看到的内容是什么关系？"
+    }
   },
   "footer": {
     "formalBrand": "Open MPP Explorer — Tempo 通道与 MPP Session 只读数据",

@@ -239,8 +239,8 @@
     }
   },
   "guide": {
-    "title": "Open MPP Explorer — Guide",
-    "intro": "How MPP Session flows on Tempo use TempoStreamChannel for escrow and settlement, what this site shows (on-chain only), and how to navigate.",
+    "title": "Open MPP Explorer — Guide & FAQ",
+    "intro": "How MPP Session flows on Tempo use TempoStreamChannel for escrow and settlement, what this site shows (on-chain only), and how to navigate — organized as short questions.",
     "onchainTitle": "On-chain only — no off-chain HTTP payment UI",
     "onchainLead": "This explorer reflects indexed blockchain facts: channel rows, contract events, and derived balances. It does not display HTTP 402 challenges, Payment-Authorization headers, per-request vouchers, SSE receipts, or other off-chain session mechanics. Single API “sessions” are not replayable here unless their effects appear as channel state or on-chain events.",
     "tempoTitle": "Tempo, MPP, and TempoStreamChannel",
@@ -252,7 +252,7 @@
     "howTitle": "Using this explorer",
     "howOverview": "Overview — KPIs (active / finalized counts, remaining escrow) and quick search.",
     "howChannels": "Channels — full paginated list of indexed channels.",
-    "howAnalytics": "Analytics — sync height, chains, and future time-series.",
+    "howAnalytics": "Analytics — network KPIs, UTC-bucket time series, rankings, token and contract breakdowns, indexer sync; filters stay in the URL.",
     "howSearch": "Header or Overview search — payer address or 66-character channel ID (0x + 64 hex). For payee-scoped lists, use the path /address/payee/ with the payee address.",
     "howDetail": "Channel detail — payer, payee, token, deposits, status, lifecycle events, balance evolution; links to the block explorer when available.",
     "howActionable": "Close (nav) / payer — lists channels that are withdraw-ready, in grace, or can request close (read-only indexer /channels/actions/*).",
@@ -260,7 +260,27 @@
     "readOnly": "The app is read-only: no wallet connection and no transaction broadcast.",
     "settlementTitle": "Settlement (high level)",
     "settlementBody": "While a channel is open, value moves under protocol rules without every micro-update on-chain. Settlement aligns with lifecycle: close or expiry brings agreed balances on-chain; a grace period may apply after a close request. Rules come from Tempo and the contracts; the UI shows indexed status, events, and balances.",
-    "backChannels": "All channels"
+    "backChannels": "All channels",
+    "faq": {
+      "kicker": "Frequently asked questions",
+      "groupBoundaries": "Scope — on-chain vs off-chain",
+      "qScope": "What appears on this explorer—and what is intentionally omitted?",
+      "groupProtocol": "Tempo, MPP, and channels",
+      "qTempoMpp": "What are Tempo, MPP, and TempoStreamChannel?",
+      "aTempoMpp": "<tempo>Tempo</tempo> is a Layer 1 built for payments at scale (including stablecoins and machine payments). <mpp>MPP (Machine Payments Protocol)</mpp> defines machine-to-machine payments (e.g. per API call or tool use). In this product, \"MPP Sessions\" refer to flows that move value through TempoStreamChannel on Tempo.",
+      "qChannelModel": "How do channels work in simple terms?",
+      "groupUsing": "Using this explorer",
+      "qOverview": "What does the Overview (home page) show?",
+      "qChannels": "Where is the channel list—and finalized-only history?",
+      "qAnalytics": "What is under Analytics?",
+      "qSearch": "How do I search by address or channel ID?",
+      "qDetail": "What does a channel detail page include?",
+      "qActionable": "What does the Close (payer) navigation entry show?",
+      "qFinalized": "How do I browse finalized channels?",
+      "groupOther": "Read-only scope and settlement",
+      "qReadOnly": "Can I connect a wallet or broadcast transactions here?",
+      "qSettlement": "How does settlement relate to what I see on-chain?"
+    }
   },
   "footer": {
     "formalBrand": "Open MPP Explorer — read-only Tempo channel & MPP session data",

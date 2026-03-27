@@ -15,7 +15,7 @@ const ANALYTICS_DESC =
   "Session on-chain analytics for TempoStreamChannel: KPIs, UTC-bucketed time series, rankings, token/contract breakdowns, indexer sync—MPP on Tempo, read-only. Partner routes: payer/payee address views.";
 
 const GUIDE_DESC =
-  "What Tempo and Machine Payments Protocol (MPP) are, how MPP Sessions use TempoStreamChannel on Tempo, how to read channel status here, and how settlement relates to close and grace periods.";
+  "Guide and FAQ: what Open MPP shows on-chain versus off-chain HTTP payment flows; Tempo, MPP, and TempoStreamChannel; how to use Overview, channels (including finalized view), analytics, search, and read-only scope; settlement in brief.";
 
 const ACTIONABLE_DESC =
   "Read-only payer view of TempoStreamChannel actionable states: withdraw-available, withdraw-ready (grace), or request-close — from indexer /channels/actions/*; no wallet or broadcasts.";
@@ -68,9 +68,9 @@ export function getSeoForPath(pathname: string): {
     };
   }
 
-  if (p.startsWith("/guide")) {
+  if (p.startsWith("/guide") || p.startsWith("/faq")) {
     return {
-      title: `Guide — ${SITE_NAME}`,
+      title: `Guide & FAQ — ${SITE_NAME}`,
       description: GUIDE_DESC,
     };
   }

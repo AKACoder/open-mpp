@@ -145,6 +145,7 @@ export const analyticsKeys = {
     ] as const,
 };
 
+/** Pass `refetchInterval` only where `synced_height` or rolling KPIs need freshness (see `config/queryPolicies.ts`). */
 export function useAnalyticsSummary(
   params?: AnalyticsSummaryParams,
   options?: Partial<UseQueryOptions<AnalyticsSummary>>,

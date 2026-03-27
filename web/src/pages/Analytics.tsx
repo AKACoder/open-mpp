@@ -19,6 +19,7 @@ import {
   filtersToSearchParams,
 } from "../utils/analyticsUrlState";
 import { formatIntegerString } from "../utils/format";
+import { SYNC_REFETCH_INTERVAL_MS } from "../config/queryPolicies";
 import SeoHead from "../components/seo/SeoHead";
 import AnalyticsMetricsGlossary from "../components/analytics/AnalyticsMetricsGlossary";
 import IndexerFreshnessNote from "../components/analytics/IndexerFreshnessNote";
@@ -50,7 +51,9 @@ export default function Analytics() {
     return Object.keys(p).length ? p : undefined;
   }, [filters.chainId, filters.from, filters.to, filters.useSummaryRange]);
 
-  const summaryQuery = useAnalyticsSummary(summaryParams);
+  const summaryQuery = useAnalyticsSummary(summaryParams, {
+    refetchInterval: SYNC_REFETCH_INTERVAL_MS,
+  });
   const chainsQuery = useMetaChains();
   const syncQuery = useMetaSync();
 

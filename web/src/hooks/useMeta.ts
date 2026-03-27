@@ -1,6 +1,7 @@
 import { useQuery, type UseQueryOptions } from "@tanstack/react-query";
 import { getMetaChains, getMetaSync } from "../api/meta";
 import type { ChainMetadataRow, SyncConfigRow } from "../types/meta";
+import { SYNC_REFETCH_INTERVAL_MS } from "../config/queryPolicies";
 
 export const metaKeys = {
   chains: ["meta", "chains"] as const,
@@ -23,6 +24,7 @@ export function useMetaSync(
   return useQuery({
     queryKey: metaKeys.sync,
     queryFn: async () => (await getMetaSync()).data,
+    refetchInterval: SYNC_REFETCH_INTERVAL_MS,
     ...options,
   });
 }

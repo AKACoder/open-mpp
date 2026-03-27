@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useTranslation, Trans } from "react-i18next";
 import { ChevronRight } from "lucide-react";
+import AnalyticsMetricsDefinitions from "../components/analytics/AnalyticsMetricsDefinitions";
 
 const LINK =
   "font-medium text-accent underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50";
@@ -9,14 +10,17 @@ function FaqItem({
   question,
   children,
   defaultOpen,
+  id,
 }: {
   question: string;
   children: React.ReactNode;
   defaultOpen?: boolean;
+  id?: string;
 }) {
   return (
     <details
-      className="group rounded-xl border border-slate-200 bg-white open:shadow-sm dark:border-zinc-800 dark:bg-zinc-900/40 [&_summary::-webkit-details-marker]:hidden"
+      id={id}
+      className="group scroll-mt-20 rounded-xl border border-slate-200 bg-white open:shadow-sm dark:border-zinc-800 dark:bg-zinc-900/40 [&_summary::-webkit-details-marker]:hidden"
       {...(defaultOpen ? { open: true } : {})}
     >
       <summary className="flex cursor-pointer list-none items-start gap-2 px-4 py-3.5 text-left text-sm font-medium text-slate-900 dark:text-zinc-100">
@@ -130,6 +134,12 @@ export default function GuidePage() {
           </FaqItem>
           <FaqItem question={t("guide.faq.qAnalytics")}>
             <p>{t("guide.howAnalytics")}</p>
+          </FaqItem>
+          <FaqItem
+            id="faq-analytics-metrics"
+            question={t("guide.faq.qAnalyticsMetrics")}
+          >
+            <AnalyticsMetricsDefinitions />
           </FaqItem>
           <FaqItem question={t("guide.faq.qSearch")}>
             <p>{t("guide.howSearch")}</p>

@@ -20,7 +20,7 @@ import { channelsPageToTsv } from "../utils/channelsTsv";
 
 const PAGE_SIZE = 20;
 
-/** Paginated channel list: all channels or finalized-only (`?finalized=1`), per API contract. */
+/** Paginated channel list: all channels or ended-only (`?finalized=1`), per API contract. */
 export default function ChannelsList() {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();

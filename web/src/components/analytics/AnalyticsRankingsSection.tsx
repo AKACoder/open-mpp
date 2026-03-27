@@ -15,15 +15,25 @@ import ErrorState from "../ui/ErrorState";
 import { clsx } from "clsx";
 
 const PAGE_SIZE = 20;
+const PREVIEW_ROWS = 5;
 
 interface Props {
   filters: AnalyticsAppliedFilters;
+  /** `preview`: top channels hook on Trends panel; `full`: paginated + tabs */
+  variant?: "full" | "preview";
+  /** When `preview`, call to switch URL view to full rankings */
+  onViewFull?: () => void;
 }
 
 type Tab = "channels" | "payers" | "payees";
 
-export default function AnalyticsRankingsSection({ filters }: Props) {
+export default function AnalyticsRankingsSection({
+  filters,
+  variant = "full",
+  onViewFull,
+}: Props) {
   const { t } = useTranslation();
+  const isPreview = variant === "preview";
   const [tab, setTab] = useState<Tab>("channels");
   const [pageCh, setPageCh] = useState(1);
   const [pagePy, setPagePy] = useState(1);
@@ -33,9 +43,9 @@ export default function AnalyticsRankingsSection({ filters }: Props) {
   const chain = filters.chainId;
 
   const channelsQ = useAnalyticsRankingsChannels({
-    page: pageCh,
-    pageSize: PAGE_SIZE,
-    sort,
+    page: isPreview ? 1 : pageCh,
+    pageSize: isPreview ? PREVIEW_ROWS : PAGE_SIZE,
+    sort: isPreview ? "c_settled" : sort,
     c_chain_id: chain,
   });
   const payersQ = useAnalyticsRankingsPayers({
@@ -54,6 +64,70 @@ export default function AnalyticsRankingsSection({ filters }: Props) {
     { id: "payers", label: t("analytics.rankTabPayers") },
     { id: "payees", label: t("analytics.rankTabPayees") },
   ];
+
+  if (isPreview) {
+    return (
+      <div>
+        <p className="text-xs text-slate-500 dark:text-zinc-500">
+          {t("analytics.rankingsPreviewHint")}
+        </p>
+        {channelsQ.error ? (
+          <div className="mt-3">
+            <ErrorState onRetry={() => channelsQ.refetch()} />
+          </div>
+        ) : channelsQ.isLoading && !channelsQ.data ? (
+          <div className="mt-3">
+            <LoadingState />
+          </div>
+        ) : (
+          <div className="mt-3 overflow-x-auto rounded-xl border border-slate-200 dark:border-zinc-800">
+            <table className="w-full text-left text-sm">
+              <thead>
+                <tr className="border-b border-slate-200 bg-slate-50 dark:border-zinc-800 dark:bg-zinc-900/60">
+                  <th className="px-3 py-2 font-medium text-slate-500">
+                    {t("table.channelId")}
+                  </th>
+                  <th className="px-3 py-2 font-medium text-slate-500">
+                    {t("analytics.colRankMetric")}
+                  </th>
+                  <th className="px-3 py-2 font-medium text-slate-500">
+                    {t("table.status")}
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100 dark:divide-zinc-800/60">
+                {(channelsQ.data?.data ?? []).map((ch) => (
+                  <tr key={ch.c_channel_id}>
+                    <td className="px-3 py-2">
+                      <Link
+                        to={`/channel/${ch.c_channel_id}`}
+                        className="font-mono text-xs text-accent hover:underline"
+                      >
+                        {shortenAddress(ch.c_channel_id, 8)}
+                      </Link>
+                    </td>
+                    <td className="px-3 py-2 font-mono text-xs tabular-nums">
+                      {formatAmount(ch.rank_metric_value)}
+                    </td>
+                    <td className="px-3 py-2 text-xs">{ch.c_status}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+        {onViewFull ? (
+          <button
+            type="button"
+            onClick={onViewFull}
+            className="mt-3 text-sm font-medium text-accent hover:underline"
+          >
+            {t("analytics.viewFullRankings")}
+          </button>
+        ) : null}
+      </div>
+    );
+  }
 
   return (
     <div>

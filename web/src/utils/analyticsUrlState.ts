@@ -3,8 +3,8 @@ import type {
   AnalyticsTimeseriesBucket,
 } from "../types/analytics";
 import {
+  defaultAnalyticsHistoryStart,
   defaultTimeseriesEnd,
-  defaultTimeseriesStart,
 } from "./analyticsDate";
 
 const CHAIN = "chain";
@@ -13,6 +13,45 @@ const TO = "to";
 const BUCKET = "bucket";
 const TOKEN = "token";
 const SUMMARY = "summary";
+const VIEW = "view";
+
+/** Primary analytics panel; legacy `explore` → `rankings`, `trends` → `history`. */
+export type AnalyticsPageView =
+  | "history"
+  | "rankings"
+  | "breakdown"
+  | "indexer";
+
+export function analyticsViewFromSearchParams(
+  sp: URLSearchParams,
+): AnalyticsPageView {
+  const v = sp.get(VIEW);
+  if (v === "explore") return "rankings";
+  if (v === "trends" || v === "history") return "history";
+  if (v === "rankings" || v === "breakdown" || v === "indexer") return v;
+  return "history";
+}
+
+export function applyAnalyticsViewToSearchParams(
+  sp: URLSearchParams,
+  view: AnalyticsPageView,
+) {
+  if (view !== "history") sp.set(VIEW, view);
+  else sp.delete(VIEW);
+}
+
+/** Merge filter params and preserve or set `view`. */
+export function filtersToSearchParamsWithView(
+  f: AnalyticsAppliedFilters,
+  current: URLSearchParams,
+): URLSearchParams {
+  const sp = filtersToSearchParams(f);
+  applyAnalyticsViewToSearchParams(
+    sp,
+    analyticsViewFromSearchParams(current),
+  );
+  return sp;
+}
 
 export function filtersFromSearchParams(
   sp: URLSearchParams,
@@ -30,7 +69,7 @@ export function filtersFromSearchParams(
 
   return {
     chainId,
-    from: sp.get(FROM) || defaultTimeseriesStart(7),
+    from: sp.get(FROM) || defaultAnalyticsHistoryStart(),
     to: sp.get(TO) || defaultTimeseriesEnd(),
     bucket,
     settlementToken: sp.get(TOKEN) || "",

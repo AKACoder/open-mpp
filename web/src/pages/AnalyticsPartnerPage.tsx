@@ -1,7 +1,6 @@
 import { useMemo } from "react";
 import SeoHead from "../components/seo/SeoHead";
 import IndexerFreshnessNote from "../components/analytics/IndexerFreshnessNote";
-import AnalyticsMetricsGlossary from "../components/analytics/AnalyticsMetricsGlossary";
 import { useTranslation } from "react-i18next";
 import {
   Link,
@@ -126,7 +125,14 @@ export default function AnalyticsPartnerPage() {
         chainId={chainId}
       />
 
-      <AnalyticsMetricsGlossary className="mt-4" />
+      <p className="mt-4 text-sm text-slate-600 dark:text-zinc-400">
+        <Link
+          to="/guide#faq-analytics-metrics"
+          className="font-medium text-accent underline-offset-2 hover:underline"
+        >
+          {t("guide.linkAnalyticsMetricDefinitions")}
+        </Link>
+      </p>
 
       <div className="mt-4 flex flex-wrap items-end gap-4">
         <label className="text-xs font-medium text-slate-500 dark:text-zinc-400">

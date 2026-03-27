@@ -15,7 +15,7 @@ const ANALYTICS_DESC =
   "Session on-chain analytics for TempoStreamChannel: KPIs, UTC-bucketed time series, rankings, token/contract breakdowns, indexer sync—MPP on Tempo, read-only. Partner routes: payer/payee address views.";
 
 const GUIDE_DESC =
-  "Guide and FAQ: what Open MPP shows on-chain versus off-chain HTTP payment flows; Tempo, MPP, and TempoStreamChannel; how to use Overview, channels (including finalized view), analytics, search, and read-only scope; settlement in brief.";
+  "Guide and FAQ: what Open MPP shows on-chain versus off-chain HTTP payment flows; Tempo, MPP, and TempoStreamChannel; how to use Overview, channels (including ended / terminal-state view), analytics, search, and read-only scope; settlement in brief.";
 
 const ACTIONABLE_DESC =
   "Shortcut: enter a payer address to open the unified address page with actionable TempoStreamChannel groupings (indexer /channels/actions/*); read-only, no wallet.";

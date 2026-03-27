@@ -1,12 +1,17 @@
 import { useTranslation } from "react-i18next";
+import { clsx } from "clsx";
 import type { AnalyticsSummary } from "../../types/analytics";
 import { formatAmount, formatIntegerString } from "../../utils/format";
 
 interface Props {
   summary: AnalyticsSummary | undefined;
+  compact?: boolean;
 }
 
-export default function SummaryRangePanel({ summary }: Props) {
+export default function SummaryRangePanel({
+  summary,
+  compact = false,
+}: Props) {
   const { t } = useTranslation();
 
   if (
@@ -15,7 +20,12 @@ export default function SummaryRangePanel({ summary }: Props) {
     !summary?.events_by_c_event_name
   ) {
     return (
-      <p className="mt-4 text-xs text-slate-500 dark:text-zinc-500">
+      <p
+        className={clsx(
+          "text-xs text-slate-500 dark:text-zinc-500",
+          compact ? "mt-2" : "mt-4",
+        )}
+      >
         {t("analytics.rangeHint")}
       </p>
     );
@@ -24,16 +34,31 @@ export default function SummaryRangePanel({ summary }: Props) {
   const byName = summary.events_by_c_event_name ?? {};
 
   return (
-    <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50/80 p-4 dark:border-zinc-800 dark:bg-zinc-900/30">
-      <h3 className="text-sm font-semibold text-slate-800 dark:text-zinc-200">
+    <div
+      className={clsx(
+        "rounded-xl border border-slate-200 bg-slate-50/80 dark:border-zinc-800 dark:bg-zinc-900/30",
+        compact ? "mt-2 p-3" : "mt-4 p-4",
+      )}
+    >
+      <h3
+        className={clsx(
+          "font-semibold text-slate-800 dark:text-zinc-200",
+          compact ? "text-xs" : "text-sm",
+        )}
+      >
         {t("analytics.rangeMetricsTitle")}
       </h3>
-      <div className="mt-3 grid gap-3 sm:grid-cols-2">
+      <div className={clsx("grid sm:grid-cols-2", compact ? "mt-2 gap-2" : "mt-3 gap-3")}>
         <div>
           <p className="text-xs font-medium uppercase tracking-wider text-slate-400 dark:text-zinc-500">
             {t("analytics.eventsInRange")}
           </p>
-          <p className="mt-1 font-mono text-lg tabular-nums">
+          <p
+            className={clsx(
+              "mt-1 font-mono tabular-nums",
+              compact ? "text-base" : "text-lg",
+            )}
+          >
             {summary.event_count_in_range != null
               ? formatIntegerString(summary.event_count_in_range)
               : "—"}
@@ -43,7 +68,12 @@ export default function SummaryRangePanel({ summary }: Props) {
           <p className="text-xs font-medium uppercase tracking-wider text-slate-400 dark:text-zinc-500">
             {t("analytics.settlementVolumeInRange")}
           </p>
-          <p className="mt-1 font-mono text-lg tabular-nums">
+          <p
+            className={clsx(
+              "mt-1 font-mono tabular-nums",
+              compact ? "text-base" : "text-lg",
+            )}
+          >
             {summary.settlement_volume_in_range != null
               ? formatAmount(summary.settlement_volume_in_range)
               : "—"}
@@ -51,7 +81,7 @@ export default function SummaryRangePanel({ summary }: Props) {
         </div>
       </div>
       {Object.keys(byName).length > 0 && (
-        <div className="mt-4">
+        <div className={compact ? "mt-3" : "mt-4"}>
           <p className="text-xs font-medium uppercase tracking-wider text-slate-400 dark:text-zinc-500">
             {t("analytics.eventsByName")}
           </p>

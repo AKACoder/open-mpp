@@ -16,6 +16,11 @@ export function defaultTimeseriesStart(daysBack = 7): string {
   return formatDateYmd(d);
 }
 
+/** Default Analytics `from` when URL omits it (wide window; backend may cap rows). */
+export function defaultAnalyticsHistoryStart(): string {
+  return defaultTimeseriesStart(730);
+}
+
 /** Summary window as date + time (API doc: UTC `YYYY-MM-DD HH:mm:ss`). */
 export function summaryRangeParams(fromYmd: string, toYmd: string) {
   return {

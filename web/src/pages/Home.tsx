@@ -54,16 +54,16 @@ export default function Home() {
       />
 
       <section
-        className="mt-6 max-w-5xl"
+        className="mt-12 max-w-5xl"
         aria-labelledby="home-charts-heading"
       >
         <h2
           id="home-charts-heading"
-          className="text-sm font-semibold uppercase tracking-wider text-slate-400 dark:text-zinc-500"
+          className="text-lg font-semibold tracking-tight"
         >
           {t("pages.home.chartsSection")}
         </h2>
-        <p className="mt-1 max-w-2xl text-xs text-slate-500 dark:text-zinc-500">
+        <p className="mt-2 max-w-2xl text-sm text-slate-600 dark:text-zinc-400">
           {t("pages.home.chartsIntro")}
         </p>
         <Suspense fallback={<OverviewChartsSkeleton />}>
@@ -71,7 +71,7 @@ export default function Home() {
         </Suspense>
       </section>
 
-      <div className="mt-6">
+      <div className="mt-12">
         {error ? (
           <ErrorState onRetry={() => refetch()} />
         ) : (
@@ -79,17 +79,17 @@ export default function Home() {
         )}
       </div>
 
-      <section className="mt-10">
-        <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-400 dark:text-zinc-500">
+      <section className="mt-12">
+        <h2 className="text-lg font-semibold tracking-tight">
           {t("pages.home.searchSection")}
         </h2>
-        <div className="mt-3">
+        <div className="mt-4">
           <QuickSearch />
         </div>
       </section>
 
-      <section className="mt-10">
-        <h2 className="text-sm font-semibold uppercase tracking-wider text-slate-400 dark:text-zinc-500">
+      <section className="mt-12">
+        <h2 className="text-lg font-semibold tracking-tight">
           {t("pages.home.exploreSection")}
         </h2>
         <div className="mt-4 flex flex-wrap gap-3">

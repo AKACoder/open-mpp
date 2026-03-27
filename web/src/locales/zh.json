@@ -177,7 +177,10 @@
     "filterFinalized": "已终结",
     "filterScopeAria": "通道列表范围",
     "refreshList": "刷新",
-    "lastUpdated": "更新于 {{time}}"
+    "lastUpdated": "更新于 {{time}}",
+    "copyPageTsv": "复制本页为 TSV",
+    "copyPageTsvAria": "将当前页的通道列表复制为制表符分隔文本",
+    "copyPageTsvFailed": "无法复制到剪贴板。"
   },
   "pages": {
     "home": {

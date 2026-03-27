@@ -21,9 +21,9 @@ import {
 import dayjs from "../../utils/dayjs";
 import { formatIntegerString } from "../../utils/format";
 
-/** Okabe–Ito palette: colorblind-friendly distinct hues */
-const COLOR_CHANNELS_OPENED = "#0072B2";
-const COLOR_EVENTS = "#E69F00";
+/** ColorBrewer paired scheme: colorblind-friendly, slightly higher contrast on light backgrounds */
+const COLOR_CHANNELS_OPENED = "#2166AC";
+const COLOR_EVENTS = "#D95F02";
 
 const CHART_HEIGHT = 220;
 
@@ -97,8 +97,8 @@ function OverviewChartCard({
   }
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-3 pt-2 shadow-sm dark:border-zinc-800 dark:bg-zinc-900/40">
-      <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-zinc-500">
+    <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900/40">
+      <h3 className="text-sm font-semibold text-slate-800 dark:text-zinc-200">
         {title}
       </h3>
       <div
@@ -142,7 +142,7 @@ function OverviewChartCard({
               type="monotone"
               dataKey="v"
               stroke={color}
-              strokeWidth={2}
+              strokeWidth={2.5}
               fill={color}
               fillOpacity={0.15}
               isAnimationActive={false}

@@ -177,7 +177,10 @@
     "filterFinalized": "Finalized",
     "filterScopeAria": "Channel list scope",
     "refreshList": "Refresh",
-    "lastUpdated": "Updated {{time}}"
+    "lastUpdated": "Updated {{time}}",
+    "copyPageTsv": "Copy page as TSV",
+    "copyPageTsvAria": "Copy current page of channels as tab-separated values",
+    "copyPageTsvFailed": "Could not copy to clipboard."
   },
   "pages": {
     "home": {

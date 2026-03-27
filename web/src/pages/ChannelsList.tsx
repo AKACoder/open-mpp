@@ -1,7 +1,8 @@
 import { useMemo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "react-router-dom";
-import { RefreshCw } from "lucide-react";
+import { ClipboardCopy, RefreshCw } from "lucide-react";
+import { toast } from "sonner";
 import { clsx } from "clsx";
 import {
   useAllChannels,
@@ -15,6 +16,7 @@ import {
   channelsListFromSearchParams,
   channelsListToSearchParams,
 } from "../utils/channelsUrlState";
+import { channelsPageToTsv } from "../utils/channelsTsv";
 
 const PAGE_SIZE = 20;
 
@@ -60,6 +62,17 @@ export default function ChannelsList() {
   const { data, isLoading, error, refetch, dataUpdatedAt } = activeQuery;
 
   const totalPages = data ? Math.ceil(data.total / PAGE_SIZE) : 0;
+  const pageRows = data?.data ?? [];
+
+  const handleCopyPageTsv = async () => {
+    if (pageRows.length === 0) return;
+    try {
+      await navigator.clipboard.writeText(channelsPageToTsv(pageRows));
+      toast.success(t("common.copied"));
+    } catch {
+      toast.error(t("channels.copyPageTsvFailed"));
+    }
+  };
 
   const handlePageChange = (newPage: number) => {
     setListState({ page: newPage });
@@ -140,6 +153,16 @@ export default function ChannelsList() {
               {t("channels.lastUpdated", { time: lastUpdated })}
             </span>
           ) : null}
+          <button
+            type="button"
+            onClick={() => void handleCopyPageTsv()}
+            disabled={isLoading || pageRows.length === 0}
+            aria-label={t("channels.copyPageTsvAria")}
+            className="inline-flex h-9 min-h-11 shrink-0 items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 disabled:opacity-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800 sm:min-h-9"
+          >
+            <ClipboardCopy className="size-4" />
+            {t("channels.copyPageTsv")}
+          </button>
           <button
             type="button"
             onClick={() => refetch()}

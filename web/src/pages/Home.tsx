@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { BarChart3, List, BookOpen } from "lucide-react";
@@ -7,6 +8,22 @@ import KpiStrip from "../components/dashboard/KpiStrip";
 import QuickSearch from "../components/dashboard/QuickSearch";
 import ErrorState from "../components/ui/ErrorState";
 import IndexerFreshnessNote from "../components/analytics/IndexerFreshnessNote";
+
+const OverviewChartsSection = lazy(
+  () => import("../components/dashboard/OverviewChartsSection"),
+);
+
+function OverviewChartsSkeleton() {
+  return (
+    <div
+      className="mt-4 grid min-h-[220px] gap-4 md:grid-cols-2"
+      aria-busy="true"
+    >
+      <div className="h-[260px] animate-pulse rounded-xl border border-slate-200 bg-slate-100/80 dark:border-zinc-800 dark:bg-zinc-900/40" />
+      <div className="h-[260px] animate-pulse rounded-xl border border-slate-200 bg-slate-100/80 dark:border-zinc-800 dark:bg-zinc-900/40" />
+    </div>
+  );
+}
 
 export default function Home() {
   const { t } = useTranslation();
@@ -35,6 +52,24 @@ export default function Home() {
         loadError={!!syncQuery.error}
         aria-label={t("pages.home.indexerFreshnessAria")}
       />
+
+      <section
+        className="mt-6 max-w-5xl"
+        aria-labelledby="home-charts-heading"
+      >
+        <h2
+          id="home-charts-heading"
+          className="text-sm font-semibold uppercase tracking-wider text-slate-400 dark:text-zinc-500"
+        >
+          {t("pages.home.chartsSection")}
+        </h2>
+        <p className="mt-1 max-w-2xl text-xs text-slate-500 dark:text-zinc-500">
+          {t("pages.home.chartsIntro")}
+        </p>
+        <Suspense fallback={<OverviewChartsSkeleton />}>
+          <OverviewChartsSection />
+        </Suspense>
+      </section>
 
       <div className="mt-6">
         {error ? (

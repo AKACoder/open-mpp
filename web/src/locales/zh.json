@@ -185,7 +185,12 @@
       "subtitle": "基于索引库的 TempoStreamChannel 视图：MPP Session 在 Tempo 上的托管、结算与生命周期——只读，无需连接钱包。",
       "indexerFreshnessAria": "索引同步高度与数据新鲜度说明（来源 /meta/sync）",
       "searchSection": "检索",
-      "exploreSection": "探索"
+      "exploreSection": "探索",
+      "chartsSection": "网络动态",
+      "chartsIntro": "按日分桶、近 7 日、全链——与「分析」页默认区间一致（日桶）。",
+      "chartsError": "图表暂时无法加载。",
+      "chartsEmpty": "该时间范围内暂无数据。",
+      "chartsOpenAnalytics": "打开分析页"
     },
     "channelsList": {
       "title": "全部通道",

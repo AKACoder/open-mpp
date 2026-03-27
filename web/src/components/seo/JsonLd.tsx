@@ -12,6 +12,7 @@ export default function JsonLd() {
     applicationCategory: "FinanceApplication",
     operatingSystem: "Web",
     description: DESCRIPTION,
+    inLanguage: ["en", "zh-Hans"],
     url: SITE_URL,
     offers: {
       "@type": "Offer",

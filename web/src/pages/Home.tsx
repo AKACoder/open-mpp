@@ -1,6 +1,6 @@
 import { lazy, Suspense } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { BarChart3, List, BookOpen } from "lucide-react";
 import { useAnalyticsSummary } from "../hooks/useAnalytics";
 import { useMetaChains, useMetaSync } from "../hooks/useMeta";
@@ -8,6 +8,7 @@ import KpiStrip from "../components/dashboard/KpiStrip";
 import QuickSearch from "../components/dashboard/QuickSearch";
 import ErrorState from "../components/ui/ErrorState";
 import IndexerSyncStrip from "../components/analytics/IndexerSyncStrip";
+import SeoHead from "../components/seo/SeoHead";
 
 const OverviewChartsSection = lazy(
   () => import("../components/dashboard/OverviewChartsSection"),
@@ -27,12 +28,18 @@ function OverviewChartsSkeleton() {
 
 export default function Home() {
   const { t } = useTranslation();
+  const { pathname } = useLocation();
   const { data: summary, isLoading, error, refetch } = useAnalyticsSummary();
   const syncQuery = useMetaSync();
   const chainsQuery = useMetaChains();
 
   return (
     <div>
+      <SeoHead
+        title={t("pages.home.seoTitle")}
+        description={t("pages.home.seoDescription")}
+        path={pathname}
+      />
       <h1 className="text-2xl font-semibold tracking-tight">
         {t("pages.home.title")}
       </h1>

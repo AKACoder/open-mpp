@@ -5,6 +5,9 @@
     "brandSubtitle": "Tempo · 通道与链上 Session 分析",
     "description": "Tempo 上 MPP / TempoStreamChannel 的链上资金与通道生命周期"
   },
+  "geo": {
+    "keywords": "Open MPP Explorer, Tempo, Tempo 网络, 机器支付协议, MPP, MPP Session, Session 资金, 生命周期分析, TempoStreamChannel, 链上分析, 机器支付, M2M 支付, 稳定币支付, 支付通道, 托管, 结算, 索引器, 区块链浏览器, L1"
+  },
   "common": {
     "loading": "加载中…",
     "error": "出错了",
@@ -213,7 +216,9 @@
       "chartsIntro": "按日分桶、近 7 日、全链。「分析 → 曲线」默认更宽的起止区间，并可选按小时分桶。",
       "chartsError": "图表暂时无法加载。",
       "chartsEmpty": "该时间范围内暂无数据。",
-      "chartsOpenAnalytics": "打开分析页"
+      "chartsOpenAnalytics": "打开分析页",
+      "seoTitle": "Open MPP Explorer — 链上 Session 资金与生命周期",
+      "seoDescription": "Tempo 上 MPP Session 的链上资金与生命周期视图：TempoStreamChannel 托管、结算与终态——只读、索引器支撑。概览 KPI 与检索；无需钱包，不含链下 HTTP 支付流程。"
     },
     "channelsList": {
       "title": "全部通道",
@@ -246,7 +251,9 @@
       "roleTabsAria": "通道列表角色",
       "actionableSectionTitle": "关单与提现相关状态",
       "actionablePayeeNote": "可提现、宽限期、可申请关单等分组仅在以「付款方」查看该地址时展示。请切换到「付款方」标签。",
-      "channelsHeading": "通道列表"
+      "channelsHeading": "通道列表",
+      "seoTitle": "按地址查看通道 — Open MPP Explorer",
+      "seoDescription": "按付款方或收款方查看 Tempo 上的通道——MPP Session 流程中的 TempoStreamChannel 列表。"
     },
     "actionable": {
       "title": "关单与提现（付款方）",
@@ -275,6 +282,8 @@
   },
   "guide": {
     "title": "Open MPP Explorer — 指南与常见问题",
+    "seoTitle": "指南与常见问题 — Open MPP Explorer",
+    "seoDescription": "指南与常见问题：Open MPP 展示的链上内容与链下 HTTP 支付流程之边界；Tempo、MPP 与 TempoStreamChannel；如何使用概览、通道列表（含已结束/终态视图）、分析、搜索以及只读范围；结算机制概要。",
     "intro": "说明 Tempo 上 MPP Session 如何借助 TempoStreamChannel 完成托管与结算、本站展示的范围（仅限链上），以及各入口——以简明问答形式组织。",
     "onchainTitle": "仅链上：不含链下 HTTP 支付界面",
     "onchainLead": "本站反映索引后的链上事实：通道表、合约事件与衍生余额。不展示 HTTP 402、Payment-Authorization 头、按请求的 voucher、SSE 回执等链下会话机制。单次 API「会话」除非体现在通道状态或链上事件中，否则无法在此回放。",

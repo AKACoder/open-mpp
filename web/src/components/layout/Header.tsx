@@ -14,6 +14,10 @@ import { clsx } from "clsx";
 import { toast } from "sonner";
 import { useTheme } from "../../hooks/useTheme";
 import { pathFromSearchQuery } from "../../utils/searchNavigation";
+import {
+  persistUserLanguage,
+  type AppLocale,
+} from "../../locales/languagePreference";
 
 const NAV_ITEMS = [
   { to: "/", key: "nav.overview", end: true },
@@ -47,7 +51,9 @@ export default function Header() {
   }, [showHeaderSearch, location.pathname]);
 
   const toggleLang = () => {
-    i18n.changeLanguage(i18n.language === "en" ? "zh" : "en");
+    const next: AppLocale = i18n.language.startsWith("zh") ? "en" : "zh";
+    void i18n.changeLanguage(next);
+    persistUserLanguage(next);
   };
 
   const handleSearch = (e: KeyboardEvent<HTMLInputElement>) => {

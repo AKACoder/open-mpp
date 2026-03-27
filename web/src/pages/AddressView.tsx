@@ -7,6 +7,7 @@ import {
 import { useTranslation } from "react-i18next";
 import {
   Navigate,
+  useLocation,
   useParams,
   useSearchParams,
 } from "react-router-dom";
@@ -22,6 +23,7 @@ import AddressWithCopy from "../components/channel/AddressWithCopy";
 import Pagination from "../components/ui/Pagination";
 import ActionableChannelSections from "../components/actionable/ActionableChannelSections";
 import { isValidAddressParam } from "../utils/searchNavigation";
+import SeoHead from "../components/seo/SeoHead";
 
 const PAGE_SIZE = 20;
 const ROLE_Q = "role";
@@ -42,6 +44,7 @@ export function LegacyAddressRedirect({
 
 export default function AddressView() {
   const { t } = useTranslation();
+  const { pathname } = useLocation();
   const { address = "" } = useParams<{ address: string }>();
   const [searchParams, setSearchParams] = useSearchParams();
   const [page, setPage] = useState(1);
@@ -90,6 +93,11 @@ export default function AddressView() {
   if (!isValidAddressParam(address)) {
     return (
       <div>
+        <SeoHead
+          title={t("pages.addressView.seoTitle")}
+          description={t("pages.addressView.seoDescription")}
+          path={pathname}
+        />
         <div className="flex items-center gap-3">
           <BackButton />
           <h1 className="text-2xl font-semibold tracking-tight">
@@ -110,6 +118,11 @@ export default function AddressView() {
 
   return (
     <div>
+      <SeoHead
+        title={t("pages.addressView.seoTitle")}
+        description={t("pages.addressView.seoDescription")}
+        path={pathname}
+      />
       <div className="flex items-center gap-3">
         <BackButton />
         <h1 className="text-2xl font-semibold tracking-tight">

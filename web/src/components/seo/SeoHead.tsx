@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
 import {
   DEFAULT_KEYWORDS,
   OG_IMAGE_PATH,
@@ -11,6 +12,7 @@ interface Props {
   description: string;
   /** Pathname only, e.g. `/guide` */
   path: string;
+  /** When omitted, uses `DEFAULT_KEYWORDS` (en) or i18n `geo.keywords` (zh). */
   keywords?: string;
   /** If false, omit duplicate brand suffix when title already includes site name */
   appendSiteSuffix?: boolean;
@@ -25,9 +27,17 @@ export default function SeoHead({
   title,
   description,
   path,
-  keywords = DEFAULT_KEYWORDS,
+  keywords: keywordsProp,
   appendSiteSuffix = true,
 }: Props) {
+  const { i18n, t } = useTranslation();
+  const isZh = i18n.language.startsWith("zh");
+  const htmlLang = isZh ? "zh-Hans" : "en";
+  const ogLocale = isZh ? "zh_CN" : "en_US";
+  const ogLocaleAlternate = isZh ? "en_US" : "zh_CN";
+  const keywords =
+    keywordsProp ?? (isZh ? t("geo.keywords") : DEFAULT_KEYWORDS);
+
   const pathname = normalizePath(path);
   const canonical = `${SITE_URL}${pathname === "/" ? "" : pathname}`;
   const imageUrl = `${SITE_URL}${OG_IMAGE_PATH}`;
@@ -38,6 +48,7 @@ export default function SeoHead({
 
   return (
     <Helmet>
+      <html lang={htmlLang} />
       <title>{fullTitle}</title>
       <meta name="description" content={description} />
       <meta name="keywords" content={keywords} />
@@ -50,7 +61,8 @@ export default function SeoHead({
       <meta property="og:url" content={canonical} />
       <meta property="og:image" content={imageUrl} />
       <meta property="og:image:alt" content={`${SITE_NAME} preview`} />
-      <meta property="og:locale" content="en_US" />
+      <meta property="og:locale" content={ogLocale} />
+      <meta property="og:locale:alternate" content={ogLocaleAlternate} />
 
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={fullTitle} />

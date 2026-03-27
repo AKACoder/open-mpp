@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useTranslation, Trans } from "react-i18next";
 import { ChevronRight } from "lucide-react";
 import AnalyticsMetricsDefinitions from "../components/analytics/AnalyticsMetricsDefinitions";
+import SeoHead from "../components/seo/SeoHead";
 
 const LINK =
   "font-medium text-accent underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50";
@@ -39,9 +40,15 @@ function FaqItem({
 
 export default function GuidePage() {
   const { t } = useTranslation();
+  const { pathname } = useLocation();
 
   return (
     <article className="mx-auto max-w-prose">
+      <SeoHead
+        title={t("guide.seoTitle")}
+        description={t("guide.seoDescription")}
+        path={pathname}
+      />
       <h1 className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-zinc-100">
         {t("guide.title")}
       </h1>

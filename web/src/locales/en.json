@@ -213,7 +213,9 @@
       "chartsIntro": "Daily buckets, last 7 days, all chains. Analytics → Charts uses a wider default from/to and optional hourly buckets.",
       "chartsError": "Charts could not be loaded.",
       "chartsEmpty": "No data in this range.",
-      "chartsOpenAnalytics": "Open Analytics"
+      "chartsOpenAnalytics": "Open Analytics",
+      "seoTitle": "Open MPP Explorer — On-chain Session Funding & Lifecycle",
+      "seoDescription": "On-chain funding and lifecycle view for MPP Sessions on Tempo: TempoStreamChannel escrow, settlement, and finality—read-only, indexer-backed. Overview KPIs and search; no wallet, no off-chain HTTP payment flows."
     },
     "channelsList": {
       "title": "All channels",
@@ -246,7 +248,9 @@
       "roleTabsAria": "Channel list role",
       "actionableSectionTitle": "Close & withdraw readiness",
       "actionablePayeeNote": "Withdraw / grace / request-close groupings are only shown when viewing this address as payer. Switch to the Payer tab to see them.",
-      "channelsHeading": "Channels"
+      "channelsHeading": "Channels",
+      "seoTitle": "Channels by Address — Open MPP Explorer",
+      "seoDescription": "Channels by payer or payee on Tempo—TempoStreamChannel list for MPP Session flows."
     },
     "actionable": {
       "title": "Close & withdraw (payer)",
@@ -275,6 +279,8 @@
   },
   "guide": {
     "title": "Open MPP Explorer — Guide & FAQ",
+    "seoTitle": "Guide & FAQ — Open MPP Explorer",
+    "seoDescription": "Guide and FAQ: what Open MPP shows on-chain versus off-chain HTTP payment flows; Tempo, MPP, and TempoStreamChannel; how to use Overview, channels (including ended / terminal-state view), analytics, search, and read-only scope; settlement in brief.",
     "intro": "How MPP Session flows on Tempo use TempoStreamChannel for escrow and settlement, what this site shows (on-chain only), and how to navigate — organized as short questions.",
     "onchainTitle": "On-chain only — no off-chain HTTP payment UI",
     "onchainLead": "This explorer reflects indexed blockchain facts: channel rows, contract events, and derived balances. It does not display HTTP 402 challenges, Payment-Authorization headers, per-request vouchers, SSE receipts, or other off-chain session mechanics. Single API “sessions” are not replayable here unless their effects appear as channel state or on-chain events.",

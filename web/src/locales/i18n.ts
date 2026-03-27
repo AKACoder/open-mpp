@@ -3,10 +3,14 @@ import { initReactI18next } from "react-i18next";
 
 import en from "./en.json";
 import zh from "./zh.json";
+import {
+  resolveLocaleFromSearch,
+  SUPPORTED_LANGS,
+} from "./languagePreference";
 
-const SUPPORTED_LANGS = ["en", "zh"];
-const stored = localStorage.getItem("i18nextLng");
-const lng = stored && SUPPORTED_LANGS.includes(stored) ? stored : "en";
+const initialSearch =
+  typeof window !== "undefined" ? window.location.search : "";
+const lng = resolveLocaleFromSearch(initialSearch);
 
 i18n.use(initReactI18next).init({
   resources: {
@@ -15,12 +19,8 @@ i18n.use(initReactI18next).init({
   },
   lng,
   fallbackLng: "en",
-  supportedLngs: SUPPORTED_LANGS,
+  supportedLngs: [...SUPPORTED_LANGS],
   interpolation: { escapeValue: false },
-});
-
-i18n.on("languageChanged", (lang) => {
-  localStorage.setItem("i18nextLng", lang);
 });
 
 export default i18n;

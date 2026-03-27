@@ -5,6 +5,7 @@ import { Github, Twitter } from "lucide-react";
 import Header from "./Header";
 import SeoRouteHead from "../seo/SeoRouteHead";
 import JsonLd from "../seo/JsonLd";
+import I18nLocationSync from "../i18n/I18nLocationSync";
 
 const SOCIAL_X = "https://x.com/0xLucasStable";
 const SOCIAL_GITHUB = "https://github.com/AKACoder/open-mpp";
@@ -16,6 +17,7 @@ export default function AppLayout() {
 
   return (
     <>
+      <I18nLocationSync />
       <SeoRouteHead />
       <JsonLd />
       <Header />

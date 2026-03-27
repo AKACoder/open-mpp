@@ -9,10 +9,12 @@ import type {
   ActionType,
 } from "../types/channel";
 
+/** Channel list + HTTP envelope: see `todo/api-contract-channels-list.md` (D0). */
 export function getChannelMeta() {
   return request.get<unknown, ChannelMeta>("/meta/channel");
 }
 
+/** `GET /channels` — all channels; query today is only `page`, `pageSize`. */
 export function getAllChannels(page = 1, pageSize = 20) {
   return request.get<unknown, PaginatedResponse<Channel>>("/channels", {
     params: { page, pageSize },
@@ -63,6 +65,7 @@ export function getChannelBalance(channelId: string) {
   );
 }
 
+/** `GET /channels/finalized` — finalized only (separate path, not a filter on `/channels`). SPA URL uses `?finalized=1` to select this call; see `todo/api-contract-channels-list.md`. */
 export function getFinalizedChannels(page = 1, pageSize = 20) {
   return request.get<unknown, PaginatedResponse<Channel>>(
     "/channels/finalized",

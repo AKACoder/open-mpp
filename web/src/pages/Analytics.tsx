@@ -22,7 +22,7 @@ import { formatIntegerString } from "../utils/format";
 import { SYNC_REFETCH_INTERVAL_MS } from "../config/queryPolicies";
 import SeoHead from "../components/seo/SeoHead";
 import AnalyticsMetricsGlossary from "../components/analytics/AnalyticsMetricsGlossary";
-import IndexerFreshnessNote from "../components/analytics/IndexerFreshnessNote";
+import IndexerSyncStrip from "../components/analytics/IndexerSyncStrip";
 
 export default function Analytics() {
   const { t } = useTranslation();
@@ -80,12 +80,13 @@ export default function Analytics() {
         {t("pages.analytics.subtitle")}
       </p>
 
-      <IndexerFreshnessNote
-        className="mt-4"
+      <IndexerSyncStrip
+        className="mt-4 max-w-4xl"
         syncRows={syncQuery.data}
+        chains={chainsQuery.data}
         isLoading={syncQuery.isLoading}
         loadError={!!syncQuery.error}
-        chainId={filters.chainId}
+        aria-label={t("pages.analytics.syncStripAria")}
       />
 
       <AnalyticsMetricsGlossary className="mt-4" />

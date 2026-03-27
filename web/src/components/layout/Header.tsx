@@ -17,31 +17,16 @@ const NAV_ITEMS = [
   { to: "/", key: "nav.overview", end: true },
   { to: "/channels", key: "nav.allChannels", end: true },
   { to: "/analytics", key: "nav.analytics", end: false },
-  {
-    to: "/actionable",
-    key: "nav.closeNavLabel",
-    end: false,
-    ariaKey: "nav.closeNavAria",
-  },
-  { to: "/channels?finalized=1", key: "nav.finalized", end: false },
   { to: "/guide", key: "nav.guide", end: false },
 ] as const;
-
-function channelsNavActive(
-  pathname: string,
-  search: string,
-  mode: "all" | "finalized",
-): boolean {
-  if (pathname !== "/channels") return false;
-  const fin = new URLSearchParams(search).get("finalized") === "1";
-  return mode === "all" ? !fin : fin;
-}
 
 export default function Header() {
   const { t, i18n } = useTranslation();
   const { theme, toggle: toggleTheme } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const showHeaderSearch = location.pathname !== "/";
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -52,6 +37,13 @@ export default function Header() {
   useEffect(() => {
     if (searchOpen) searchInputRef.current?.focus();
   }, [searchOpen]);
+
+  useEffect(() => {
+    if (!showHeaderSearch) {
+      setSearchOpen(false);
+      setSearchQuery("");
+    }
+  }, [showHeaderSearch, location.pathname]);
 
   const toggleLang = () => {
     i18n.changeLanguage(i18n.language === "en" ? "zh" : "en");
@@ -108,104 +100,86 @@ export default function Header() {
           className="hidden items-center gap-4 lg:gap-5 xl:gap-6 md:flex"
           aria-label="Main"
         >
-          {NAV_ITEMS.map((item) => {
-            const channelNavMode =
-              item.to === "/channels"
-                ? ("all" as const)
-                : item.to === "/channels?finalized=1"
-                  ? ("finalized" as const)
-                  : null;
-            const resolvedActive =
-              channelNavMode !== null
-                ? channelsNavActive(
-                    location.pathname,
-                    location.search,
-                    channelNavMode,
-                  )
-                : null;
-            return (
-              <NavLink
-                key={item.key}
-                to={item.to}
-                end={item.end}
-                className={
-                  resolvedActive !== null
-                    ? () => navLinkClass({ isActive: resolvedActive })
-                    : navLinkClass
-                }
-                {...("ariaKey" in item && item.ariaKey
-                  ? { "aria-label": t(item.ariaKey) }
-                  : {})}
-              >
-                {t(item.key)}
-              </NavLink>
-            );
-          })}
+          {NAV_ITEMS.map((item) => (
+            <NavLink
+              key={item.key}
+              to={item.to}
+              end={item.end}
+              className={navLinkClass}
+            >
+              {t(item.key)}
+            </NavLink>
+          ))}
         </nav>
 
         <div className="flex-1" />
 
-        {/* Desktop search */}
-        <div className="hidden items-center gap-2 md:flex">
-          <div
-            className="flex h-8 shrink-0 rounded-lg border border-slate-200 bg-slate-50 p-0.5 text-xs font-medium dark:border-zinc-700 dark:bg-zinc-900"
-            role="group"
-            aria-label={t("search.roleGroupAria")}
-          >
-            <button
-              type="button"
-              onClick={() => setSearchRole("payer")}
-              className={clsx(
-                "rounded-md px-2 py-1 transition-colors",
-                searchRole === "payer"
-                  ? "bg-white text-slate-900 shadow-sm dark:bg-zinc-800 dark:text-zinc-100"
-                  : "text-slate-500 hover:text-slate-800 dark:text-zinc-400 dark:hover:text-zinc-200",
-              )}
+        {/* Desktop search (hidden on home — search lives in page body) */}
+        {showHeaderSearch ? (
+          <div className="hidden items-center gap-2 md:flex">
+            <div
+              className="flex h-8 shrink-0 rounded-lg border border-slate-200 bg-slate-50 p-0.5 text-xs font-medium dark:border-zinc-700 dark:bg-zinc-900"
+              role="group"
+              aria-label={t("search.roleGroupAria")}
             >
-              {t("search.rolePayer")}
-            </button>
-            <button
-              type="button"
-              onClick={() => setSearchRole("payee")}
-              className={clsx(
-                "rounded-md px-2 py-1 transition-colors",
-                searchRole === "payee"
-                  ? "bg-white text-slate-900 shadow-sm dark:bg-zinc-800 dark:text-zinc-100"
-                  : "text-slate-500 hover:text-slate-800 dark:text-zinc-400 dark:hover:text-zinc-200",
-              )}
-            >
-              {t("search.rolePayee")}
-            </button>
+              <button
+                type="button"
+                onClick={() => setSearchRole("payer")}
+                className={clsx(
+                  "rounded-md px-2 py-1 transition-colors",
+                  searchRole === "payer"
+                    ? "bg-white text-slate-900 shadow-sm dark:bg-zinc-800 dark:text-zinc-100"
+                    : "text-slate-500 hover:text-slate-800 dark:text-zinc-400 dark:hover:text-zinc-200",
+                )}
+              >
+                {t("search.rolePayer")}
+              </button>
+              <button
+                type="button"
+                onClick={() => setSearchRole("payee")}
+                className={clsx(
+                  "rounded-md px-2 py-1 transition-colors",
+                  searchRole === "payee"
+                    ? "bg-white text-slate-900 shadow-sm dark:bg-zinc-800 dark:text-zinc-100"
+                    : "text-slate-500 hover:text-slate-800 dark:text-zinc-400 dark:hover:text-zinc-200",
+                )}
+              >
+                {t("search.rolePayee")}
+              </button>
+            </div>
+            <div className="relative">
+              <Search className="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-slate-400 dark:text-zinc-500" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={handleSearch}
+                placeholder={t("search.placeholderHeader")}
+                className="h-8 w-56 rounded-lg border border-slate-200 bg-slate-50 pl-9 pr-3 text-sm text-slate-900 placeholder-slate-400 outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder-zinc-500 dark:focus:border-accent lg:w-64"
+              />
+            </div>
           </div>
-          <div className="relative">
-            <Search className="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-slate-400 dark:text-zinc-500" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onKeyDown={handleSearch}
-              placeholder={t("search.placeholderHeader")}
-              className="h-8 w-56 rounded-lg border border-slate-200 bg-slate-50 pl-9 pr-3 text-sm text-slate-900 placeholder-slate-400 outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder-zinc-500 dark:focus:border-accent lg:w-64"
-            />
-          </div>
-        </div>
+        ) : null}
 
         {/* Mobile search toggle */}
-        <button
-          className={clsx(iconBtn, "md:hidden")}
-          onClick={() => setSearchOpen(!searchOpen)}
-          aria-label="Toggle search"
-        >
-          {searchOpen ? <X className="size-5" /> : <Search className="size-5" />}
-        </button>
+        {showHeaderSearch ? (
+          <button
+            type="button"
+            className={clsx(iconBtn, "md:hidden")}
+            onClick={() => setSearchOpen(!searchOpen)}
+            aria-label="Toggle search"
+          >
+            {searchOpen ? <X className="size-5" /> : <Search className="size-5" />}
+          </button>
+        ) : null}
 
         {/* Language toggle */}
-        <button onClick={toggleLang} className={iconBtn} aria-label="Toggle language">
+        <button type="button" onClick={toggleLang} className={iconBtn} aria-label="Toggle language">
           <Languages className="size-5" />
         </button>
 
         {/* Theme toggle */}
-        <button onClick={toggleTheme} className={iconBtn} aria-label="Toggle theme">
+        <button type="button" onClick={toggleTheme} className={iconBtn} aria-label="Toggle theme">
           {theme === "dark" ? (
             <Sun className="size-5" />
           ) : (
@@ -215,6 +189,7 @@ export default function Header() {
 
         {/* Mobile hamburger */}
         <button
+          type="button"
           className={clsx(iconBtn, "md:hidden")}
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle menu"
@@ -228,7 +203,7 @@ export default function Header() {
       </div>
 
       {/* Mobile search bar */}
-      {searchOpen && (
+      {showHeaderSearch && searchOpen ? (
         <div className="space-y-2 border-t border-slate-200 px-4 py-2 md:hidden dark:border-zinc-800">
           <div
             className="flex h-9 rounded-lg border border-slate-200 bg-slate-50 p-0.5 text-xs font-medium dark:border-zinc-700 dark:bg-zinc-900"
@@ -273,52 +248,29 @@ export default function Header() {
             />
           </div>
         </div>
-      )}
+      ) : null}
 
       {/* Mobile nav menu */}
-      {mobileMenuOpen && (
+      {mobileMenuOpen ? (
         <nav
           className="border-t border-slate-200 md:hidden dark:border-zinc-800"
           aria-label="Mobile"
         >
           <div className="space-y-1 px-4 py-3">
-            {NAV_ITEMS.map((item) => {
-              const channelNavMode =
-                item.to === "/channels"
-                  ? ("all" as const)
-                  : item.to === "/channels?finalized=1"
-                    ? ("finalized" as const)
-                    : null;
-              const resolvedActive =
-                channelNavMode !== null
-                  ? channelsNavActive(
-                      location.pathname,
-                      location.search,
-                      channelNavMode,
-                    )
-                  : null;
-              return (
-                <NavLink
-                  key={item.key}
-                  to={item.to}
-                  end={item.end}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={
-                    resolvedActive !== null
-                      ? () => mobileNavLinkClass({ isActive: resolvedActive })
-                      : mobileNavLinkClass
-                  }
-                  {...("ariaKey" in item && item.ariaKey
-                    ? { "aria-label": t(item.ariaKey) }
-                    : {})}
-                >
-                  {t(item.key)}
-                </NavLink>
-              );
-            })}
+            {NAV_ITEMS.map((item) => (
+              <NavLink
+                key={item.key}
+                to={item.to}
+                end={item.end}
+                onClick={() => setMobileMenuOpen(false)}
+                className={mobileNavLinkClass}
+              >
+                {t(item.key)}
+              </NavLink>
+            ))}
           </div>
         </nav>
-      )}
+      ) : null}
     </header>
   );
 }

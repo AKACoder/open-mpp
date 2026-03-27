@@ -185,7 +185,10 @@
   "pages": {
     "home": {
       "title": "Overview",
-      "subtitle": "Indexer-backed view of TempoStreamChannel: escrow, settlement, and lifecycle for Machine Payments Protocol (MPP) sessions on Tempo—read-only, no wallet.",
+      "subtitle": "Tempo channels and on-chain session analytics — read-only explorer.",
+      "scopeLink": "On-chain scope & FAQ →",
+      "syncStripTitle": "Indexer sync",
+      "syncStripNote": "Heights reflect the indexer, not necessarily the live chain tip.",
       "indexerFreshnessAria": "Indexer sync height and data freshness (from /meta/sync)",
       "searchSection": "Search",
       "exploreSection": "Explore",
@@ -207,6 +210,7 @@
     },
     "analytics": {
       "title": "Analytics",
+      "syncStripAria": "Indexer synced height by chain (from /meta/sync)",
       "subtitle": "Network-level KPIs, time series, rankings, and indexer sync. Filters sync with the URL for sharing.",
       "seoTitle": "Analytics",
       "seoDescription": "On-chain session analytics for MPP / TempoStreamChannel on Tempo: active and finalized channels, escrow by token, time series, rankings, contract and token breakdowns, and indexer sync—read-only.",

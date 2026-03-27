@@ -58,7 +58,7 @@ export default function QuickSearch() {
           type="text"
           onKeyDown={onKeyDown}
           placeholder={t("search.placeholder")}
-          className="h-11 w-full max-w-xl rounded-xl border border-slate-200 bg-white pl-10 pr-4 font-mono text-sm text-slate-900 placeholder-slate-400 outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder-zinc-500 dark:focus:border-accent"
+          className="h-11 w-full max-w-3xl rounded-xl border border-slate-200 bg-white pl-10 pr-4 font-mono text-sm text-slate-900 placeholder-slate-400 outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder-zinc-500 dark:focus:border-accent"
           aria-label={t("search.aria")}
         />
       </div>

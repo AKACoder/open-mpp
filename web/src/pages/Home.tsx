@@ -3,11 +3,11 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { BarChart3, List, BookOpen } from "lucide-react";
 import { useAnalyticsSummary } from "../hooks/useAnalytics";
-import { useMetaSync } from "../hooks/useMeta";
+import { useMetaChains, useMetaSync } from "../hooks/useMeta";
 import KpiStrip from "../components/dashboard/KpiStrip";
 import QuickSearch from "../components/dashboard/QuickSearch";
 import ErrorState from "../components/ui/ErrorState";
-import IndexerFreshnessNote from "../components/analytics/IndexerFreshnessNote";
+import IndexerSyncStrip from "../components/analytics/IndexerSyncStrip";
 
 const OverviewChartsSection = lazy(
   () => import("../components/dashboard/OverviewChartsSection"),
@@ -29,6 +29,7 @@ export default function Home() {
   const { t } = useTranslation();
   const { data: summary, isLoading, error, refetch } = useAnalyticsSummary();
   const syncQuery = useMetaSync();
+  const chainsQuery = useMetaChains();
 
   return (
     <div>
@@ -38,23 +39,30 @@ export default function Home() {
       <p className="mt-2 max-w-2xl text-sm text-slate-600 dark:text-zinc-400">
         {t("pages.home.subtitle")}
       </p>
-      <p
-        className="mt-2 max-w-2xl border-l-2 border-accent/40 pl-3 text-xs leading-relaxed text-slate-500 dark:text-zinc-500"
-        title={t("session.termTooltip")}
-      >
-        {t("session.termShort")}
+      <p className="mt-2 text-xs">
+        <Link
+          to="/guide"
+          className="font-medium text-accent underline-offset-2 hover:underline"
+        >
+          {t("pages.home.scopeLink")}
+        </Link>
       </p>
 
-      <IndexerFreshnessNote
-        className="mt-4 max-w-2xl"
+      <div className="mt-5 w-full max-w-3xl">
+        <QuickSearch />
+      </div>
+
+      <IndexerSyncStrip
+        className="mt-4 max-w-3xl"
         syncRows={syncQuery.data}
+        chains={chainsQuery.data}
         isLoading={syncQuery.isLoading}
         loadError={!!syncQuery.error}
         aria-label={t("pages.home.indexerFreshnessAria")}
       />
 
       <section
-        className="mt-12 max-w-5xl"
+        className="mt-10 w-full"
         aria-labelledby="home-charts-heading"
       >
         <h2
@@ -71,22 +79,13 @@ export default function Home() {
         </Suspense>
       </section>
 
-      <div className="mt-12">
+      <div className="mt-12 w-full">
         {error ? (
           <ErrorState onRetry={() => refetch()} />
         ) : (
           <KpiStrip summary={summary} isLoading={isLoading} />
         )}
       </div>
-
-      <section className="mt-12">
-        <h2 className="text-lg font-semibold tracking-tight">
-          {t("pages.home.searchSection")}
-        </h2>
-        <div className="mt-4">
-          <QuickSearch />
-        </div>
-      </section>
 
       <section className="mt-12">
         <h2 className="text-lg font-semibold tracking-tight">

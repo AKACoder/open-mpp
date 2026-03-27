@@ -185,7 +185,10 @@
   "pages": {
     "home": {
       "title": "概览",
-      "subtitle": "基于索引库的 TempoStreamChannel 视图：MPP Session 在 Tempo 上的托管、结算与生命周期——只读，无需连接钱包。",
+      "subtitle": "Tempo 通道与链上 Session 分析 — 只读浏览器。",
+      "scopeLink": "链上范围与常见问题 →",
+      "syncStripTitle": "索引同步",
+      "syncStripNote": "高度来自索引器，未必等于链尖实时。",
       "indexerFreshnessAria": "索引同步高度与数据新鲜度说明（来源 /meta/sync）",
       "searchSection": "检索",
       "exploreSection": "探索",
@@ -207,6 +210,7 @@
     },
     "analytics": {
       "title": "分析",
+      "syncStripAria": "各链索引已同步高度（来源 /meta/sync）",
       "subtitle": "网络级 KPI、时间序列、排行榜与索引同步。筛选条件与 URL 同步，便于分享。",
       "seoTitle": "分析",
       "seoDescription": "Tempo 上 MPP / TempoStreamChannel 的链上 Session 分析：活跃与已终结通道数、按代币的托管、时间序列、排行榜、代币与合约维度拆分及索引同步情况——只读。",

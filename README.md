@@ -1,12 +1,10 @@
 # open-mpp
 
-**Channel Explorer** is a read-only web frontend for visualizing indexed state of **TempoStreamChannel** contracts on the **Tempo** network. These channels are used by **MPP Session** flows: they can be **opened with top-ups**, **reused for many payments while still open**, and closed when settlement is due—supporting **real-time payment with deferred settlement** and a **prepaid-style** funding model. That design is a natural fit for **high-frequency machine-to-machine payments** and other flows where latency and UX matter.
+**Open MPP Explorer** — an **on-chain Session funding & lifecycle analytics and explorer** for **TempoStreamChannel** on **[Tempo](https://tempo.xyz/)**. It answers: *how much is in escrow, what changed on-chain, and where is sync up to* — for Machine Payments Protocol (**[MPP](https://mpp.dev/)**) flows **without** wallet connection or off-chain HTTP payment UI.
 
-The UI presents channel lifecycle, balances, on-chain events, and **session-oriented analytics** (network KPIs, time series, rankings, address-scoped summaries) in an explorer-style layout. There is **no wallet connection** and **no on-chain writes**—only browsing and inspection.
+The UI surfaces indexed channel rows, contract events, balances, network KPIs, time series, rankings, and address-scoped summaries. **Read-only**: no writes, no chain-downstream session replay for every API call (the on-chain unit is the **channel**, not each HTTP session).
 
-This repository contains **the frontend only**. The indexing service that powers the live app is not open-sourced.
-
-**Ecosystem:** [Tempo](https://tempo.xyz/) (payments-focused L1) · [Machine Payments Protocol](https://mpp.dev/) (MPP)
+This repository contains **the frontend only** (`web/`). The indexing service that backs production is not open-sourced.
 
 ---
 
@@ -14,30 +12,56 @@ This repository contains **the frontend only**. The indexing service that powers
 
 | Audience | How it helps |
 |----------|----------------|
-| **Payers** | See channels where you are the payer, filter **actionable** states (e.g. request close, withdraw-ready, past grace period), and use countdowns when a close is in progress. |
-| **Payees & counterparties** | Look up channels by payer or payee address and inspect deposits, status, and history. |
-| **Operators & support** | Troubleshoot user issues by channel ID or address and verify status and timelines in one place. |
-| **Auditors & analysts** | Review lifecycle events, balance evolution, and finalized history without running chain tooling yourself. |
-| **Developers** | Use the UI as a reference for how TempoStreamChannel state surfaces to end users. |
+| **Payers** | Channels where you are the payer, **actionable** groupings (close / grace / withdraw-ready), countdowns. |
+| **Payees & counterparties** | Lists by payee, deposits, status, history. |
+| **Operators & support** | Lookup by channel ID or address; timelines in one place. |
+| **Auditors & analysts** | Lifecycle events, balance evolution, finalized history, analytics with **metric glossary** and **indexer freshness** notes. |
+| **Developers** | How TempoStreamChannel fields and APIs surface to users; explorer links for txs. |
 
 ---
 
 ## What you can do
 
-- **Browse** all channels and **paginated** finalized channels.
-- **Search** by address with an explicit **payer vs payee** scope, or by **channel ID** (66-character `0x…` hash).
-- **Open a channel detail** page: metadata, **events summary**, lifecycle timeline, and balance snapshots.
-- **`/analytics`** with **URL-synced filters** (chain, date range, bucket, optional settlement token); **`/analytics/payer|payee/:address`** for partner views.
-- **Payer-focused “Actionable” view** when you paste a payer address: groupings for withdraw-ready, waiting (with grace countdown), and channels where you can request close.
-- **Copy** channel IDs and hashes; **open transaction hashes** on a configurable explorer base (`VITE_EXPLORER_TX_URL`, default Tempo explore tx URL).
+| Area | Capabilities |
+|------|----------------|
+| **Overview** `/` | Network KPIs (from `/analytics/summary`), payer/payee-scoped quick search, links to channels / analytics / guide. |
+| **Channels** `/channels` | Paginated all channels; row → detail. |
+| **Analytics** `/analytics` | URL-synced filters (`chain`, `from`, `to`, `bucket`, optional settlement token, summary window); KPIs, optional range metrics, three UTC-bucket time series, rankings, token/contract breakdowns, `/meta/sync` table, **metric definitions** (collapsible), **non-real-time** disclaimer. |
+| **Partner analytics** `/analytics/payer/:addr`, `/analytics/payee/:addr` | Summary + payer event time series (with row-limit error UX); query params for chain / dates / bucket. |
+| **Address lists** `/address/payer|payee/:addr` | Paginated channel lists. |
+| **Channel detail** `/channel/:id` | Metadata, **events summary**, lifecycle timeline, balance history, on-chain storage note, tx hash links. |
+| **Actionable** `/actionable` | Payer address → grouped actionable channels (read-only). |
+| **Finalized** `/finalized` | Paginated finalized channels. |
+| **Guide** `/guide` | On-chain-only scope; no voucher / 402 replay claims. |
 
-Internationalization: **English** and **Chinese** UI.
+**Internationalization:** English and Chinese (`web/src/locales`).
+
+---
+
+## Screenshots (optional)
+
+Place marketing or docs screenshots under `docs/screenshots/` when you have them, for example:
+
+- `overview.png` — home KPIs and search  
+- `analytics.png` — filters + time series  
+- `channel-detail.png` — timeline and balances  
+
+*(None are committed yet; paths are suggestions.)*
+
+---
+
+## Configuration (build-time)
+
+| Variable | Purpose |
+|----------|---------|
+| `VITE_SITE_URL` | Canonical site origin for SEO / OG URLs (no trailing slash). Default: production URL in `web/src/config/site.ts`. |
+| `VITE_EXPLORER_TX_URL` | Base URL for transaction links (no trailing slash), e.g. `https://explore.tempo.xyz/tx`. |
 
 ---
 
 ## Stack
 
-The app in `web/` is built with **Vite**, **React**, **TypeScript**, **Tailwind CSS**, **TanStack Query**, and **React Router**. Styling is responsive and mobile-first.
+**Vite**, **React**, **TypeScript**, **Tailwind CSS**, **TanStack Query**, **React Router**, **react-helmet-async**, **i18next**. Responsive, mobile-first.
 
 ---
 
@@ -53,6 +77,21 @@ npm run dev
 npm run build
 npm run preview
 ```
+
+---
+
+## Product acceptance (plan §6)
+
+Manual sign-off target (see `todo/session-onchain-analytics-product-plan.md` §6):
+
+| Criterion | Notes |
+|-----------|--------|
+| **3-minute path** | Overview → search or analytics → channel detail: primary nav and QuickSearch cover this path. |
+| **No misleading copy** | Guide + glossary + Session tooltip state on-chain vs off-chain boundaries. |
+| **Pagination** | Payer/payee/actionable/finalized/rankings use `PaginatedResponse` + UI pagination. |
+| **`c Chain_id` consistency** | Shared filter drives summary, timeseries, rankings, breakdown; partner pages pass `c_chain_id` to summaries and payer TS. |
+
+Re-validate against a live indexer before each release.
 
 ---
 

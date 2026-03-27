@@ -168,6 +168,7 @@
   },
   "actionable": {
     "inputPlaceholder": "输入你的 Payer 地址…",
+    "inputAria": "付款方地址（0x + 40 hex）",
     "inputHint": "输入 Payer 地址以查看可操作通道",
     "withdrawAvailable": "可提现",
     "withdrawReady": "等待宽限期",
@@ -227,11 +228,18 @@
       "invalidAddress": "此路径需要 EVM 地址：0x 后接恰好 40 个十六进制字符。",
       "emptyAsPayer": "该地址作为付款方暂无通道。若预期有列表，可切换到「收款方」标签查看。",
       "emptyAsPayee": "该地址作为收款方暂无通道。若预期有列表，可切换到「付款方」标签查看。",
-      "roleTabsAria": "通道列表角色"
+      "roleTabsAria": "通道列表角色",
+      "actionableSectionTitle": "关单与提现相关状态",
+      "actionablePayeeNote": "可提现、宽限期、可申请关单等分组仅在以「付款方」查看该地址时展示。请切换到「付款方」标签。",
+      "channelsHeading": "通道列表"
     },
     "actionable": {
       "title": "关单与提现（付款方）",
-      "subtitle": "仅展示索引库中的 TempoStreamChannel；不连接钱包、不发送交易。列表与 /channels/actions/* 接口一致。"
+      "subtitle": "书签快捷入口：输入付款方地址后按回车，进入统一地址页（默认「付款方」标签）。可操作分组与完整通道列表均在该页展示——只读索引数据，无需连接钱包。",
+      "seoTitle": "付款方关单与提现（快捷入口）",
+      "seoDescription": "旧版入口：输入付款方地址后打开统一地址视图，包含可操作通道分组（GET /channels/actions/*）。只读，不连接钱包。",
+      "landingHint": "输入有效的 0x + 40 位十六进制地址后按回车。",
+      "linkGuide": "指南与常见问题 →"
     },
     "channelDetail": {
       "title": "通道详情"
@@ -267,7 +275,7 @@
     "howAnalytics": "分析 — 网络 KPI、按 UTC 分桶的时间序列、排行榜、代币/合约拆分、索引同步；筛选与 URL 同步便于分享。",
     "howSearch": "顶栏或概览搜索：输入 42 字符的 EVM 地址（0x + 40 hex）进入统一地址页（默认「付款方」标签；在页面内可切到「收款方」），或 66 字符通道 ID（0x + 64 hex）进入通道详情。旧链接 /address/payer/… 与 /address/payee/… 会重定向到同一页面并选中对应标签。",
     "howDetail": "通道详情 — 收付方、代币、存款与状态、生命周期事件、资金演进；可跳转浏览器查看交易。",
-    "howActionable": "导航「关单」/ 付款方 — 列表对应可提现、宽限或可申请关单等状态（只读，接口 /channels/actions/*）。",
+    "howActionable": "付款方可操作状态（可提现、宽限 / 等待提现、可申请关单）在统一地址页的「付款方」标签下展示；旧书签入口 /actionable 会跳转至该页。只读索引接口 /channels/actions/*。",
     "howFinalized": "通道列表 — 可切换「已终结」或打开 /channels?finalized=1；数据来自 GET /channels?c_finalized=1&sort=c_updated_block。",
     "readOnly": "应用为只读：不连接钱包、不广播交易。",
     "settlementTitle": "结算（概要）",
@@ -287,7 +295,7 @@
       "qAnalytics": "「分析」页包含什么？",
       "qSearch": "如何按地址或通道 ID 搜索？",
       "qDetail": "通道详情页包含哪些信息？",
-      "qActionable": "导航「关单」（付款方）展示什么？",
+      "qActionable": "付款方「可操作」通道列表在哪里？",
       "qFinalized": "如何浏览已终结通道？",
       "groupOther": "只读边界与结算",
       "qReadOnly": "能否在本站连接钱包或发送交易？",

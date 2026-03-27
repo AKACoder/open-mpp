@@ -20,6 +20,7 @@ import ChannelList from "../components/channel/ChannelList";
 import ErrorState from "../components/ui/ErrorState";
 import AddressWithCopy from "../components/channel/AddressWithCopy";
 import Pagination from "../components/ui/Pagination";
+import ActionableChannelSections from "../components/actionable/ActionableChannelSections";
 import { isValidAddressParam } from "../utils/searchNavigation";
 
 const PAGE_SIZE = 20;
@@ -157,13 +158,27 @@ export default function AddressView() {
         </button>
       </div>
 
+      {role === "payer" ? (
+        <div className="mt-8">
+          <ActionableChannelSections payer={address} />
+        </div>
+      ) : (
+        <p className="mt-6 text-xs text-slate-500 dark:text-zinc-500">
+          {t("pages.addressView.actionablePayeeNote")}
+        </p>
+      )}
+
+      <h2 className="mt-10 text-lg font-semibold tracking-tight">
+        {t("pages.addressView.channelsHeading")}
+      </h2>
+
       {error ? (
-        <div className="mt-6">
+        <div className="mt-4">
           <ErrorState onRetry={() => refetch()} />
         </div>
       ) : (
         <>
-          <div className="mt-6">
+          <div className="mt-4">
             <ChannelList
               channels={data?.data ?? []}
               isLoading={isLoading}

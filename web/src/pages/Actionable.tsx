@@ -1,32 +1,42 @@
-import { useState, useEffect } from "react";
+import { useState, type KeyboardEvent } from "react";
 import { useTranslation } from "react-i18next";
-import { Search, Zap, Clock, ShieldCheck } from "lucide-react";
-import { clsx } from "clsx";
-import { useActionableChannels } from "../hooks/useChannels";
-import ChannelList from "../components/channel/ChannelList";
-import EmptyState from "../components/ui/EmptyState";
-import Pagination from "../components/ui/Pagination";
+import { Link, useNavigate } from "react-router-dom";
+import { Search } from "lucide-react";
+import SeoHead from "../components/seo/SeoHead";
+import { isValidAddressParam } from "../utils/searchNavigation";
+import { toast } from "sonner";
 
 const STORAGE_KEY = "payer_address";
 
-function isValidAddress(v: string): boolean {
-  return /^0x[0-9a-fA-F]{40}$/.test(v);
-}
-
+/** Legacy entry: minimal payer input → unified address page (Payer tab, with actionable lists). */
 export default function Actionable() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [input, setInput] = useState(
     () => localStorage.getItem(STORAGE_KEY) ?? "",
   );
 
-  const payer = isValidAddress(input) ? input : "";
+  const submit = () => {
+    const q = input.trim();
+    if (!isValidAddressParam(q)) {
+      toast.error(t("search.invalidQuery"));
+      return;
+    }
+    localStorage.setItem(STORAGE_KEY, q);
+    navigate(`/address/${q}?role=payer`);
+  };
 
-  useEffect(() => {
-    if (payer) localStorage.setItem(STORAGE_KEY, payer);
-  }, [payer]);
+  const onKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") submit();
+  };
 
   return (
     <div>
+      <SeoHead
+        title={t("pages.actionable.seoTitle")}
+        description={t("pages.actionable.seoDescription")}
+        path="/actionable"
+      />
       <h1 className="text-2xl font-semibold tracking-tight">
         {t("pages.actionable.title")}
       </h1>
@@ -34,115 +44,29 @@ export default function Actionable() {
         {t("pages.actionable.subtitle")}
       </p>
 
-      <div className="relative mt-4">
+      <div className="relative mt-4 max-w-lg">
         <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-400 dark:text-zinc-500" />
         <input
           type="text"
           value={input}
-          onChange={(e) => setInput(e.target.value.trim())}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={onKeyDown}
           placeholder={t("actionable.inputPlaceholder")}
-          className="h-10 w-full max-w-lg rounded-xl border border-slate-200 bg-white pl-10 pr-4 font-mono text-sm text-slate-900 placeholder-slate-400 outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder-zinc-500 dark:focus:border-accent"
+          aria-label={t("actionable.inputAria")}
+          className="h-10 w-full rounded-xl border border-slate-200 bg-white pl-10 pr-4 font-mono text-sm text-slate-900 placeholder-slate-400 outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder-zinc-500 dark:focus:border-accent"
         />
       </div>
-
-      {!payer ? (
-        <EmptyState message={t("actionable.inputHint")} />
-      ) : (
-        <div className="mt-6 space-y-8">
-          <ActionSection
-            payer={payer}
-            action="withdraw-available"
-            title={t("actionable.withdrawAvailable")}
-            icon={<Zap className="size-4" />}
-            highlight
-          />
-          <ActionSection
-            payer={payer}
-            action="withdraw-ready"
-            title={t("actionable.withdrawReady")}
-            icon={<Clock className="size-4" />}
-          />
-          <ActionSection
-            payer={payer}
-            action="request-withdraw"
-            title={t("actionable.requestWithdraw")}
-            icon={<ShieldCheck className="size-4" />}
-          />
-        </div>
-      )}
-    </div>
-  );
-}
-
-const ACTION_PAGE_SIZE = 20;
-
-function ActionSection({
-  payer,
-  action,
-  title,
-  icon,
-  highlight,
-}: {
-  payer: string;
-  action: "withdraw-available" | "withdraw-ready" | "request-withdraw";
-  title: string;
-  icon: React.ReactNode;
-  highlight?: boolean;
-}) {
-  const { t } = useTranslation();
-  const [page, setPage] = useState(1);
-  const { data, isLoading } = useActionableChannels(
-    payer,
-    action,
-    page,
-    ACTION_PAGE_SIZE,
-  );
-  const count = data?.total ?? 0;
-  const totalPages = data ? Math.ceil(data.total / ACTION_PAGE_SIZE) : 0;
-
-  return (
-    <section
-      className={clsx(
-        "rounded-xl border p-4",
-        highlight
-          ? "border-blue-200 bg-blue-50/50 dark:border-blue-900 dark:bg-blue-950/20"
-          : "border-slate-200 dark:border-zinc-800",
-      )}
-    >
-      <div className="mb-3 flex items-center gap-2">
-        <span
-          className={clsx(
-            highlight
-              ? "text-blue-600 dark:text-blue-400"
-              : "text-slate-500 dark:text-zinc-400",
-          )}
+      <p className="mt-2 text-xs text-slate-500 dark:text-zinc-500">
+        {t("pages.actionable.landingHint")}
+      </p>
+      <p className="mt-4 text-xs">
+        <Link
+          to="/guide"
+          className="font-medium text-accent underline-offset-2 hover:underline"
         >
-          {icon}
-        </span>
-        <h2 className="text-sm font-semibold">{title}</h2>
-        {!isLoading && (
-          <span className="rounded-full bg-slate-200 px-2 py-0.5 text-xs font-medium tabular-nums text-slate-600 dark:bg-zinc-800 dark:text-zinc-400">
-            {count}
-          </span>
-        )}
-      </div>
-
-      <ChannelList
-        channels={data?.data ?? []}
-        isLoading={isLoading}
-        emptyMessage={t("actionable.noChannels")}
-      />
-      {totalPages > 1 && (
-        <div className="mt-4">
-          <Pagination
-            currentPage={page}
-            totalPages={totalPages}
-            onPageChange={(p) => {
-              setPage(p);
-            }}
-          />
-        </div>
-      )}
-    </section>
+          {t("pages.actionable.linkGuide")}
+        </Link>
+      </p>
+    </div>
   );
 }

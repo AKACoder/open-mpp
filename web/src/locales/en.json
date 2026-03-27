@@ -168,6 +168,7 @@
   },
   "actionable": {
     "inputPlaceholder": "Enter your Payer Address…",
+    "inputAria": "Payer address (0x + 40 hex)",
     "inputHint": "Enter a Payer address to view actionable channels",
     "withdrawAvailable": "Ready to Withdraw",
     "withdrawReady": "Waiting for Grace Period",
@@ -227,11 +228,18 @@
       "invalidAddress": "This path expects an EVM address: 0x followed by exactly 40 hexadecimal characters.",
       "emptyAsPayer": "No channels where this address is the payer. Try the Payee tab if you expected listings.",
       "emptyAsPayee": "No channels where this address is the payee. Try the Payer tab if you expected listings.",
-      "roleTabsAria": "Channel list role"
+      "roleTabsAria": "Channel list role",
+      "actionableSectionTitle": "Close & withdraw readiness",
+      "actionablePayeeNote": "Withdraw / grace / request-close groupings are only shown when viewing this address as payer. Switch to the Payer tab to see them.",
+      "channelsHeading": "Channels"
     },
     "actionable": {
       "title": "Close & withdraw (payer)",
-      "subtitle": "Indexed TempoStreamChannel rows only: no wallet, no transactions. Lists follow /channels/actions/* APIs."
+      "subtitle": "Shortcut for bookmarks: enter a payer address and press Enter to open the unified address page (Payer tab). Actionable lists and the full channel list are there — read-only indexer data, no wallet.",
+      "seoTitle": "Payer close & withdraw (shortcut)",
+      "seoDescription": "Legacy entry point: enter a payer address to open the unified address view with actionable channel groupings (GET /channels/actions/*). Read-only; no wallet.",
+      "landingHint": "Enter a valid 0x + 40 hex address, then press Enter.",
+      "linkGuide": "Guide & FAQ →"
     },
     "channelDetail": {
       "title": "Channel Detail"
@@ -267,7 +275,7 @@
     "howAnalytics": "Analytics — network KPIs, UTC-bucket time series, rankings, token and contract breakdowns, indexer sync; filters stay in the URL.",
     "howSearch": "Header or Overview search: type a 42-character EVM address (0x + 40 hex) to open the unified address page (Payer tab by default; switch to Payee in-page), or a 66-character channel ID (0x + 64 hex) for channel detail. Legacy URLs /address/payer/… and /address/payee/… redirect to the same page with the matching tab.",
     "howDetail": "Channel detail — payer, payee, token, deposits, status, lifecycle events, balance evolution; links to the block explorer when available.",
-    "howActionable": "Close (nav) / payer — lists channels that are withdraw-ready, in grace, or can request close (read-only indexer /channels/actions/*).",
+    "howActionable": "Payer actionable states (withdraw-available, grace / withdraw-ready, request-close) appear on the unified address page when the Payer tab is selected, plus the legacy shortcut /actionable that jumps there. Read-only indexer /channels/actions/*.",
     "howFinalized": "Channels — switch to Finalized or open /channels?finalized=1; data from GET /channels?c_finalized=1&sort=c_updated_block.",
     "readOnly": "The app is read-only: no wallet connection and no transaction broadcast.",
     "settlementTitle": "Settlement (high level)",
@@ -287,7 +295,7 @@
       "qAnalytics": "What is under Analytics?",
       "qSearch": "How do I search by address or channel ID?",
       "qDetail": "What does a channel detail page include?",
-      "qActionable": "What does the Close (payer) navigation entry show?",
+      "qActionable": "Where are payer “actionable” channel lists?",
       "qFinalized": "How do I browse finalized channels?",
       "groupOther": "Read-only scope and settlement",
       "qReadOnly": "Can I connect a wallet or broadcast transactions here?",

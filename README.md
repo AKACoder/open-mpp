@@ -30,7 +30,7 @@ This repository contains **the frontend only** (`web/`). The indexing service th
 | **Partner analytics** `/analytics/payer/:addr`, `/analytics/payee/:addr` | Summary + payer event time series (with row-limit error UX); query params for chain / dates / bucket. |
 | **Address lists** `/address/:addr` + `?role=payer` or `?role=payee` | Paginated payer or payee channel lists (tabs; legacy `/address/payer/:addr` and `/address/payee/:addr` redirect here). |
 | **Channel detail** `/channel/:id` | Metadata, **events summary**, lifecycle timeline, balance history, on-chain storage note, tx hash links. |
-| **Actionable** `/actionable` | Payer address → grouped actionable channels (read-only). |
+| **Actionable** `/actionable` | Legacy shortcut: enter payer address → **`/address/:addr?role=payer`** (actionable sections + full list, read-only). |
 | **Finalized** `/channels?finalized=1` | Paginated finalized channels (legacy path `/finalized` redirects here). |
 | **Guide** `/guide` | On-chain-only scope; no voucher / 402 replay claims. |
 

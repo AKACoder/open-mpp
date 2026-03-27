@@ -18,7 +18,7 @@ const GUIDE_DESC =
   "Guide and FAQ: what Open MPP shows on-chain versus off-chain HTTP payment flows; Tempo, MPP, and TempoStreamChannel; how to use Overview, channels (including finalized view), analytics, search, and read-only scope; settlement in brief.";
 
 const ACTIONABLE_DESC =
-  "Read-only payer view of TempoStreamChannel actionable states: withdraw-available, withdraw-ready (grace), or request-close — from indexer /channels/actions/*; no wallet or broadcasts.";
+  "Shortcut: enter a payer address to open the unified address page with actionable TempoStreamChannel groupings (indexer /channels/actions/*); read-only, no wallet.";
 
 const CHANNEL_DESC =
   "Inspect a single TempoStreamChannel: deposits, status, lifecycle events, and balance evolution on Tempo.";

@@ -115,9 +115,9 @@ export default function ChannelsList() {
           : t("pages.channelsList.subtitle")}
       </p>
 
-      <div className="mt-4 flex max-w-2xl flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
+      <div className="mt-4 flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
         <div
-          className="inline-flex h-9 rounded-lg border border-slate-200 bg-slate-50 p-0.5 text-xs font-medium dark:border-zinc-700 dark:bg-zinc-900"
+          className="inline-flex h-9 shrink-0 self-start rounded-lg border border-slate-200 bg-slate-50 p-0.5 text-xs font-medium dark:border-zinc-700 dark:bg-zinc-900"
           role="group"
           aria-label={t("channels.filterScopeAria")}
         >
@@ -147,7 +147,7 @@ export default function ChannelsList() {
           </button>
         </div>
 
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex w-full flex-wrap items-center justify-end gap-x-3 gap-y-2 sm:w-auto sm:shrink-0">
           {lastUpdated ? (
             <span className="text-xs text-slate-500 dark:text-zinc-500">
               {t("channels.lastUpdated", { time: lastUpdated })}
@@ -157,22 +157,24 @@ export default function ChannelsList() {
             type="button"
             onClick={() => void handleCopyPageTsv()}
             disabled={isLoading || pageRows.length === 0}
+            title={t("channels.copyPageTsvAria")}
             aria-label={t("channels.copyPageTsvAria")}
-            className="inline-flex h-9 min-h-11 shrink-0 items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 disabled:opacity-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800 sm:min-h-9"
+            className="inline-flex size-11 shrink-0 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 transition-colors hover:bg-slate-50 disabled:opacity-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800 sm:size-9"
           >
-            <ClipboardCopy className="size-4" />
-            {t("channels.copyPageTsv")}
+            <ClipboardCopy className="size-4" aria-hidden />
           </button>
           <button
             type="button"
             onClick={() => refetch()}
             disabled={isLoading}
-            className="inline-flex h-9 min-h-11 shrink-0 items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 disabled:opacity-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800 sm:min-h-9"
+            title={t("channels.refreshList")}
+            aria-label={t("channels.refreshList")}
+            className="inline-flex size-11 shrink-0 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 transition-colors hover:bg-slate-50 disabled:opacity-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800 sm:size-9"
           >
             <RefreshCw
               className={clsx("size-4", isLoading && "animate-spin")}
+              aria-hidden
             />
-            {t("channels.refreshList")}
           </button>
         </div>
       </div>

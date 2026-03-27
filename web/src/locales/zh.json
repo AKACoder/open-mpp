@@ -75,7 +75,28 @@
     "breakdownByToken": "按代币",
     "breakdownByContract": "按合约",
     "breakdownContractNeedChain": "请在筛选条中选择链（或等待链元数据加载）以查看按合约拆分。",
-    "colContract": "合约"
+    "colContract": "合约",
+    "metricsGlossaryTitle": "指标说明",
+    "indexerNotRealtime": "展示的是索引器视角的数据，不一定等于链尖最新出块；区块与通道行可能滞后。",
+    "indexerSyncLoading": "正在加载索引同步高度…",
+    "indexerSyncErrorShort": "无法从 /meta/sync 读取各链已同步高度；若摘要接口返回，KPI 仍可能显示汇总高度。",
+    "indexerSyncSelectedChain": "链 {{chain}} 索引已处理至区块 {{height}}（来源 /meta/sync）。",
+    "indexerSyncAllChains": "各链已同步高度（索引器）：{{list}}",
+    "glossary": {
+      "amountsNote": "代币数量类（托管、结算 delta、通道排行取值）按 6 位小数的定长小数展示（与这些接口中 TIP-20 余额的链上口径一致）。通道数、事件数等为整数。",
+      "remainingEscrowTerm": "剩余托管",
+      "remainingEscrowBody": "未终结通道中仍锁定的资金，按代币合约地址汇总。在索引数据中，通道在到达终态前均视为未终结。",
+      "settlementVolumeTerm": "结算量（delta 合计）",
+      "settlementVolumeBody": "时间窗口内，已索引通道更新中结算变动（delta）之和，单位与链上结算记账一致（一般为通道代币）。时间序列上的可选代币筛选将合计限制为单一代币。",
+      "bucketUtcTerm": "桶起点（UTC）",
+      "bucketUtcBody": "时间序列按小时或天聚合；桶标签为后端返回的区间起点（UTC）。",
+      "eventsByNameTerm": "按合约事件名",
+      "eventsByNameBody": "桶或摘要窗口内，按 Solidity 事件名计次的索引日志（如 TempoStreamChannel 及索引器跟踪的相关事件）。",
+      "syncedHeightTerm": "已同步高度",
+      "syncedHeightBody": "索引器已为该链成功处理到的最新区块高度（/meta/sync 或摘要内嵌字段）。可作为新鲜度上界——高于该高度的数据尚未进入索引。",
+      "rankingMetricTerm": "通道排行指标",
+      "rankingMetricBody": "通道榜按已结算额或存款（接口字段）排序，展示时均按 6 位小数的代币定长金额解释。"
+    }
   },
   "status": {
     "open": "活跃",
@@ -161,6 +182,8 @@
     "analytics": {
       "title": "分析",
       "subtitle": "网络级 KPI、时间序列、排行榜与索引同步。筛选条件与 URL 同步，便于分享。",
+      "seoTitle": "分析",
+      "seoDescription": "Tempo 上 MPP / TempoStreamChannel 的链上 Session 分析：活跃与已终结通道数、按代币的托管、时间序列、排行榜、代币与合约维度拆分及索引同步情况——只读。",
       "syncTitle": "索引同步",
       "chainsTitle": "链",
       "colChain": "链 ID",
@@ -183,6 +206,9 @@
     "analyticsPartner": {
       "payerTitle": "付款方分析",
       "payeeTitle": "收款方分析",
+      "seoTitlePayer": "付款方分析 · {{short}}",
+      "seoTitlePayee": "收款方分析 · {{short}}",
+      "seoDescription": "按地址汇总的 TempoStreamChannel 分析：活跃与已终结数量、剩余托管，以及（付款方）分桶事件量——基于索引器，只读。",
       "openCount": "活跃通道",
       "finalizedCount": "已终结通道",
       "remainingEscrow": "剩余托管（未终结通道）",

@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import type { AnalyticsSummary } from "../../types/analytics";
+import { formatAmount, formatIntegerString } from "../../utils/format";
 
 interface Props {
   summary: AnalyticsSummary | undefined;
@@ -33,7 +34,9 @@ export default function SummaryRangePanel({ summary }: Props) {
             {t("analytics.eventsInRange")}
           </p>
           <p className="mt-1 font-mono text-lg tabular-nums">
-            {summary.event_count_in_range ?? "—"}
+            {summary.event_count_in_range != null
+              ? formatIntegerString(summary.event_count_in_range)
+              : "—"}
           </p>
         </div>
         <div>
@@ -41,7 +44,9 @@ export default function SummaryRangePanel({ summary }: Props) {
             {t("analytics.settlementVolumeInRange")}
           </p>
           <p className="mt-1 font-mono text-lg tabular-nums">
-            {summary.settlement_volume_in_range ?? "—"}
+            {summary.settlement_volume_in_range != null
+              ? formatAmount(summary.settlement_volume_in_range)
+              : "—"}
           </p>
         </div>
       </div>
@@ -58,7 +63,7 @@ export default function SummaryRangePanel({ summary }: Props) {
               >
                 <span className="text-slate-600 dark:text-zinc-400">{name}</span>{" "}
                 <span className="tabular-nums text-slate-900 dark:text-zinc-100">
-                  {count}
+                  {formatIntegerString(count)}
                 </span>
               </li>
             ))}

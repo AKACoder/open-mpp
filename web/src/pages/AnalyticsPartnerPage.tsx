@@ -1,4 +1,7 @@
 import { useMemo } from "react";
+import SeoHead from "../components/seo/SeoHead";
+import IndexerFreshnessNote from "../components/analytics/IndexerFreshnessNote";
+import AnalyticsMetricsGlossary from "../components/analytics/AnalyticsMetricsGlossary";
 import { useTranslation } from "react-i18next";
 import {
   Link,
@@ -12,12 +15,12 @@ import {
   useAnalyticsPayerSummary,
   useAnalyticsPayerTimeseriesEvents,
 } from "../hooks/useAnalytics";
-import { useMetaChains } from "../hooks/useMeta";
+import { useMetaChains, useMetaSync } from "../hooks/useMeta";
 import BackButton from "../components/ui/BackButton";
 import ErrorState from "../components/ui/ErrorState";
 import LoadingState from "../components/ui/LoadingState";
 import PayerEventsTimeseries from "../components/analytics/PayerEventsTimeseries";
-import { formatAmount } from "../utils/format";
+import { formatAmount, shortenAddress } from "../utils/format";
 import type { AnalyticsTimeseriesBucket } from "../types/analytics";
 import {
   timeseriesSliceFromSearchParams,
@@ -44,6 +47,12 @@ export default function AnalyticsPartnerPage() {
   };
 
   const chainsQuery = useMetaChains();
+  const syncQuery = useMetaSync();
+
+  const shortAddr = useMemo(
+    () => (address ? shortenAddress(address, 6) : ""),
+    [address],
+  );
 
   const payerParams = useMemo(
     () => ({ c_chain_id: chainId }),
@@ -87,6 +96,15 @@ export default function AnalyticsPartnerPage() {
 
   return (
     <div>
+      <SeoHead
+        title={
+          variant === "payer"
+            ? t("pages.analyticsPartner.seoTitlePayer", { short: shortAddr })
+            : t("pages.analyticsPartner.seoTitlePayee", { short: shortAddr })
+        }
+        description={t("pages.analyticsPartner.seoDescription")}
+        path={pathname}
+      />
       <div className="flex items-center gap-3">
         <BackButton />
         <h1 className="text-2xl font-semibold tracking-tight">
@@ -99,6 +117,16 @@ export default function AnalyticsPartnerPage() {
       <div className="mt-4 font-mono text-sm text-slate-600 dark:text-zinc-400">
         {address}
       </div>
+
+      <IndexerFreshnessNote
+        className="mt-4"
+        syncRows={syncQuery.data}
+        isLoading={syncQuery.isLoading}
+        loadError={!!syncQuery.error}
+        chainId={chainId}
+      />
+
+      <AnalyticsMetricsGlossary className="mt-4" />
 
       <div className="mt-4 flex flex-wrap items-end gap-4">
         <label className="text-xs font-medium text-slate-500 dark:text-zinc-400">

@@ -75,7 +75,28 @@
     "breakdownByToken": "By token",
     "breakdownByContract": "By contract",
     "breakdownContractNeedChain": "Select a chain in the filter bar (or ensure chain metadata loaded) to load contract breakdown.",
-    "colContract": "Contract"
+    "colContract": "Contract",
+    "metricsGlossaryTitle": "How to read these metrics",
+    "indexerNotRealtime": "Figures reflect the indexer, not necessarily the live chain tip. Blocks and channel rows can lag behind real-time.",
+    "indexerSyncLoading": "Loading indexer sync heights…",
+    "indexerSyncErrorShort": "Could not load per-chain synced heights from /meta/sync; KPIs may still show a summary height when the API provides it.",
+    "indexerSyncSelectedChain": "Indexer processed through block {{height}} on chain {{chain}} (from /meta/sync).",
+    "indexerSyncAllChains": "Per-chain synced heights (indexer): {{list}}",
+    "glossary": {
+      "amountsNote": "Token amounts (escrow, settlement deltas, channel ranking totals) are displayed as fixed-point values with 6 fractional digits (same on-chain convention as TIP-20 balances in these APIs). Counts (channels, events) are integers.",
+      "remainingEscrowTerm": "Remaining escrow",
+      "remainingEscrowBody": "Sum of funds still locked in channels that are not finalized, grouped by token contract address. A channel is “open” from the indexer’s perspective until it reaches a finalized state in the indexed data.",
+      "settlementVolumeTerm": "Settlement volume (delta sum)",
+      "settlementVolumeBody": "In a time window, sum of settlement deltas across indexed channel updates (same units as on-chain settlement accounting—typically the channel token). The optional token filter on the settlement time series restricts sums to one token.",
+      "bucketUtcTerm": "Bucket start (UTC)",
+      "bucketUtcBody": "Time-series rows are grouped into hour or day buckets. The bucket label is the interval start in UTC returned by the backend.",
+      "eventsByNameTerm": "Events by contract event name",
+      "eventsByNameBody": "Counts of indexed contract events in a bucket or summary window, keyed by Solidity event name from TempoStreamChannel (and related logs the indexer tracks).",
+      "syncedHeightTerm": "Synced height",
+      "syncedHeightBody": "Latest block height the indexer has successfully processed for a chain (from /meta/sync or embedded in summary). Use it as a freshness bound—data above this height is not reflected yet.",
+      "rankingMetricTerm": "Channel ranking metric",
+      "rankingMetricBody": "Channel leaderboard rows sort by either settled amount or deposit (API field), both interpreted as token fixed-point amounts with 6 fractional digits for display."
+    }
   },
   "status": {
     "open": "Open",
@@ -161,6 +182,8 @@
     "analytics": {
       "title": "Analytics",
       "subtitle": "Network-level KPIs, time series, rankings, and indexer sync. Filters sync with the URL for sharing.",
+      "seoTitle": "Analytics",
+      "seoDescription": "On-chain session analytics for MPP / TempoStreamChannel on Tempo: active and finalized channels, escrow by token, time series, rankings, contract and token breakdowns, and indexer sync—read-only.",
       "syncTitle": "Indexer sync",
       "chainsTitle": "Chains",
       "colChain": "Chain ID",
@@ -183,6 +206,9 @@
     "analyticsPartner": {
       "payerTitle": "Payer analytics",
       "payeeTitle": "Payee analytics",
+      "seoTitlePayer": "Payer analytics · {{short}}",
+      "seoTitlePayee": "Payee analytics · {{short}}",
+      "seoDescription": "Address-scoped analytics for TempoStreamChannel on Tempo: open and finalized counts, remaining escrow, and (for payers) event volume buckets—indexer-backed, read-only.",
       "openCount": "Open channels",
       "finalizedCount": "Finalized channels",
       "remainingEscrow": "Remaining escrow (open channels)",

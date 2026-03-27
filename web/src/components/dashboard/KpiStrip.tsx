@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { formatAmount, shortenAddress } from "../../utils/format";
+import { formatAmount, formatIntegerString, shortenAddress } from "../../utils/format";
 import type { AnalyticsSummary } from "../../types/analytics";
 import LoadingState from "../ui/LoadingState";
 
@@ -37,7 +37,7 @@ export default function KpiStrip({
           {t("kpi.activeChannels")}
         </p>
         <p className="mt-1 font-mono text-2xl font-semibold tabular-nums text-slate-900 dark:text-zinc-100">
-          {summary.active_channel_count}
+          {formatIntegerString(summary.active_channel_count)}
         </p>
       </div>
       <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900/40">
@@ -45,7 +45,7 @@ export default function KpiStrip({
           {t("kpi.finalizedChannels")}
         </p>
         <p className="mt-1 font-mono text-2xl font-semibold tabular-nums text-slate-900 dark:text-zinc-100">
-          {summary.finalized_channel_count}
+          {formatIntegerString(summary.finalized_channel_count)}
         </p>
       </div>
       <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm sm:col-span-2 lg:col-span-1 dark:border-zinc-800 dark:bg-zinc-900/40">

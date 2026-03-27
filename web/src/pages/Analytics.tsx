@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams, useLocation } from "react-router-dom";
 import { useAnalyticsSummary } from "../hooks/useAnalytics";
 import { useMetaChains, useMetaSync } from "../hooks/useMeta";
 import KpiStrip from "../components/dashboard/KpiStrip";
@@ -18,9 +18,14 @@ import {
   filtersFromSearchParams,
   filtersToSearchParams,
 } from "../utils/analyticsUrlState";
+import { formatIntegerString } from "../utils/format";
+import SeoHead from "../components/seo/SeoHead";
+import AnalyticsMetricsGlossary from "../components/analytics/AnalyticsMetricsGlossary";
+import IndexerFreshnessNote from "../components/analytics/IndexerFreshnessNote";
 
 export default function Analytics() {
   const { t } = useTranslation();
+  const { pathname } = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const filters = useMemo(
     () => filtersFromSearchParams(searchParams),
@@ -54,18 +59,33 @@ export default function Analytics() {
   const syncedHeightLabel =
     summaryQuery.data?.synced_height != null
       ? t("analytics.syncedHeightKpi", {
-          height: summaryQuery.data.synced_height,
+          height: formatIntegerString(summaryQuery.data.synced_height),
         })
       : undefined;
 
   return (
     <div>
+      <SeoHead
+        title={t("pages.analytics.seoTitle")}
+        description={t("pages.analytics.seoDescription")}
+        path={pathname}
+      />
       <h1 className="text-2xl font-semibold tracking-tight">
         {t("pages.analytics.title")}
       </h1>
       <p className="mt-2 max-w-2xl text-sm text-slate-600 dark:text-zinc-400">
         {t("pages.analytics.subtitle")}
       </p>
+
+      <IndexerFreshnessNote
+        className="mt-4"
+        syncRows={syncQuery.data}
+        isLoading={syncQuery.isLoading}
+        loadError={!!syncQuery.error}
+        chainId={filters.chainId}
+      />
+
+      <AnalyticsMetricsGlossary className="mt-4" />
 
       <div className="mt-6">
         <AnalyticsFilterBar

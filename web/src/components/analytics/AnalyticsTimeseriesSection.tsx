@@ -6,6 +6,7 @@ import {
 } from "../../hooks/useAnalytics";
 import type { AnalyticsAppliedFilters } from "./AnalyticsFilterBar";
 import LoadingState from "../ui/LoadingState";
+import { formatAmount, formatIntegerString } from "../../utils/format";
 import ErrorState from "../ui/ErrorState";
 
 interface Props {
@@ -46,7 +47,10 @@ export default function AnalyticsTimeseriesSection({ filters }: Props) {
         error={opened.error}
         onRetry={() => opened.refetch()}
         headers={[t("analytics.colBucket"), t("analytics.colChannelOpens")]}
-        rows={(opened.data ?? []).map((r) => [r.bucket_start, r.channel_open_count])}
+        rows={(opened.data ?? []).map((r) => [
+          r.bucket_start,
+          formatIntegerString(r.channel_open_count),
+        ])}
       />
       <TimeseriesEventsTable
         title={t("analytics.tsEvents")}
@@ -61,7 +65,10 @@ export default function AnalyticsTimeseriesSection({ filters }: Props) {
         error={volume.error}
         onRetry={() => volume.refetch()}
         headers={[t("analytics.colBucket"), t("analytics.colDeltaSum")]}
-        rows={(volume.data ?? []).map((r) => [r.bucket_start, r.sum_c_delta])}
+        rows={(volume.data ?? []).map((r) => [
+          r.bucket_start,
+          formatAmount(r.sum_c_delta),
+        ])}
       />
     </div>
   );
@@ -181,7 +188,8 @@ function TimeseriesEventsTable({
                   {r.bucket_start}
                 </span>
                 <span className="font-mono text-sm tabular-nums">
-                  {t("analytics.colTotalEvents")}: {r.event_count}
+                  {t("analytics.colTotalEvents")}:{" "}
+                  {formatIntegerString(r.event_count)}
                 </span>
               </div>
               <ul className="mt-2 flex flex-wrap gap-1.5 text-xs">
@@ -191,7 +199,7 @@ function TimeseriesEventsTable({
                     className="rounded bg-slate-100 px-1.5 py-0.5 dark:bg-zinc-800"
                   >
                     <span className="text-slate-600 dark:text-zinc-400">{k}</span>{" "}
-                    {v}
+                    {formatIntegerString(v)}
                   </li>
                 ))}
               </ul>

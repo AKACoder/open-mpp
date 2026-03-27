@@ -12,7 +12,7 @@ const CHANNELS_DESC =
   "Paginated list of all indexed TempoStreamChannel rows on Tempo—deposits, status, payer and payee, for MPP Session flows.";
 
 const ANALYTICS_DESC =
-  "Session on-chain analytics: active and finalized channel counts, remaining escrow by token, indexer sync height and chains—Tempo / MPP explorer.";
+  "Session on-chain analytics for TempoStreamChannel: KPIs, UTC-bucketed time series, rankings, token/contract breakdowns, indexer sync—MPP on Tempo, read-only. Partner routes: payer/payee address views.";
 
 const GUIDE_DESC =
   "What Tempo and Machine Payments Protocol (MPP) are, how MPP Sessions use TempoStreamChannel on Tempo, how to read channel status here, and how settlement relates to close and grace periods.";

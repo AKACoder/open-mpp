@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, type KeyboardEvent } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
   Activity,
@@ -23,14 +23,25 @@ const NAV_ITEMS = [
     end: false,
     ariaKey: "nav.closeNavAria",
   },
-  { to: "/finalized", key: "nav.finalized", end: false },
+  { to: "/channels?finalized=1", key: "nav.finalized", end: false },
   { to: "/guide", key: "nav.guide", end: false },
 ] as const;
+
+function channelsNavActive(
+  pathname: string,
+  search: string,
+  mode: "all" | "finalized",
+): boolean {
+  if (pathname !== "/channels") return false;
+  const fin = new URLSearchParams(search).get("finalized") === "1";
+  return mode === "all" ? !fin : fin;
+}
 
 export default function Header() {
   const { t, i18n } = useTranslation();
   const { theme, toggle: toggleTheme } = useTheme();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -67,6 +78,14 @@ export default function Header() {
         : "text-slate-600 hover:text-slate-900 dark:text-zinc-400 dark:hover:text-zinc-100",
     );
 
+  const mobileNavLinkClass = ({ isActive }: { isActive: boolean }) =>
+    clsx(
+      "block rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+      isActive
+        ? "bg-accent/10 text-accent"
+        : "text-slate-600 hover:bg-slate-100 dark:text-zinc-400 dark:hover:bg-zinc-800",
+    );
+
   const iconBtn =
     "flex size-9 items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-700 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-200";
 
@@ -94,19 +113,39 @@ export default function Header() {
           className="hidden items-center gap-4 lg:gap-5 xl:gap-6 md:flex"
           aria-label="Main"
         >
-          {NAV_ITEMS.map((item) => (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              end={item.end}
-              className={navLinkClass}
-              {...("ariaKey" in item && item.ariaKey
-                ? { "aria-label": t(item.ariaKey) }
-                : {})}
-            >
-              {t(item.key)}
-            </NavLink>
-          ))}
+          {NAV_ITEMS.map((item) => {
+            const channelNavMode =
+              item.to === "/channels"
+                ? ("all" as const)
+                : item.to === "/channels?finalized=1"
+                  ? ("finalized" as const)
+                  : null;
+            const resolvedActive =
+              channelNavMode !== null
+                ? channelsNavActive(
+                    location.pathname,
+                    location.search,
+                    channelNavMode,
+                  )
+                : null;
+            return (
+              <NavLink
+                key={item.key}
+                to={item.to}
+                end={item.end}
+                className={
+                  resolvedActive !== null
+                    ? () => navLinkClass({ isActive: resolvedActive })
+                    : navLinkClass
+                }
+                {...("ariaKey" in item && item.ariaKey
+                  ? { "aria-label": t(item.ariaKey) }
+                  : {})}
+              >
+                {t(item.key)}
+              </NavLink>
+            );
+          })}
         </nav>
 
         <div className="flex-1" />
@@ -248,27 +287,40 @@ export default function Header() {
           aria-label="Mobile"
         >
           <div className="space-y-1 px-4 py-3">
-            {NAV_ITEMS.map((item) => (
-              <NavLink
-                key={item.to}
-                to={item.to}
-                end={item.end}
-                onClick={() => setMobileMenuOpen(false)}
-                {...("ariaKey" in item && item.ariaKey
-                  ? { "aria-label": t(item.ariaKey) }
-                  : {})}
-                className={({ isActive }) =>
-                  clsx(
-                    "block rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
-                    isActive
-                      ? "bg-accent/10 text-accent"
-                      : "text-slate-600 hover:bg-slate-100 dark:text-zinc-400 dark:hover:bg-zinc-800",
-                  )
-                }
-              >
-                {t(item.key)}
-              </NavLink>
-            ))}
+            {NAV_ITEMS.map((item) => {
+              const channelNavMode =
+                item.to === "/channels"
+                  ? ("all" as const)
+                  : item.to === "/channels?finalized=1"
+                    ? ("finalized" as const)
+                    : null;
+              const resolvedActive =
+                channelNavMode !== null
+                  ? channelsNavActive(
+                      location.pathname,
+                      location.search,
+                      channelNavMode,
+                    )
+                  : null;
+              return (
+                <NavLink
+                  key={item.key}
+                  to={item.to}
+                  end={item.end}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={
+                    resolvedActive !== null
+                      ? () => mobileNavLinkClass({ isActive: resolvedActive })
+                      : mobileNavLinkClass
+                  }
+                  {...("ariaKey" in item && item.ariaKey
+                    ? { "aria-label": t(item.ariaKey) }
+                    : {})}
+                >
+                  {t(item.key)}
+                </NavLink>
+              );
+            })}
           </div>
         </nav>
       )}

@@ -172,6 +172,13 @@
     "requestWithdraw": "可申请关闭",
     "noChannels": "该状态下暂无通道"
   },
+  "channels": {
+    "filterAll": "全部",
+    "filterFinalized": "已终结",
+    "filterScopeAria": "通道列表范围",
+    "refreshList": "刷新",
+    "lastUpdated": "更新于 {{time}}"
+  },
   "pages": {
     "home": {
       "title": "概览",
@@ -182,7 +189,13 @@
     },
     "channelsList": {
       "title": "全部通道",
-      "subtitle": "分页展示每条已索引通道的当前状态。点击行可查看详情：生命周期事件与资金演进。"
+      "subtitle": "分页展示每条已索引通道的当前状态。点击行可查看详情：生命周期事件与资金演进。",
+      "titleFinalized": "已终结通道",
+      "subtitleFinalized": "分页展示在索引数据中已达终态的通道。数据与独立接口 GET /channels/finalized 一致。",
+      "seoTitleAll": "全部通道",
+      "seoTitleFinalized": "已终结通道",
+      "seoDescAll": "分页展示 Tempo 上已索引的 TempoStreamChannel — 存款、状态、付款方与收款方，用于 MPP Session 流程。",
+      "seoDescFinalized": "分页展示 Tempo 上已终结的 TempoStreamChannel — 结算后的通道终态记录。"
     },
     "analytics": {
       "title": "分析",
@@ -202,9 +215,6 @@
     "actionable": {
       "title": "关单与提现（付款方）",
       "subtitle": "仅展示索引库中的 TempoStreamChannel；不连接钱包、不发送交易。列表与 /channels/actions/* 接口一致。"
-    },
-    "finalized": {
-      "title": "已终结通道"
     },
     "channelDetail": {
       "title": "通道详情"
@@ -241,7 +251,7 @@
     "howSearch": "顶栏或概览搜索 — 付款方地址或 66 字符通道 ID（0x + 64 hex）。按收款方筛选请使用路径 /address/payee/ 加地址。",
     "howDetail": "通道详情 — 收付方、代币、存款与状态、生命周期事件、资金演进；可跳转浏览器查看交易。",
     "howActionable": "导航「关单」/ 付款方 — 列表对应可提现、宽限或可申请关单等状态（只读，接口 /channels/actions/*）。",
-    "howFinalized": "已终结 — 已达终态通道的历史浏览。",
+    "howFinalized": "通道列表 — 可切换「已终结」或打开 /channels?finalized=1，浏览终态通道分页（与索引 GET /channels/finalized 一致）。",
     "readOnly": "应用为只读：不连接钱包、不广播交易。",
     "settlementTitle": "结算（概要）",
     "settlementBody": "通道存续期间，价值按协议规则流动，并非每次微调都上链。结算与生命周期绑定：关单或过期将把约定余额落实到链上；关单请求后可能存在宽限期。具体规则以 Tempo 与合约为准；界面展示的是索引中的状态、事件与余额。",

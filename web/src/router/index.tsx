@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import AppLayout from "../components/layout/AppLayout";
 import Home from "../pages/Home";
 import ChannelsList from "../pages/ChannelsList";
@@ -6,7 +6,6 @@ import Analytics from "../pages/Analytics";
 import AnalyticsPartnerPage from "../pages/AnalyticsPartnerPage";
 import AddressView from "../pages/AddressView";
 import Actionable from "../pages/Actionable";
-import Finalized from "../pages/Finalized";
 import ChannelDetail from "../pages/ChannelDetail";
 import GuidePage from "../pages/GuidePage";
 
@@ -22,7 +21,10 @@ export const router = createBrowserRouter([
       { path: "analytics", element: <Analytics /> },
       { path: "address/:type/:address", element: <AddressView /> },
       { path: "actionable", element: <Actionable /> },
-      { path: "finalized", element: <Finalized /> },
+      {
+        path: "finalized",
+        element: <Navigate to="/channels?finalized=1" replace />,
+      },
       { path: "guide", element: <GuidePage /> },
       { path: "channel/:id", element: <ChannelDetail /> },
     ],

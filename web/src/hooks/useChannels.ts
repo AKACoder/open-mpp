@@ -58,19 +58,29 @@ export function useChannelMeta(
   });
 }
 
-export function useAllChannels(page = 1, pageSize = 20) {
+export function useAllChannels(
+  page = 1,
+  pageSize = 20,
+  options?: Partial<UseQueryOptions<PaginatedResponse<Channel>>>,
+) {
   return useQuery<PaginatedResponse<Channel>>({
     queryKey: channelKeys.list(page, pageSize),
     queryFn: () => getAllChannels(page, pageSize),
     placeholderData: keepPreviousData,
+    ...options,
   });
 }
 
-export function useFinalizedChannels(page = 1, pageSize = 20) {
+export function useFinalizedChannels(
+  page = 1,
+  pageSize = 20,
+  options?: Partial<UseQueryOptions<PaginatedResponse<Channel>>>,
+) {
   return useQuery<PaginatedResponse<Channel>>({
     queryKey: channelKeys.finalized(page, pageSize),
     queryFn: () => getFinalizedChannels(page, pageSize),
     placeholderData: keepPreviousData,
+    ...options,
   });
 }
 

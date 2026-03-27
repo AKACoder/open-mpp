@@ -25,13 +25,13 @@ This repository contains **the frontend only** (`web/`). The indexing service th
 | Area | Capabilities |
 |------|----------------|
 | **Overview** `/` | Network KPIs (from `/analytics/summary`), payer/payee-scoped quick search, links to channels / analytics / guide. |
-| **Channels** `/channels` | Paginated all channels; row → detail. |
+| **Channels** `/channels` | Paginated all channels; row → detail. **Finalized-only** view: `/channels?finalized=1` (same page; `GET /channels/finalized`). |
 | **Analytics** `/analytics` | URL-synced filters (`chain`, `from`, `to`, `bucket`, optional settlement token, summary window); KPIs, optional range metrics, three UTC-bucket time series, rankings, token/contract breakdowns, `/meta/sync` table, **metric definitions** (collapsible), **non-real-time** disclaimer. |
 | **Partner analytics** `/analytics/payer/:addr`, `/analytics/payee/:addr` | Summary + payer event time series (with row-limit error UX); query params for chain / dates / bucket. |
 | **Address lists** `/address/payer|payee/:addr` | Paginated channel lists. |
 | **Channel detail** `/channel/:id` | Metadata, **events summary**, lifecycle timeline, balance history, on-chain storage note, tx hash links. |
 | **Actionable** `/actionable` | Payer address → grouped actionable channels (read-only). |
-| **Finalized** `/finalized` | Paginated finalized channels. |
+| **Finalized** `/channels?finalized=1` | Paginated finalized channels (legacy path `/finalized` redirects here). |
 | **Guide** `/guide` | On-chain-only scope; no voucher / 402 replay claims. |
 
 **Internationalization:** English and Chinese (`web/src/locales`).
@@ -88,7 +88,7 @@ Manual sign-off target (see `todo/session-onchain-analytics-product-plan.md` §6
 |-----------|--------|
 | **3-minute path** | Overview → search or analytics → channel detail: primary nav and QuickSearch cover this path. |
 | **No misleading copy** | Guide + glossary + Session tooltip state on-chain vs off-chain boundaries. |
-| **Pagination** | Payer/payee/actionable/finalized/rankings use `PaginatedResponse` + UI pagination. |
+| **Pagination** | Payer/payee/actionable lists, **channels** (all and `?finalized=1`), and rankings use `PaginatedResponse` + UI pagination. |
 | **`c Chain_id` consistency** | Shared filter drives summary, timeseries, rankings, breakdown; partner pages pass `c_chain_id` to summaries and payer TS. |
 
 Re-validate against a live indexer before each release.

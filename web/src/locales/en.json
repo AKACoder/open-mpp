@@ -172,6 +172,13 @@
     "requestWithdraw": "Can Request Close",
     "noChannels": "No channels in this state."
   },
+  "channels": {
+    "filterAll": "All",
+    "filterFinalized": "Finalized",
+    "filterScopeAria": "Channel list scope",
+    "refreshList": "Refresh",
+    "lastUpdated": "Updated {{time}}"
+  },
   "pages": {
     "home": {
       "title": "Overview",
@@ -182,7 +189,13 @@
     },
     "channelsList": {
       "title": "All channels",
-      "subtitle": "Paginated current state for every indexed channel. Click a row for detail: lifecycle events and balance evolution."
+      "subtitle": "Paginated current state for every indexed channel. Click a row for detail: lifecycle events and balance evolution.",
+      "titleFinalized": "Finalized channels",
+      "subtitleFinalized": "Paginated channels that reached a terminal outcome in the indexer. Same API as the standalone GET /channels/finalized endpoint.",
+      "seoTitleAll": "All channels",
+      "seoTitleFinalized": "Finalized channels",
+      "seoDescAll": "Paginated list of all indexed TempoStreamChannel rows on Tempo—deposits, status, payer and payee, for MPP Session flows.",
+      "seoDescFinalized": "Paginated history of finalized TempoStreamChannel contracts on Tempo—payment channel outcomes after settlement."
     },
     "analytics": {
       "title": "Analytics",
@@ -202,9 +215,6 @@
     "actionable": {
       "title": "Close & withdraw (payer)",
       "subtitle": "Indexed TempoStreamChannel rows only: no wallet, no transactions. Lists follow /channels/actions/* APIs."
-    },
-    "finalized": {
-      "title": "Finalized Channels"
     },
     "channelDetail": {
       "title": "Channel Detail"
@@ -241,7 +251,7 @@
     "howSearch": "Header or Overview search — payer address or 66-character channel ID (0x + 64 hex). For payee-scoped lists, use the path /address/payee/ with the payee address.",
     "howDetail": "Channel detail — payer, payee, token, deposits, status, lifecycle events, balance evolution; links to the block explorer when available.",
     "howActionable": "Close (nav) / payer — lists channels that are withdraw-ready, in grace, or can request close (read-only indexer /channels/actions/*).",
-    "howFinalized": "Finalized — historical channels that reached a terminal outcome.",
+    "howFinalized": "Channels — switch to Finalized or open /channels?finalized=1 for terminal-outcome history (indexer GET /channels/finalized).",
     "readOnly": "The app is read-only: no wallet connection and no transaction broadcast.",
     "settlementTitle": "Settlement (high level)",
     "settlementBody": "While a channel is open, value moves under protocol rules without every micro-update on-chain. Settlement aligns with lifecycle: close or expiry brings agreed balances on-chain; a grace period may apply after a close request. Rules come from Tempo and the contracts; the UI shows indexed status, events, and balances.",

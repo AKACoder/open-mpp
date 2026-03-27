@@ -20,9 +20,6 @@ const GUIDE_DESC =
 const ACTIONABLE_DESC =
   "Read-only payer view of TempoStreamChannel actionable states: withdraw-available, withdraw-ready (grace), or request-close — from indexer /channels/actions/*; no wallet or broadcasts.";
 
-const FINALIZED_DESC =
-  "Paginated history of finalized TempoStreamChannel contracts on Tempo—payment channel outcomes after settlement.";
-
 const CHANNEL_DESC =
   "Inspect a single TempoStreamChannel: deposits, status, lifecycle events, and balance evolution on Tempo.";
 
@@ -42,6 +39,7 @@ export function getSeoForPath(pathname: string): {
     };
   }
 
+  // Full list vs finalized-only metadata is set in `ChannelsList` via `SeoHead` (URL `?finalized=1`).
   if (p.startsWith("/channels")) {
     return {
       title: `All Channels — ${SITE_NAME}`,
@@ -81,13 +79,6 @@ export function getSeoForPath(pathname: string): {
     return {
       title: `Payer close & withdraw readiness (read-only) — ${SITE_NAME}`,
       description: ACTIONABLE_DESC,
-    };
-  }
-
-  if (p.startsWith("/finalized")) {
-    return {
-      title: `Finalized Channels — ${SITE_NAME}`,
-      description: FINALIZED_DESC,
     };
   }
 

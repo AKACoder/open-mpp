@@ -196,7 +196,14 @@
     "lastUpdated": "Updated {{time}}",
     "copyPageTsv": "Copy page as TSV",
     "copyPageTsvAria": "Copy current page of channels as tab-separated values",
-    "copyPageTsvFailed": "Could not copy to clipboard."
+    "copyPageTsvFailed": "Could not copy to clipboard.",
+    "filterChain": "Chain",
+    "filterChainAll": "All chains",
+    "filterStatusLegend": "Status",
+    "sortLabel": "Sort",
+    "sortUpdatedAt": "Updated at",
+    "sortCreatedBlock": "Created block",
+    "sortUpdatedBlock": "Updated block"
   },
   "pages": {
     "home": {

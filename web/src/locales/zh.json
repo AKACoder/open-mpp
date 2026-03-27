@@ -196,7 +196,14 @@
     "lastUpdated": "更新于 {{time}}",
     "copyPageTsv": "复制本页为 TSV",
     "copyPageTsvAria": "将当前页的通道列表复制为制表符分隔文本",
-    "copyPageTsvFailed": "无法复制到剪贴板。"
+    "copyPageTsvFailed": "无法复制到剪贴板。",
+    "filterChain": "链",
+    "filterChainAll": "全部链",
+    "filterStatusLegend": "状态",
+    "sortLabel": "排序",
+    "sortUpdatedAt": "按更新时间",
+    "sortCreatedBlock": "按创建区块",
+    "sortUpdatedBlock": "按更新区块"
   },
   "pages": {
     "home": {

@@ -3,6 +3,7 @@ import {
   keepPreviousData,
   type UseQueryOptions,
 } from "@tanstack/react-query";
+import type { ChannelsListFilters } from "../api/channels";
 import {
   getChannelMeta,
   getAllChannels,
@@ -25,11 +26,30 @@ import type {
   ActionType,
 } from "../types/channel";
 
+function stableFiltersKey(f: ChannelsListFilters): string {
+  const entries = Object.entries(f)
+    .filter(([, v]) => v !== undefined && v !== "")
+    .sort(([a], [b]) => a.localeCompare(b));
+  return JSON.stringify(Object.fromEntries(entries as [string, string | number][]));
+}
+
 export const channelKeys = {
   all: ["channels"] as const,
   lists: () => [...channelKeys.all, "list"] as const,
   list: (page: number, pageSize: number) =>
     [...channelKeys.lists(), { page, pageSize }] as const,
+  listFiltered: (
+    page: number,
+    pageSize: number,
+    filters: ChannelsListFilters,
+  ) =>
+    [
+      ...channelKeys.lists(),
+      "filtered",
+      page,
+      pageSize,
+      stableFiltersKey(filters),
+    ] as const,
   byPayer: (payer: string, page: number, pageSize: number) =>
     [...channelKeys.all, "payer", payer, { page, pageSize }] as const,
   byPayee: (payee: string, page: number, pageSize: number) =>
@@ -79,6 +99,21 @@ export function useFinalizedChannels(
   return useQuery<PaginatedResponse<Channel>>({
     queryKey: channelKeys.finalized(page, pageSize),
     queryFn: () => getFinalizedChannels(page, pageSize),
+    placeholderData: keepPreviousData,
+    ...options,
+  });
+}
+
+/** `GET /channels` with optional filters (WO-3.3). */
+export function useFilteredChannels(
+  page: number,
+  pageSize: number,
+  filters: ChannelsListFilters,
+  options?: Partial<UseQueryOptions<PaginatedResponse<Channel>>>,
+) {
+  return useQuery<PaginatedResponse<Channel>>({
+    queryKey: channelKeys.listFiltered(page, pageSize, filters),
+    queryFn: () => getAllChannels(page, pageSize, filters),
     placeholderData: keepPreviousData,
     ...options,
   });

@@ -98,14 +98,9 @@ export default function Header() {
           className="flex min-w-0 shrink-0 items-center gap-2"
         >
           <Activity className="size-5 shrink-0 text-accent" strokeWidth={2} />
-          <div className="min-w-0 leading-tight">
-            <span className="block text-sm font-semibold tracking-tight text-slate-900 dark:text-zinc-100">
-              {t("app.brandName")}
-            </span>
-            <span className="mt-0.5 block truncate text-[10px] font-normal text-slate-500 dark:text-zinc-500 sm:text-[11px] md:max-w-[14rem] lg:max-w-[18rem]">
-              {t("app.brandSubtitle")}
-            </span>
-          </div>
+          <span className="block text-sm font-semibold tracking-tight text-slate-900 dark:text-zinc-100">
+            {t("app.brandName")}
+          </span>
         </NavLink>
 
         {/* Desktop nav */}

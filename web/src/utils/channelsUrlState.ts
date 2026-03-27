@@ -1,6 +1,6 @@
 /**
  * URL query for `/channels` list view (SPA state; not all keys are sent to the API).
- * @see todo/api-contract-channels-list.md — `finalized=1` selects `GET /channels/finalized`.
+ * @see todo/archived/api-contract-channels-list.md — `finalized=1` selects `GET /channels` with `c_finalized=1&sort=c_updated_block`.
  */
 const FINALIZED = "finalized";
 const PAGE = "page";

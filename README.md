@@ -25,7 +25,7 @@ This repository contains **the frontend only** (`web/`). The indexing service th
 | Area | Capabilities |
 |------|----------------|
 | **Overview** `/` | Network KPIs (from `/analytics/summary`), payer/payee-scoped quick search, links to channels / analytics / guide. |
-| **Channels** `/channels` | Paginated all channels; row → detail. **Finalized-only** view: `/channels?finalized=1` (same page; `GET /channels/finalized`). |
+| **Channels** `/channels` | Paginated all channels; row → detail. **Finalized-only** view: `/channels?finalized=1` → `GET /channels?c_finalized=1&sort=c_updated_block`. |
 | **Analytics** `/analytics` | URL-synced filters (`chain`, `from`, `to`, `bucket`, optional settlement token, summary window); KPIs, optional range metrics, three UTC-bucket time series, rankings, token/contract breakdowns, `/meta/sync` table, **metric definitions** (collapsible), **non-real-time** disclaimer. |
 | **Partner analytics** `/analytics/payer/:addr`, `/analytics/payee/:addr` | Summary + payer event time series (with row-limit error UX); query params for chain / dates / bucket. |
 | **Address lists** `/address/payer|payee/:addr` | Paginated channel lists. |

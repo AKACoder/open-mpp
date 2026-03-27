@@ -9,15 +9,45 @@ import type {
   ActionType,
 } from "../types/channel";
 
-/** Channel list + HTTP envelope: see `todo/api-contract-channels-list.md` (D0). */
+/** Channel list + HTTP envelope: see `todo/archived/api-contract-channels-list.md` (D0). */
 export function getChannelMeta() {
   return request.get<unknown, ChannelMeta>("/meta/channel");
 }
 
-/** `GET /channels` — all channels; query today is only `page`, `pageSize`. */
-export function getAllChannels(page = 1, pageSize = 20) {
+export type ChannelsListFilters = {
+  c_chain_id?: number;
+  c_status?: string;
+  c_status_in?: string;
+  c_finalized?: 0 | 1;
+  sort?: string;
+};
+
+function channelsListParams(
+  page: number,
+  pageSize: number,
+  filters?: ChannelsListFilters,
+) {
+  const params: Record<string, string | number> = { page, pageSize };
+  if (!filters) return params;
+  if (filters.c_chain_id !== undefined)
+    params.c_chain_id = filters.c_chain_id;
+  if (filters.c_status !== undefined) params.c_status = filters.c_status;
+  if (filters.c_status_in !== undefined)
+    params.c_status_in = filters.c_status_in;
+  if (filters.c_finalized !== undefined)
+    params.c_finalized = filters.c_finalized;
+  if (filters.sort !== undefined) params.sort = filters.sort;
+  return params;
+}
+
+/** `GET /channels` — optional filters per `.temp/docs/api/endpoints/channels-list.md`. */
+export function getAllChannels(
+  page = 1,
+  pageSize = 20,
+  filters?: ChannelsListFilters,
+) {
   return request.get<unknown, PaginatedResponse<Channel>>("/channels", {
-    params: { page, pageSize },
+    params: channelsListParams(page, pageSize, filters),
   });
 }
 
@@ -65,12 +95,12 @@ export function getChannelBalance(channelId: string) {
   );
 }
 
-/** `GET /channels/finalized` — finalized only (separate path, not a filter on `/channels`). SPA URL uses `?finalized=1` to select this call; see `todo/api-contract-channels-list.md`. */
+/** Same dataset as `GET /channels/finalized` per `.temp/docs` — uses main list with `c_finalized=1` + `sort=c_updated_block`. */
 export function getFinalizedChannels(page = 1, pageSize = 20) {
-  return request.get<unknown, PaginatedResponse<Channel>>(
-    "/channels/finalized",
-    { params: { page, pageSize } },
-  );
+  return getAllChannels(page, pageSize, {
+    c_finalized: 1,
+    sort: "c_updated_block",
+  });
 }
 
 export function getActionableChannels(

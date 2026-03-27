@@ -10,6 +10,8 @@ interface Props {
   /** When set, highlight this chain’s synced height if present in `syncRows`. */
   chainId?: number;
   className?: string;
+  /** Optional a11y name (e.g. home vs analytics page context). */
+  "aria-label"?: string;
 }
 
 export default function IndexerFreshnessNote({
@@ -18,6 +20,7 @@ export default function IndexerFreshnessNote({
   loadError,
   chainId,
   className,
+  "aria-label": ariaLabel,
 }: Props) {
   const { t } = useTranslation();
 
@@ -44,6 +47,7 @@ export default function IndexerFreshnessNote({
 
   return (
     <aside
+      aria-label={ariaLabel}
       className={clsx(
         "rounded-xl border border-amber-200/80 bg-amber-50/90 px-4 py-3 text-xs leading-relaxed text-amber-950 dark:border-amber-900/50 dark:bg-amber-950/30 dark:text-amber-100/90",
         className,

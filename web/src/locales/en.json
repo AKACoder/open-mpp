@@ -172,6 +172,7 @@
     "home": {
       "title": "Overview",
       "subtitle": "Indexer-backed view of TempoStreamChannel: escrow, settlement, and lifecycle for Machine Payments Protocol (MPP) sessions on Tempo—read-only, no wallet.",
+      "indexerFreshnessAria": "Indexer sync height and data freshness (from /meta/sync)",
       "searchSection": "Search",
       "exploreSection": "Explore"
     },

@@ -2,13 +2,16 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { BarChart3, List, BookOpen } from "lucide-react";
 import { useAnalyticsSummary } from "../hooks/useAnalytics";
+import { useMetaSync } from "../hooks/useMeta";
 import KpiStrip from "../components/dashboard/KpiStrip";
 import QuickSearch from "../components/dashboard/QuickSearch";
 import ErrorState from "../components/ui/ErrorState";
+import IndexerFreshnessNote from "../components/analytics/IndexerFreshnessNote";
 
 export default function Home() {
   const { t } = useTranslation();
   const { data: summary, isLoading, error, refetch } = useAnalyticsSummary();
+  const syncQuery = useMetaSync();
 
   return (
     <div>
@@ -24,6 +27,14 @@ export default function Home() {
       >
         {t("session.termShort")}
       </p>
+
+      <IndexerFreshnessNote
+        className="mt-4 max-w-2xl"
+        syncRows={syncQuery.data}
+        isLoading={syncQuery.isLoading}
+        loadError={!!syncQuery.error}
+        aria-label={t("pages.home.indexerFreshnessAria")}
+      />
 
       <div className="mt-6">
         {error ? (

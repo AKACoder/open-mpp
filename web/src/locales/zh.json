@@ -172,6 +172,7 @@
     "home": {
       "title": "概览",
       "subtitle": "基于索引库的 TempoStreamChannel 视图：MPP Session 在 Tempo 上的托管、结算与生命周期——只读，无需连接钱包。",
+      "indexerFreshnessAria": "索引同步高度与数据新鲜度说明（来源 /meta/sync）",
       "searchSection": "检索",
       "exploreSection": "探索"
     },

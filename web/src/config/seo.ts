@@ -49,6 +49,20 @@ export function getSeoForPath(pathname: string): {
     };
   }
 
+  if (p.startsWith("/analytics/payer/")) {
+    return {
+      title: `Payer analytics — ${SITE_NAME}`,
+      description: ANALYTICS_DESC,
+    };
+  }
+
+  if (p.startsWith("/analytics/payee/")) {
+    return {
+      title: `Payee analytics — ${SITE_NAME}`,
+      description: ANALYTICS_DESC,
+    };
+  }
+
   if (p.startsWith("/analytics")) {
     return {
       title: `Analytics — ${SITE_NAME}`,

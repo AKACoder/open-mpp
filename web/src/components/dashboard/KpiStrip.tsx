@@ -6,9 +6,15 @@ import LoadingState from "../ui/LoadingState";
 interface Props {
   summary: AnalyticsSummary | undefined;
   isLoading: boolean;
+  /** From summary API when chain filter matches sync config */
+  syncedHeightLabel?: string;
 }
 
-export default function KpiStrip({ summary, isLoading }: Props) {
+export default function KpiStrip({
+  summary,
+  isLoading,
+  syncedHeightLabel,
+}: Props) {
   const { t } = useTranslation();
 
   if (isLoading && !summary) {
@@ -24,6 +30,7 @@ export default function KpiStrip({ summary, isLoading }: Props) {
   const escrowEntries = Object.entries(summary.remaining_escrow_by_c_token ?? {});
 
   return (
+    <div className="space-y-3">
     <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
       <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900/40">
         <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-zinc-500">
@@ -65,6 +72,12 @@ export default function KpiStrip({ summary, isLoading }: Props) {
           </ul>
         )}
       </div>
+    </div>
+      {syncedHeightLabel ? (
+        <p className="text-xs text-slate-500 dark:text-zinc-500">
+          {syncedHeightLabel}
+        </p>
+      ) : null}
     </div>
   );
 }

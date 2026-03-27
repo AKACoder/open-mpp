@@ -1,18 +1,66 @@
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { useAnalyticsSummary } from "../hooks/useAnalytics";
 import { useMetaChains, useMetaSync } from "../hooks/useMeta";
 import KpiStrip from "../components/dashboard/KpiStrip";
+import AnalyticsFilterBar, {
+  type AnalyticsAppliedFilters,
+} from "../components/analytics/AnalyticsFilterBar";
+import SummaryRangePanel from "../components/analytics/SummaryRangePanel";
+import AnalyticsTimeseriesSection from "../components/analytics/AnalyticsTimeseriesSection";
+import AnalyticsRankingsSection from "../components/analytics/AnalyticsRankingsSection";
+import AnalyticsBreakdownSection from "../components/analytics/AnalyticsBreakdownSection";
 import ErrorState from "../components/ui/ErrorState";
 import LoadingState from "../components/ui/LoadingState";
+import {
+  defaultTimeseriesEnd,
+  defaultTimeseriesStart,
+  summaryRangeParams,
+} from "../utils/analyticsDate";
+
+function initialFilters(): AnalyticsAppliedFilters {
+  return {
+    chainId: undefined,
+    from: defaultTimeseriesStart(7),
+    to: defaultTimeseriesEnd(),
+    bucket: "day",
+    settlementToken: "",
+    useSummaryRange: false,
+  };
+}
 
 export default function Analytics() {
   const { t } = useTranslation();
-  const summaryQuery = useAnalyticsSummary();
+  const [filters, setFilters] = useState<AnalyticsAppliedFilters>(initialFilters);
+
+  const summaryParams = useMemo(() => {
+    const p: {
+      c_chain_id?: number;
+      from?: string;
+      to?: string;
+    } = {};
+    if (filters.chainId != null) p.c_chain_id = filters.chainId;
+    if (filters.useSummaryRange && filters.from && filters.to) {
+      const r = summaryRangeParams(filters.from, filters.to);
+      p.from = r.from;
+      p.to = r.to;
+    }
+    return Object.keys(p).length ? p : undefined;
+  }, [filters.chainId, filters.from, filters.to, filters.useSummaryRange]);
+
+  const summaryQuery = useAnalyticsSummary(summaryParams);
   const chainsQuery = useMetaChains();
   const syncQuery = useMetaSync();
 
   const metaFailed = !!(chainsQuery.error || syncQuery.error);
+
+  const syncedHeightLabel =
+    summaryQuery.data?.synced_height != null
+      ? t("analytics.syncedHeightKpi", {
+          height: summaryQuery.data.synced_height,
+        })
+      : undefined;
 
   return (
     <div>
@@ -24,18 +72,60 @@ export default function Analytics() {
       </p>
 
       <div className="mt-6">
+        <AnalyticsFilterBar
+          chains={chainsQuery.data ?? []}
+          value={filters}
+          onChange={setFilters}
+        />
+      </div>
+
+      <div className="mt-6">
         {summaryQuery.error ? (
           <ErrorState onRetry={() => summaryQuery.refetch()} />
         ) : (
-          <KpiStrip
-            summary={summaryQuery.data}
-            isLoading={summaryQuery.isLoading}
-          />
+          <>
+            <KpiStrip
+              summary={summaryQuery.data}
+              isLoading={summaryQuery.isLoading}
+              syncedHeightLabel={syncedHeightLabel}
+            />
+            <SummaryRangePanel summary={summaryQuery.data} />
+          </>
         )}
       </div>
 
+      <section className="mt-12">
+        <h2 className="text-lg font-semibold tracking-tight">
+          {t("analytics.sectionTimeseries")}
+        </h2>
+        <div className="mt-4">
+          <AnalyticsTimeseriesSection filters={filters} />
+        </div>
+      </section>
+
+      <section className="mt-12">
+        <h2 className="text-lg font-semibold tracking-tight">
+          {t("analytics.sectionRankings")}
+        </h2>
+        <div className="mt-4">
+          <AnalyticsRankingsSection filters={filters} />
+        </div>
+      </section>
+
+      <section className="mt-12">
+        <h2 className="text-lg font-semibold tracking-tight">
+          {t("analytics.sectionBreakdown")}
+        </h2>
+        <div className="mt-4">
+          <AnalyticsBreakdownSection
+            filters={filters}
+            chains={chainsQuery.data ?? []}
+          />
+        </div>
+      </section>
+
       {metaFailed ? (
-        <div className="mt-10">
+        <div className="mt-12">
           <ErrorState
             onRetry={() => {
               chainsQuery.refetch();
@@ -45,7 +135,7 @@ export default function Analytics() {
         </div>
       ) : (
         <>
-          <section className="mt-10">
+          <section className="mt-12">
             <h2 className="text-lg font-semibold tracking-tight">
               {t("pages.analytics.syncTitle")}
             </h2>
@@ -114,7 +204,10 @@ export default function Analytics() {
 
           <p className="mt-10 text-sm text-slate-500 dark:text-zinc-500">
             {t("pages.analytics.phaseBNote")}{" "}
-            <Link to="/channels" className="text-accent underline-offset-2 hover:underline">
+            <Link
+              to="/channels"
+              className="text-accent underline-offset-2 hover:underline"
+            >
               {t("nav.allChannels")}
             </Link>
             .

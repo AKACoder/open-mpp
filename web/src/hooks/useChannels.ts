@@ -11,6 +11,7 @@ import {
   getChannelsByPayee,
   getChannelById,
   getChannelEvents,
+  getChannelEventsSummary,
   getChannelBalance,
   getActionableChannels,
 } from "../api/channels";
@@ -18,6 +19,7 @@ import type {
   Channel,
   ChannelBalance,
   ChannelEvent,
+  ChannelEventsSummary,
   ChannelMeta,
   PaginatedResponse,
   ActionType,
@@ -28,10 +30,10 @@ export const channelKeys = {
   lists: () => [...channelKeys.all, "list"] as const,
   list: (page: number, pageSize: number) =>
     [...channelKeys.lists(), { page, pageSize }] as const,
-  byPayer: (payer: string) =>
-    [...channelKeys.all, "payer", payer] as const,
-  byPayee: (payee: string) =>
-    [...channelKeys.all, "payee", payee] as const,
+  byPayer: (payer: string, page: number, pageSize: number) =>
+    [...channelKeys.all, "payer", payer, { page, pageSize }] as const,
+  byPayee: (payee: string, page: number, pageSize: number) =>
+    [...channelKeys.all, "payee", payee, { page, pageSize }] as const,
   details: () => [...channelKeys.all, "detail"] as const,
   detail: (id: string) => [...channelKeys.details(), id] as const,
   events: (id: string) => [...channelKeys.all, "events", id] as const,
@@ -39,8 +41,10 @@ export const channelKeys = {
   finalized: (page: number, pageSize: number) =>
     [...channelKeys.all, "finalized", { page, pageSize }] as const,
   meta: ["channel-meta"] as const,
-  actionable: (payer: string, action: ActionType) =>
-    [...channelKeys.all, "actionable", action, payer] as const,
+  actionable: (payer: string, action: ActionType, page: number, pageSize: number) =>
+    [...channelKeys.all, "actionable", action, payer, { page, pageSize }] as const,
+  eventsSummary: (id: string) =>
+    [...channelKeys.all, "eventsSummary", id] as const,
 };
 
 export function useChannelMeta(
@@ -70,19 +74,29 @@ export function useFinalizedChannels(page = 1, pageSize = 20) {
   });
 }
 
-export function useChannelsByPayer(payer: string) {
-  return useQuery<Channel[]>({
-    queryKey: channelKeys.byPayer(payer),
-    queryFn: () => getChannelsByPayer(payer),
+export function useChannelsByPayer(
+  payer: string,
+  page = 1,
+  pageSize = 20,
+) {
+  return useQuery<PaginatedResponse<Channel>>({
+    queryKey: channelKeys.byPayer(payer, page, pageSize),
+    queryFn: () => getChannelsByPayer(payer, page, pageSize),
     enabled: !!payer,
+    placeholderData: keepPreviousData,
   });
 }
 
-export function useChannelsByPayee(payee: string) {
-  return useQuery<Channel[]>({
-    queryKey: channelKeys.byPayee(payee),
-    queryFn: () => getChannelsByPayee(payee),
+export function useChannelsByPayee(
+  payee: string,
+  page = 1,
+  pageSize = 20,
+) {
+  return useQuery<PaginatedResponse<Channel>>({
+    queryKey: channelKeys.byPayee(payee, page, pageSize),
+    queryFn: () => getChannelsByPayee(payee, page, pageSize),
     enabled: !!payee,
+    placeholderData: keepPreviousData,
   });
 }
 
@@ -102,6 +116,18 @@ export function useChannelEvents(id: string) {
   });
 }
 
+export function useChannelEventsSummary(
+  id: string,
+  options?: Partial<UseQueryOptions<ChannelEventsSummary>>,
+) {
+  return useQuery({
+    queryKey: channelKeys.eventsSummary(id),
+    queryFn: () => getChannelEventsSummary(id),
+    enabled: !!id,
+    ...options,
+  });
+}
+
 export function useChannelBalance(id: string) {
   return useQuery<ChannelBalance[]>({
     queryKey: channelKeys.balance(id),
@@ -110,10 +136,16 @@ export function useChannelBalance(id: string) {
   });
 }
 
-export function useActionableChannels(payer: string, action: ActionType) {
-  return useQuery<Channel[]>({
-    queryKey: channelKeys.actionable(payer, action),
-    queryFn: () => getActionableChannels(payer, action),
+export function useActionableChannels(
+  payer: string,
+  action: ActionType,
+  page = 1,
+  pageSize = 20,
+) {
+  return useQuery<PaginatedResponse<Channel>>({
+    queryKey: channelKeys.actionable(payer, action, page, pageSize),
+    queryFn: () => getActionableChannels(payer, action, page, pageSize),
     enabled: !!payer,
+    placeholderData: keepPreviousData,
   });
 }

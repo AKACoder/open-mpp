@@ -3,6 +3,7 @@ import type {
   Channel,
   ChannelBalance,
   ChannelEvent,
+  ChannelEventsSummary,
   ChannelMeta,
   PaginatedResponse,
   ActionType,
@@ -18,12 +19,26 @@ export function getAllChannels(page = 1, pageSize = 20) {
   });
 }
 
-export function getChannelsByPayer(payer: string) {
-  return request.get<unknown, Channel[]>(`/channels/payer/${payer}`);
+export function getChannelsByPayer(
+  payer: string,
+  page = 1,
+  pageSize = 20,
+) {
+  return request.get<unknown, PaginatedResponse<Channel>>(
+    `/channels/payer/${payer}`,
+    { params: { page, pageSize } },
+  );
 }
 
-export function getChannelsByPayee(payee: string) {
-  return request.get<unknown, Channel[]>(`/channels/payee/${payee}`);
+export function getChannelsByPayee(
+  payee: string,
+  page = 1,
+  pageSize = 20,
+) {
+  return request.get<unknown, PaginatedResponse<Channel>>(
+    `/channels/payee/${payee}`,
+    { params: { page, pageSize } },
+  );
 }
 
 export function getChannelById(channelId: string) {
@@ -33,6 +48,12 @@ export function getChannelById(channelId: string) {
 export function getChannelEvents(channelId: string) {
   return request.get<unknown, ChannelEvent[]>(
     `/channels/${channelId}/events`,
+  );
+}
+
+export function getChannelEventsSummary(channelId: string) {
+  return request.get<unknown, ChannelEventsSummary>(
+    `/channels/${channelId}/events/summary`,
   );
 }
 
@@ -49,8 +70,14 @@ export function getFinalizedChannels(page = 1, pageSize = 20) {
   );
 }
 
-export function getActionableChannels(payer: string, action: ActionType) {
-  return request.get<unknown, Channel[]>(
+export function getActionableChannels(
+  payer: string,
+  action: ActionType,
+  page = 1,
+  pageSize = 20,
+) {
+  return request.get<unknown, PaginatedResponse<Channel>>(
     `/channels/actions/${action}/${payer}`,
+    { params: { page, pageSize } },
   );
 }

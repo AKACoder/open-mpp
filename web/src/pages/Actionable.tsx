@@ -5,6 +5,7 @@ import { clsx } from "clsx";
 import { useActionableChannels } from "../hooks/useChannels";
 import ChannelList from "../components/channel/ChannelList";
 import EmptyState from "../components/ui/EmptyState";
+import Pagination from "../components/ui/Pagination";
 
 const STORAGE_KEY = "payer_address";
 
@@ -70,6 +71,8 @@ export default function Actionable() {
   );
 }
 
+const ACTION_PAGE_SIZE = 20;
+
 function ActionSection({
   payer,
   action,
@@ -84,8 +87,15 @@ function ActionSection({
   highlight?: boolean;
 }) {
   const { t } = useTranslation();
-  const { data, isLoading } = useActionableChannels(payer, action);
-  const count = data?.length ?? 0;
+  const [page, setPage] = useState(1);
+  const { data, isLoading } = useActionableChannels(
+    payer,
+    action,
+    page,
+    ACTION_PAGE_SIZE,
+  );
+  const count = data?.total ?? 0;
+  const totalPages = data ? Math.ceil(data.total / ACTION_PAGE_SIZE) : 0;
 
   return (
     <section
@@ -115,10 +125,21 @@ function ActionSection({
       </div>
 
       <ChannelList
-        channels={data ?? []}
+        channels={data?.data ?? []}
         isLoading={isLoading}
         emptyMessage={t("actionable.noChannels")}
       />
+      {totalPages > 1 && (
+        <div className="mt-4">
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            onPageChange={(p) => {
+              setPage(p);
+            }}
+          />
+        </div>
+      )}
     </section>
   );
 }

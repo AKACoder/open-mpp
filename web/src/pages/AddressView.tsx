@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { useChannelsByPayer, useChannelsByPayee } from "../hooks/useChannels";
@@ -5,19 +6,37 @@ import BackButton from "../components/ui/BackButton";
 import ChannelList from "../components/channel/ChannelList";
 import ErrorState from "../components/ui/ErrorState";
 import AddressWithCopy from "../components/channel/AddressWithCopy";
+import Pagination from "../components/ui/Pagination";
+
+const PAGE_SIZE = 20;
 
 export default function AddressView() {
   const { t } = useTranslation();
+  const [page, setPage] = useState(1);
   const { type = "payer", address = "" } = useParams<{
     type: string;
     address: string;
   }>();
 
-  const payerQuery = useChannelsByPayer(type === "payer" ? address : "");
-  const payeeQuery = useChannelsByPayee(type === "payee" ? address : "");
+  const payerQuery = useChannelsByPayer(
+    type === "payer" ? address : "",
+    page,
+    PAGE_SIZE,
+  );
+  const payeeQuery = useChannelsByPayee(
+    type === "payee" ? address : "",
+    page,
+    PAGE_SIZE,
+  );
 
   const query = type === "payee" ? payeeQuery : payerQuery;
   const { data, isLoading, error, refetch } = query;
+
+  useEffect(() => {
+    setPage(1);
+  }, [type, address]);
+
+  const totalPages = data ? Math.ceil(data.total / PAGE_SIZE) : 0;
 
   return (
     <div>
@@ -38,9 +57,26 @@ export default function AddressView() {
       {error ? (
         <ErrorState onRetry={() => refetch()} />
       ) : (
-        <div className="mt-6">
-          <ChannelList channels={data ?? []} isLoading={isLoading} />
-        </div>
+        <>
+          <div className="mt-6">
+            <ChannelList
+              channels={data?.data ?? []}
+              isLoading={isLoading}
+            />
+          </div>
+          {totalPages > 1 && (
+            <div className="mt-6">
+              <Pagination
+                currentPage={page}
+                totalPages={totalPages}
+                onPageChange={(p) => {
+                  setPage(p);
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }}
+              />
+            </div>
+          )}
+        </>
       )}
     </div>
   );

@@ -55,6 +55,15 @@ export interface PaginatedResponse<T> {
   total: number;
 }
 
+/** GET /channels/:channel_id/events/summary */
+export interface ChannelEventsSummary {
+  event_counts: Record<string, number>;
+  min_c_block_number: number | null;
+  max_c_block_number: number | null;
+  min_c_block_timestamp: string | null;
+  max_c_block_timestamp: string | null;
+}
+
 export type ActionType =
   | "request-withdraw"
   | "withdraw-ready"

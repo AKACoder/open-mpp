@@ -19,9 +19,13 @@
     "guide": "Guide"
   },
   "search": {
-    "placeholder": "Payer address or channel ID (0x + 64 hex)…",
-    "aria": "Search by payer address or channel ID",
-    "payeeHint": "Payee-scoped list: open /address/payee/0x… (replace with the payee address)."
+    "placeholder": "Address or channel ID (0x + 64 hex)…",
+    "placeholderHeader": "Address or channel ID…",
+    "aria": "Search by address or channel ID",
+    "rolePayer": "Payer",
+    "rolePayee": "Payee",
+    "roleGroupAria": "Address list scope",
+    "quickSearchHint": "Choose Payer or Payee, then enter an address for that role’s channel list. A 0x… + 64 hex value opens the channel detail page."
   },
   "kpi": {
     "activeChannels": "Active channels",
@@ -127,7 +131,13 @@
     "lifecycle": "Lifecycle Events",
     "balanceHistory": "Balance Evolution",
     "noEvents": "No lifecycle events recorded.",
-    "noBalance": "No balance updates recorded yet."
+    "noBalance": "No balance updates recorded yet.",
+    "onChainStorageNote": "Channel state and events come from the indexer (on-chain contracts). Finalization and balances shown here reflect what is stored and derived from the chain, not off-chain HTTP payment steps.",
+    "eventsSummaryTitle": "Events summary",
+    "eventsSummaryEmpty": "No event statistics for this channel yet.",
+    "eventsSummaryError": "Could not load event summary.",
+    "eventsSummaryBlockRange": "Block range",
+    "eventsSummaryTimeRange": "Timestamp range"
   },
   "actionable": {
     "inputPlaceholder": "Enter your Payer Address…",
@@ -150,7 +160,7 @@
     },
     "analytics": {
       "title": "Analytics",
-      "subtitle": "Network-level counts and indexer sync. Charts and time ranges will extend this page in a later release.",
+      "subtitle": "Network-level KPIs, time series, rankings, and indexer sync. Filters sync with the URL for sharing.",
       "syncTitle": "Indexer sync",
       "chainsTitle": "Chains",
       "colChain": "Chain ID",

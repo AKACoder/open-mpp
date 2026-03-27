@@ -3,8 +3,7 @@ import { Copy, Check, ExternalLink } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { shortenAddress } from "../../utils/format";
-
-const EXPLORER_BASE = "https://explore.tempo.xyz/tx";
+import { EXPLORER_TX_URL_BASE } from "../../config/explorer";
 
 interface Props {
   hash: string;
@@ -48,7 +47,7 @@ export default function TxHashLink({ hash, chars = 6, className }: Props) {
         )}
       </button>
       <a
-        href={`${EXPLORER_BASE}/${hash}`}
+        href={`${EXPLORER_TX_URL_BASE}/${hash}`}
         target="_blank"
         rel="noopener noreferrer"
         onClick={(e) => e.stopPropagation()}

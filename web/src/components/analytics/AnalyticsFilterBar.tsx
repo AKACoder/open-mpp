@@ -1,16 +1,12 @@
 import { useTranslation } from "react-i18next";
 import type { ChainMetadataRow } from "../../types/meta";
-import type { AnalyticsTimeseriesBucket } from "../../types/analytics";
+import type {
+  AnalyticsAppliedFilters,
+  AnalyticsTimeseriesBucket,
+} from "../../types/analytics";
 import { clsx } from "clsx";
 
-export interface AnalyticsAppliedFilters {
-  chainId: number | undefined;
-  from: string;
-  to: string;
-  bucket: AnalyticsTimeseriesBucket;
-  settlementToken: string;
-  useSummaryRange: boolean;
-}
+export type { AnalyticsAppliedFilters };
 
 interface Props {
   chains: ChainMetadataRow[];

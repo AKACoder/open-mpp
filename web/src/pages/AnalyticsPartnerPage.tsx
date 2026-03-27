@@ -1,6 +1,11 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, useLocation, useParams } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { isAxiosError } from "axios";
 import {
   useAnalyticsPayeeSummary,
@@ -13,11 +18,12 @@ import ErrorState from "../components/ui/ErrorState";
 import LoadingState from "../components/ui/LoadingState";
 import PayerEventsTimeseries from "../components/analytics/PayerEventsTimeseries";
 import { formatAmount } from "../utils/format";
-import {
-  defaultTimeseriesEnd,
-  defaultTimeseriesStart,
-} from "../utils/analyticsDate";
 import type { AnalyticsTimeseriesBucket } from "../types/analytics";
+import {
+  timeseriesSliceFromSearchParams,
+  timeseriesSliceToSearchParams,
+  type AnalyticsTimeseriesSlice,
+} from "../utils/analyticsUrlState";
 
 export default function AnalyticsPartnerPage() {
   const { t } = useTranslation();
@@ -25,11 +31,19 @@ export default function AnalyticsPartnerPage() {
   const { address = "" } = useParams<{ address: string }>();
   const variant = pathname.includes("/analytics/payee/") ? "payee" : "payer";
 
+  const [searchParams, setSearchParams] = useSearchParams();
+  const tsSlice = useMemo(
+    () => timeseriesSliceFromSearchParams(searchParams),
+    [searchParams],
+  );
+  const { chainId, from, to, bucket } = tsSlice;
+
+  const setTsSlice = (patch: Partial<AnalyticsTimeseriesSlice>) => {
+    const next: AnalyticsTimeseriesSlice = { ...tsSlice, ...patch };
+    setSearchParams(timeseriesSliceToSearchParams(next), { replace: true });
+  };
+
   const chainsQuery = useMetaChains();
-  const [chainId, setChainId] = useState<number | undefined>(undefined);
-  const [from, setFrom] = useState(() => defaultTimeseriesStart(7));
-  const [to, setTo] = useState(() => defaultTimeseriesEnd());
-  const [bucket, setBucket] = useState<AnalyticsTimeseriesBucket>("day");
 
   const payerParams = useMemo(
     () => ({ c_chain_id: chainId }),
@@ -93,7 +107,9 @@ export default function AnalyticsPartnerPage() {
             value={chainId ?? ""}
             onChange={(e) => {
               const v = e.target.value;
-              setChainId(v === "" ? undefined : Number(v));
+              setTsSlice({
+                chainId: v === "" ? undefined : Number(v),
+              });
             }}
             className="ml-2 h-9 rounded-lg border border-slate-200 bg-white px-2 text-sm dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
           >
@@ -161,7 +177,7 @@ export default function AnalyticsPartnerPage() {
               <input
                 type="date"
                 value={from}
-                onChange={(e) => setFrom(e.target.value)}
+                onChange={(e) => setTsSlice({ from: e.target.value })}
                 className="h-9 rounded-lg border border-slate-200 bg-white px-2 text-sm dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
               />
             </label>
@@ -170,7 +186,7 @@ export default function AnalyticsPartnerPage() {
               <input
                 type="date"
                 value={to}
-                onChange={(e) => setTo(e.target.value)}
+                onChange={(e) => setTsSlice({ to: e.target.value })}
                 className="h-9 rounded-lg border border-slate-200 bg-white px-2 text-sm dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
               />
             </label>
@@ -179,7 +195,9 @@ export default function AnalyticsPartnerPage() {
               <select
                 value={bucket}
                 onChange={(e) =>
-                  setBucket(e.target.value as AnalyticsTimeseriesBucket)
+                  setTsSlice({
+                    bucket: e.target.value as AnalyticsTimeseriesBucket,
+                  })
                 }
                 className="h-9 rounded-lg border border-slate-200 bg-white px-2 text-sm dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
               >

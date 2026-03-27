@@ -2,7 +2,7 @@
 
 **Channel Explorer** is a read-only web frontend for visualizing indexed state of **TempoStreamChannel** contracts on the **Tempo** network. These channels are used by **MPP Session** flows: they can be **opened with top-ups**, **reused for many payments while still open**, and closed when settlement is due—supporting **real-time payment with deferred settlement** and a **prepaid-style** funding model. That design is a natural fit for **high-frequency machine-to-machine payments** and other flows where latency and UX matter.
 
-The UI presents channel lifecycle, balances, and events in a clear, explorer-style layout. There is **no wallet connection** and **no on-chain writes**—only browsing and inspection.
+The UI presents channel lifecycle, balances, on-chain events, and **session-oriented analytics** (network KPIs, time series, rankings, address-scoped summaries) in an explorer-style layout. There is **no wallet connection** and **no on-chain writes**—only browsing and inspection.
 
 This repository contains **the frontend only**. The indexing service that powers the live app is not open-sourced.
 
@@ -25,10 +25,11 @@ This repository contains **the frontend only**. The indexing service that powers
 ## What you can do
 
 - **Browse** all channels and **paginated** finalized channels.
-- **Search** by address (payer view) or **channel ID** (66-character `0x…` hash).
-- **Open a channel detail** page: metadata, lifecycle timeline, and balance snapshots.
+- **Search** by address with an explicit **payer vs payee** scope, or by **channel ID** (66-character `0x…` hash).
+- **Open a channel detail** page: metadata, **events summary**, lifecycle timeline, and balance snapshots.
+- **`/analytics`** with **URL-synced filters** (chain, date range, bucket, optional settlement token); **`/analytics/payer|payee/:address`** for partner views.
 - **Payer-focused “Actionable” view** when you paste a payer address: groupings for withdraw-ready, waiting (with grace countdown), and channels where you can request close.
-- **Copy** channel IDs and hashes; **open transaction hashes** on the public Tempo explorer where linked.
+- **Copy** channel IDs and hashes; **open transaction hashes** on a configurable explorer base (`VITE_EXPLORER_TX_URL`, default Tempo explore tx URL).
 
 Internationalization: **English** and **Chinese** UI.
 

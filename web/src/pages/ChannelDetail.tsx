@@ -12,6 +12,7 @@ import LoadingState from "../components/ui/LoadingState";
 import EmptyState from "../components/ui/EmptyState";
 import ErrorState from "../components/ui/ErrorState";
 import ChannelBasicInfo from "../components/channel/ChannelBasicInfo";
+import ChannelEventsSummaryPanel from "../components/channel/ChannelEventsSummaryPanel";
 import ChannelTimeline from "../components/channel/ChannelTimeline";
 import ChannelBalanceHistory from "../components/channel/ChannelBalanceHistory";
 import SeoHead from "../components/seo/SeoHead";
@@ -59,6 +60,8 @@ export default function ChannelDetail() {
           />
           <div className="mt-6 space-y-8">
             <ChannelBasicInfo channel={channel} />
+
+            <ChannelEventsSummaryPanel channelId={id} />
 
             <section>
               <h2 className="mb-4 text-lg font-semibold tracking-tight">

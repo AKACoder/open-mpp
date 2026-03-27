@@ -62,6 +62,10 @@ export default function ChannelBasicInfo({ channel }: Props) {
         </div>
       </div>
 
+      <p className="mt-4 text-xs leading-relaxed text-slate-500 dark:text-zinc-500">
+        {t("detail.onChainStorageNote")}
+      </p>
+
       {/* Grid fields */}
       <dl className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
         <InfoField label={t("detail.deposit")}>

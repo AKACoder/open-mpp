@@ -1,6 +1,6 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useAnalyticsSummary } from "../hooks/useAnalytics";
 import { useMetaChains, useMetaSync } from "../hooks/useMeta";
 import KpiStrip from "../components/dashboard/KpiStrip";
@@ -13,26 +13,22 @@ import AnalyticsRankingsSection from "../components/analytics/AnalyticsRankingsS
 import AnalyticsBreakdownSection from "../components/analytics/AnalyticsBreakdownSection";
 import ErrorState from "../components/ui/ErrorState";
 import LoadingState from "../components/ui/LoadingState";
+import { summaryRangeParams } from "../utils/analyticsDate";
 import {
-  defaultTimeseriesEnd,
-  defaultTimeseriesStart,
-  summaryRangeParams,
-} from "../utils/analyticsDate";
-
-function initialFilters(): AnalyticsAppliedFilters {
-  return {
-    chainId: undefined,
-    from: defaultTimeseriesStart(7),
-    to: defaultTimeseriesEnd(),
-    bucket: "day",
-    settlementToken: "",
-    useSummaryRange: false,
-  };
-}
+  filtersFromSearchParams,
+  filtersToSearchParams,
+} from "../utils/analyticsUrlState";
 
 export default function Analytics() {
   const { t } = useTranslation();
-  const [filters, setFilters] = useState<AnalyticsAppliedFilters>(initialFilters);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const filters = useMemo(
+    () => filtersFromSearchParams(searchParams),
+    [searchParams],
+  );
+  const setFilters = (next: AnalyticsAppliedFilters) => {
+    setSearchParams(filtersToSearchParams(next), { replace: true });
+  };
 
   const summaryParams = useMemo(() => {
     const p: {

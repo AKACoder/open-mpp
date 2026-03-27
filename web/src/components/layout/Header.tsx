@@ -30,6 +30,7 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchRole, setSearchRole] = useState<"payer" | "payee">("payer");
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -46,7 +47,7 @@ export default function Header() {
     if (/^0x[0-9a-fA-F]{64}$/.test(q)) {
       navigate(`/channel/${q}`);
     } else {
-      navigate(`/address/payer/${q}`);
+      navigate(`/address/${searchRole}/${q}`);
     }
     setSearchQuery("");
     setSearchOpen(false);
@@ -92,16 +93,48 @@ export default function Header() {
         <div className="flex-1" />
 
         {/* Desktop search */}
-        <div className="relative hidden md:block">
-          <Search className="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-slate-400 dark:text-zinc-500" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyDown={handleSearch}
-            placeholder={t("search.placeholder")}
-            className="h-8 w-64 rounded-lg border border-slate-200 bg-slate-50 pl-9 pr-3 text-sm text-slate-900 placeholder-slate-400 outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder-zinc-500 dark:focus:border-accent"
-          />
+        <div className="hidden items-center gap-2 md:flex">
+          <div
+            className="flex h-8 shrink-0 rounded-lg border border-slate-200 bg-slate-50 p-0.5 text-xs font-medium dark:border-zinc-700 dark:bg-zinc-900"
+            role="group"
+            aria-label={t("search.roleGroupAria")}
+          >
+            <button
+              type="button"
+              onClick={() => setSearchRole("payer")}
+              className={clsx(
+                "rounded-md px-2 py-1 transition-colors",
+                searchRole === "payer"
+                  ? "bg-white text-slate-900 shadow-sm dark:bg-zinc-800 dark:text-zinc-100"
+                  : "text-slate-500 hover:text-slate-800 dark:text-zinc-400 dark:hover:text-zinc-200",
+              )}
+            >
+              {t("search.rolePayer")}
+            </button>
+            <button
+              type="button"
+              onClick={() => setSearchRole("payee")}
+              className={clsx(
+                "rounded-md px-2 py-1 transition-colors",
+                searchRole === "payee"
+                  ? "bg-white text-slate-900 shadow-sm dark:bg-zinc-800 dark:text-zinc-100"
+                  : "text-slate-500 hover:text-slate-800 dark:text-zinc-400 dark:hover:text-zinc-200",
+              )}
+            >
+              {t("search.rolePayee")}
+            </button>
+          </div>
+          <div className="relative">
+            <Search className="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-slate-400 dark:text-zinc-500" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={handleSearch}
+              placeholder={t("search.placeholderHeader")}
+              className="h-8 w-56 rounded-lg border border-slate-200 bg-slate-50 pl-9 pr-3 text-sm text-slate-900 placeholder-slate-400 outline-none transition-colors focus:border-accent focus:ring-1 focus:ring-accent dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder-zinc-500 dark:focus:border-accent lg:w-64"
+            />
+          </div>
         </div>
 
         {/* Mobile search toggle */}
@@ -143,7 +176,37 @@ export default function Header() {
 
       {/* Mobile search bar */}
       {searchOpen && (
-        <div className="border-t border-slate-200 px-4 py-2 md:hidden dark:border-zinc-800">
+        <div className="space-y-2 border-t border-slate-200 px-4 py-2 md:hidden dark:border-zinc-800">
+          <div
+            className="flex h-9 rounded-lg border border-slate-200 bg-slate-50 p-0.5 text-xs font-medium dark:border-zinc-700 dark:bg-zinc-900"
+            role="group"
+            aria-label={t("search.roleGroupAria")}
+          >
+            <button
+              type="button"
+              onClick={() => setSearchRole("payer")}
+              className={clsx(
+                "flex-1 rounded-md py-1 transition-colors",
+                searchRole === "payer"
+                  ? "bg-white text-slate-900 shadow-sm dark:bg-zinc-800 dark:text-zinc-100"
+                  : "text-slate-500 dark:text-zinc-400",
+              )}
+            >
+              {t("search.rolePayer")}
+            </button>
+            <button
+              type="button"
+              onClick={() => setSearchRole("payee")}
+              className={clsx(
+                "flex-1 rounded-md py-1 transition-colors",
+                searchRole === "payee"
+                  ? "bg-white text-slate-900 shadow-sm dark:bg-zinc-800 dark:text-zinc-100"
+                  : "text-slate-500 dark:text-zinc-400",
+              )}
+            >
+              {t("search.rolePayee")}
+            </button>
+          </div>
           <div className="relative">
             <Search className="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-slate-400 dark:text-zinc-500" />
             <input
@@ -152,7 +215,7 @@ export default function Header() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyDown={handleSearch}
-              placeholder={t("search.placeholder")}
+              placeholder={t("search.placeholderHeader")}
               className="h-9 w-full rounded-lg border border-slate-200 bg-slate-50 pl-9 pr-3 text-sm text-slate-900 placeholder-slate-400 outline-none focus:border-accent focus:ring-1 focus:ring-accent dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:placeholder-zinc-500 dark:focus:border-accent"
             />
           </div>

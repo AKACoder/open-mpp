@@ -76,3 +76,13 @@ export interface PartnerSummary {
 }
 
 export type AnalyticsTimeseriesBucket = "hour" | "day";
+
+/** Shared analytics page filter shape (UI + URL query). */
+export interface AnalyticsAppliedFilters {
+  chainId: number | undefined;
+  from: string;
+  to: string;
+  bucket: AnalyticsTimeseriesBucket;
+  settlementToken: string;
+  useSummaryRange: boolean;
+}

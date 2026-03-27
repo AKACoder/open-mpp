@@ -19,9 +19,13 @@
     "guide": "指南"
   },
   "search": {
-    "placeholder": "Payer 地址或通道 ID（0x + 64 位 hex）…",
-    "aria": "按付款方地址或通道 ID 搜索",
-    "payeeHint": "按收款方浏览：请打开路径 /address/payee/ 并附上收款方地址。"
+    "placeholder": "地址或通道 ID（0x + 64 位 hex）…",
+    "placeholderHeader": "地址或通道 ID…",
+    "aria": "按地址或通道 ID 搜索",
+    "rolePayer": "付款方",
+    "rolePayee": "收款方",
+    "roleGroupAria": "地址列表范围",
+    "quickSearchHint": "先选付款方或收款方，再输入对应角色的地址打开列表。若为 0x… 且 64 位 hex，则打开通道详情页。"
   },
   "kpi": {
     "activeChannels": "活跃通道数",
@@ -127,7 +131,13 @@
     "lifecycle": "生命周期事件",
     "balanceHistory": "资金演进",
     "noEvents": "暂无生命周期事件记录",
-    "noBalance": "暂无资金变动记录"
+    "noBalance": "暂无资金变动记录",
+    "onChainStorageNote": "通道状态与事件由索引器从链上合约同步。此处展示的终结与余额反映链上存储与派生结果，不包含链下 HTTP 支付步骤。",
+    "eventsSummaryTitle": "事件汇总",
+    "eventsSummaryEmpty": "该通道暂无事件统计。",
+    "eventsSummaryError": "无法加载事件汇总。",
+    "eventsSummaryBlockRange": "区块范围",
+    "eventsSummaryTimeRange": "时间戳范围"
   },
   "actionable": {
     "inputPlaceholder": "输入你的 Payer 地址…",
@@ -150,7 +160,7 @@
     },
     "analytics": {
       "title": "分析",
-      "subtitle": "网络级汇总与索引同步进度。时间序列等图表能力将在后续版本扩展此页。",
+      "subtitle": "网络级 KPI、时间序列、排行榜与索引同步。筛选条件与 URL 同步，便于分享。",
       "syncTitle": "索引同步",
       "chainsTitle": "链",
       "colChain": "链 ID",

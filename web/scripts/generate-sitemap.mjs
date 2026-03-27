@@ -15,6 +15,8 @@ const site = (process.env.VITE_SITE_URL ?? "https://open-mpp.akacoder.net").repl
 
 const paths = [
   { loc: "/", priority: "1.0", changefreq: "weekly" },
+  { loc: "/channels", priority: "0.95", changefreq: "weekly" },
+  { loc: "/analytics", priority: "0.9", changefreq: "weekly" },
   { loc: "/guide", priority: "0.9", changefreq: "monthly" },
   { loc: "/actionable", priority: "0.8", changefreq: "weekly" },
   { loc: "/finalized", priority: "0.8", changefreq: "weekly" },

@@ -1,7 +1,7 @@
 {
   "app": {
-    "title": "Channel Explorer",
-    "description": "可视化查看 MPP Session 浏览器"
+    "title": "Open MPP Explorer",
+    "description": "Tempo 上 MPP / TempoStreamChannel 的链上资金与通道生命周期"
   },
   "common": {
     "loading": "加载中…",
@@ -11,13 +11,26 @@
     "copied": "已复制到剪贴板"
   },
   "nav": {
-    "allChannels": "全部通道",
+    "overview": "概览",
+    "allChannels": "通道列表",
+    "analytics": "分析",
     "actionable": "待操作",
     "finalized": "已终结",
     "guide": "指南"
   },
   "search": {
-    "placeholder": "搜索地址 / 通道 ID…"
+    "placeholder": "Payer 地址或通道 ID（0x + 64 位 hex）…",
+    "aria": "按付款方地址或通道 ID 搜索",
+    "payeeHint": "按收款方浏览：请打开路径 /address/payee/ 并附上收款方地址。"
+  },
+  "kpi": {
+    "activeChannels": "活跃通道数",
+    "finalizedChannels": "已终结通道数",
+    "remainingEscrow": "剩余托管（按代币）"
+  },
+  "session": {
+    "termShort": "此处「Session」指 MPP Session 在链上的体现：TempoStreamChannel 中的托管、结算与终态——不包括每一次链下 HTTP 支付步骤。",
+    "termTooltip": "链上事实单元是支付通道（channelId）。累加 voucher 与 HTTP 402 等流程在链下，本站不展示。"
   },
   "status": {
     "open": "活跃",
@@ -85,7 +98,24 @@
   },
   "pages": {
     "home": {
-      "title": "全部通道"
+      "title": "概览",
+      "subtitle": "基于索引库的 TempoStreamChannel 视图：MPP Session 在 Tempo 上的托管、结算与生命周期——只读，无需连接钱包。",
+      "searchSection": "检索",
+      "exploreSection": "探索"
+    },
+    "channelsList": {
+      "title": "全部通道",
+      "subtitle": "分页展示每条已索引通道的当前状态。点击行可查看详情：生命周期事件与资金演进。"
+    },
+    "analytics": {
+      "title": "分析",
+      "subtitle": "网络级汇总与索引同步进度。时间序列等图表能力将在后续版本扩展此页。",
+      "syncTitle": "索引同步",
+      "chainsTitle": "链",
+      "colChain": "链 ID",
+      "colSyncedHeight": "已同步高度",
+      "colContracts": "合约",
+      "phaseBNote": "单通道与分页列表请使用"
     },
     "addressView": {
       "title": "地址视图"
@@ -99,6 +129,30 @@
     "channelDetail": {
       "title": "通道详情"
     }
+  },
+  "guide": {
+    "title": "Open MPP Explorer — 指南",
+    "intro": "说明 Tempo 上 MPP Session 如何借助 TempoStreamChannel 完成托管与结算、本站展示的范围（仅限链上），以及各入口用途。",
+    "onchainTitle": "仅链上：不含链下 HTTP 支付界面",
+    "onchainLead": "本站反映索引后的链上事实：通道表、合约事件与衍生余额。不展示 HTTP 402、Payment-Authorization 头、按请求的 voucher、SSE 回执等链下会话机制。单次 API「会话」除非体现在通道状态或链上事件中，否则无法在此回放。",
+    "tempoTitle": "Tempo、MPP 与 TempoStreamChannel",
+    "tempoP1a": "Tempo",
+    "tempoP1b": "是面向大规模支付的 L1（含稳定币与机器支付等场景）。",
+    "tempoP2a": "MPP（Machine Payments Protocol）",
+    "tempoP2b": "定义机器到机器的支付（例如按 API 调用计费）。本站所说的「MPP Session」指通过链上 TempoStreamChannel 协调价值的流程。",
+    "tempoP3": "通道可开仓、充值，并在存续期内复用——类似预付托管——结清可推迟到关单或终态。",
+    "howTitle": "如何使用本站",
+    "howOverview": "概览 — 核心 KPI（活跃/已终结数量、剩余托管）与快捷检索。",
+    "howChannels": "通道列表 — 全量分页列表。",
+    "howAnalytics": "分析 — 同步高度、链信息，后续将扩展时间序列等。",
+    "howSearch": "顶栏或概览搜索 — 付款方地址或 66 字符通道 ID（0x + 64 hex）。按收款方筛选请使用路径 /address/payee/ 加地址。",
+    "howDetail": "通道详情 — 收付方、代币、存款与状态、生命周期事件、资金演进；可跳转浏览器查看交易。",
+    "howActionable": "待操作（付款方）— 可按关单/宽限/可提现等维度分组（只读提示）。",
+    "howFinalized": "已终结 — 已达终态通道的历史浏览。",
+    "readOnly": "应用为只读：不连接钱包、不广播交易。",
+    "settlementTitle": "结算（概要）",
+    "settlementBody": "通道存续期间，价值按协议规则流动，并非每次微调都上链。结算与生命周期绑定：关单或过期将把约定余额落实到链上；关单请求后可能存在宽限期。具体规则以 Tempo 与合约为准；界面展示的是索引中的状态、事件与余额。",
+    "backChannels": "全部通道"
   },
   "footer": {
     "powered": "由链下索引器驱动",

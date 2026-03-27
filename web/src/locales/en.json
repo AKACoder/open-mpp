@@ -1,7 +1,7 @@
 {
   "app": {
-    "title": "Channel Explorer",
-    "description": "Visualize and inspect MPP Session channel states"
+    "title": "Open MPP Explorer",
+    "description": "On-chain session funding and channel lifecycle on Tempo (MPP / TempoStreamChannel)"
   },
   "common": {
     "loading": "Loading…",
@@ -11,13 +11,26 @@
     "copied": "Copied to clipboard"
   },
   "nav": {
-    "allChannels": "All Channels",
+    "overview": "Overview",
+    "allChannels": "Channels",
+    "analytics": "Analytics",
     "actionable": "Actionable",
     "finalized": "Finalized",
     "guide": "Guide"
   },
   "search": {
-    "placeholder": "Search Address / Channel ID…"
+    "placeholder": "Payer address or channel ID (0x + 64 hex)…",
+    "aria": "Search by payer address or channel ID",
+    "payeeHint": "Payee-scoped list: open /address/payee/0x… (replace with the payee address)."
+  },
+  "kpi": {
+    "activeChannels": "Active channels",
+    "finalizedChannels": "Finalized channels",
+    "remainingEscrow": "Remaining escrow (by token)"
+  },
+  "session": {
+    "termShort": "Here, “session” means the on-chain footprint of MPP Session flows: escrow in a TempoStreamChannel, settlement, and finality—not each off-chain HTTP payment step.",
+    "termTooltip": "On-chain unit is the payment channel (channelId). Incremental vouchers and HTTP 402 flows are off-chain and are not shown in this explorer."
   },
   "status": {
     "open": "Open",
@@ -85,7 +98,24 @@
   },
   "pages": {
     "home": {
-      "title": "All Channels"
+      "title": "Overview",
+      "subtitle": "Indexer-backed view of TempoStreamChannel: escrow, settlement, and lifecycle for Machine Payments Protocol (MPP) sessions on Tempo—read-only, no wallet.",
+      "searchSection": "Search",
+      "exploreSection": "Explore"
+    },
+    "channelsList": {
+      "title": "All channels",
+      "subtitle": "Paginated current state for every indexed channel. Click a row for detail: lifecycle events and balance evolution."
+    },
+    "analytics": {
+      "title": "Analytics",
+      "subtitle": "Network-level counts and indexer sync. Charts and time ranges will extend this page in a later release.",
+      "syncTitle": "Indexer sync",
+      "chainsTitle": "Chains",
+      "colChain": "Chain ID",
+      "colSyncedHeight": "Synced height",
+      "colContracts": "Contracts",
+      "phaseBNote": "For per-channel inspection and paginated lists, use"
     },
     "addressView": {
       "title": "Address View"
@@ -99,6 +129,30 @@
     "channelDetail": {
       "title": "Channel Detail"
     }
+  },
+  "guide": {
+    "title": "Open MPP Explorer — Guide",
+    "intro": "How MPP Session flows on Tempo use TempoStreamChannel for escrow and settlement, what this site shows (on-chain only), and how to navigate.",
+    "onchainTitle": "On-chain only — no off-chain HTTP payment UI",
+    "onchainLead": "This explorer reflects indexed blockchain facts: channel rows, contract events, and derived balances. It does not display HTTP 402 challenges, Payment-Authorization headers, per-request vouchers, SSE receipts, or other off-chain session mechanics. Single API “sessions” are not replayable here unless their effects appear as channel state or on-chain events.",
+    "tempoTitle": "Tempo, MPP, and TempoStreamChannel",
+    "tempoP1a": "Tempo",
+    "tempoP1b": "is a Layer 1 built for payments at scale (including stablecoins and machine payments).",
+    "tempoP2a": "MPP (Machine Payments Protocol)",
+    "tempoP2b": "defines machine-to-machine payments (e.g. per API call or tool use). In this product, “MPP Sessions” refer to flows that move value through TempoStreamChannel on Tempo.",
+    "tempoP3": "Channels can be opened and topped up, then reused while open—like prepaid escrow—with settlement deferred until close or finality.",
+    "howTitle": "Using this explorer",
+    "howOverview": "Overview — KPIs (active / finalized counts, remaining escrow) and quick search.",
+    "howChannels": "Channels — full paginated list of indexed channels.",
+    "howAnalytics": "Analytics — sync height, chains, and future time-series.",
+    "howSearch": "Header or Overview search — payer address or 66-character channel ID (0x + 64 hex). For payee-scoped lists, use the path /address/payee/ with the payee address.",
+    "howDetail": "Channel detail — payer, payee, token, deposits, status, lifecycle events, balance evolution; links to the block explorer when available.",
+    "howActionable": "Actionable (payer) — groups channels where you can request close, are in grace period, or can withdraw (read-only hints).",
+    "howFinalized": "Finalized — historical channels that reached a terminal outcome.",
+    "readOnly": "The app is read-only: no wallet connection and no transaction broadcast.",
+    "settlementTitle": "Settlement (high level)",
+    "settlementBody": "While a channel is open, value moves under protocol rules without every micro-update on-chain. Settlement aligns with lifecycle: close or expiry brings agreed balances on-chain; a grace period may apply after a close request. Rules come from Tempo and the contracts; the UI shows indexed status, events, and balances.",
+    "backChannels": "All channels"
   },
   "footer": {
     "powered": "Powered by Off-chain Indexer",

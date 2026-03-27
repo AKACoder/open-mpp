@@ -14,7 +14,9 @@ import { clsx } from "clsx";
 import { useTheme } from "../../hooks/useTheme";
 
 const NAV_ITEMS = [
-  { to: "/", key: "nav.allChannels", end: true },
+  { to: "/", key: "nav.overview", end: true },
+  { to: "/channels", key: "nav.allChannels", end: true },
+  { to: "/analytics", key: "nav.analytics", end: false },
   { to: "/actionable", key: "nav.actionable", end: false },
   { to: "/finalized", key: "nav.finalized", end: false },
   { to: "/guide", key: "nav.guide", end: false },

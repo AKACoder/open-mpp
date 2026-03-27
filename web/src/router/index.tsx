@@ -1,6 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import AppLayout from "../components/layout/AppLayout";
 import Home from "../pages/Home";
+import ChannelsList from "../pages/ChannelsList";
+import Analytics from "../pages/Analytics";
 import AddressView from "../pages/AddressView";
 import Actionable from "../pages/Actionable";
 import Finalized from "../pages/Finalized";
@@ -13,6 +15,8 @@ export const router = createBrowserRouter([
     element: <AppLayout />,
     children: [
       { index: true, element: <Home /> },
+      { path: "channels", element: <ChannelsList /> },
+      { path: "analytics", element: <Analytics /> },
       { path: "address/:type/:address", element: <AddressView /> },
       { path: "actionable", element: <Actionable /> },
       { path: "finalized", element: <Finalized /> },

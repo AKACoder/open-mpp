@@ -6,7 +6,13 @@
 import { SITE_NAME } from "./site";
 
 const HOME_DESC =
-  "Read-only explorer for TempoStreamChannel state on Tempo (Layer 1 for payments). Browse Machine Payments Protocol (MPP) Session channels, lifecycle events, balances, and payer views—aligned with M2M and real-time payment flows on Tempo.";
+  "On-chain funding and lifecycle view for MPP Sessions on Tempo: TempoStreamChannel escrow, settlement, and finality—read-only, indexer-backed. Overview KPIs and search; no wallet, no off-chain HTTP payment flows.";
+
+const CHANNELS_DESC =
+  "Paginated list of all indexed TempoStreamChannel rows on Tempo—deposits, status, payer and payee, for MPP Session flows.";
+
+const ANALYTICS_DESC =
+  "Session on-chain analytics: active and finalized channel counts, remaining escrow by token, indexer sync height and chains—Tempo / MPP explorer.";
 
 const GUIDE_DESC =
   "What Tempo and Machine Payments Protocol (MPP) are, how MPP Sessions use TempoStreamChannel on Tempo, how to read channel status here, and how settlement relates to close and grace periods.";
@@ -31,8 +37,22 @@ export function getSeoForPath(pathname: string): {
 
   if (p === "/" || p === "") {
     return {
-      title: `${SITE_NAME} — Tempo Network Payment Channel Browser`,
+      title: `${SITE_NAME} — On-chain Session Funding & Lifecycle`,
       description: HOME_DESC,
+    };
+  }
+
+  if (p.startsWith("/channels")) {
+    return {
+      title: `All Channels — ${SITE_NAME}`,
+      description: CHANNELS_DESC,
+    };
+  }
+
+  if (p.startsWith("/analytics")) {
+    return {
+      title: `Analytics — ${SITE_NAME}`,
+      description: ANALYTICS_DESC,
     };
   }
 

@@ -2,7 +2,7 @@ import { Helmet } from "react-helmet-async";
 import { SITE_NAME, SITE_URL } from "../../config/site";
 
 const DESCRIPTION =
-  "Read-only web app to explore indexed TempoStreamChannel contracts on Tempo (payments-focused L1) for Machine Payments Protocol (MPP) Session flows: channel lifecycle, balances, and events for machine-to-machine and real-time payment scenarios.";
+  "Read-only explorer for on-chain MPP Session funding and TempoStreamChannel lifecycle on Tempo: escrow, settlement, finality, indexer sync, and analytics—no wallet, no off-chain HTTP payment UI.";
 
 export default function JsonLd() {
   const data = {

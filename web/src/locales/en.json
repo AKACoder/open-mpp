@@ -1,6 +1,8 @@
 {
   "app": {
     "title": "Open MPP Explorer",
+    "brandName": "Open MPP",
+    "brandSubtitle": "Tempo · channels & on-chain session analytics",
     "description": "On-chain session funding and channel lifecycle on Tempo (MPP / TempoStreamChannel)"
   },
   "common": {
@@ -15,6 +17,8 @@
     "allChannels": "Channels",
     "analytics": "Analytics",
     "actionable": "Actionable",
+    "closeNavLabel": "Close",
+    "closeNavAria": "Payer channels: withdraw-ready, grace period, or request close — read-only indexer lists",
     "finalized": "Finalized",
     "guide": "Guide"
   },
@@ -196,7 +200,8 @@
       "title": "Address View"
     },
     "actionable": {
-      "title": "Actionable Channels"
+      "title": "Close & withdraw (payer)",
+      "subtitle": "Indexed TempoStreamChannel rows only: no wallet, no transactions. Lists follow /channels/actions/* APIs."
     },
     "finalized": {
       "title": "Finalized Channels"
@@ -235,7 +240,7 @@
     "howAnalytics": "Analytics — sync height, chains, and future time-series.",
     "howSearch": "Header or Overview search — payer address or 66-character channel ID (0x + 64 hex). For payee-scoped lists, use the path /address/payee/ with the payee address.",
     "howDetail": "Channel detail — payer, payee, token, deposits, status, lifecycle events, balance evolution; links to the block explorer when available.",
-    "howActionable": "Actionable (payer) — groups channels where you can request close, are in grace period, or can withdraw (read-only hints).",
+    "howActionable": "Close (nav) / payer — lists channels that are withdraw-ready, in grace, or can request close (read-only indexer /channels/actions/*).",
     "howFinalized": "Finalized — historical channels that reached a terminal outcome.",
     "readOnly": "The app is read-only: no wallet connection and no transaction broadcast.",
     "settlementTitle": "Settlement (high level)",
@@ -243,6 +248,7 @@
     "backChannels": "All channels"
   },
   "footer": {
+    "formalBrand": "Open MPP Explorer — read-only Tempo channel & MPP session data",
     "powered": "Powered by Off-chain Indexer",
     "copyright": "© {{year}} open-mpp.akacoder.net",
     "linkX": "Open on X",

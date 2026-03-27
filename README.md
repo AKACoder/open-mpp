@@ -1,6 +1,6 @@
 # open-mpp
 
-**Open MPP Explorer** — an **on-chain Session funding & lifecycle analytics and explorer** for **TempoStreamChannel** on **[Tempo](https://tempo.xyz/)**. It answers: *how much is in escrow, what changed on-chain, and where is sync up to* — for Machine Payments Protocol (**[MPP](https://mpp.dev/)**) flows **without** wallet connection or off-chain HTTP payment UI.
+**Open MPP** (product shell; formal name **Open MPP Explorer** in SEO / footer) — an **on-chain Session funding & lifecycle analytics and explorer** for **TempoStreamChannel** on **[Tempo](https://tempo.xyz/)**. It answers: *how much is in escrow, what changed on-chain, and where is sync up to* — for Machine Payments Protocol (**[MPP](https://mpp.dev/)**) flows **without** wallet connection or off-chain HTTP payment UI.
 
 The UI surfaces indexed channel rows, contract events, balances, network KPIs, time series, rankings, and address-scoped summaries. **Read-only**: no writes, no chain-downstream session replay for every API call (the on-chain unit is the **channel**, not each HTTP session).
 

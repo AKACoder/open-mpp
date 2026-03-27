@@ -18,7 +18,7 @@ const GUIDE_DESC =
   "What Tempo and Machine Payments Protocol (MPP) are, how MPP Sessions use TempoStreamChannel on Tempo, how to read channel status here, and how settlement relates to close and grace periods.";
 
 const ACTIONABLE_DESC =
-  "Payer-focused view: withdraw-ready, grace-period wait, or request-close—indexed TempoStreamChannel data for MPP Session flows on Tempo.";
+  "Read-only payer view of TempoStreamChannel actionable states: withdraw-available, withdraw-ready (grace), or request-close — from indexer /channels/actions/*; no wallet or broadcasts.";
 
 const FINALIZED_DESC =
   "Paginated history of finalized TempoStreamChannel contracts on Tempo—payment channel outcomes after settlement.";
@@ -79,7 +79,7 @@ export function getSeoForPath(pathname: string): {
 
   if (p.startsWith("/actionable")) {
     return {
-      title: `Actionable Channels — ${SITE_NAME}`,
+      title: `Payer close & withdraw readiness (read-only) — ${SITE_NAME}`,
       description: ACTIONABLE_DESC,
     };
   }

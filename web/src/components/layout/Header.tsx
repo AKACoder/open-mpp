@@ -17,7 +17,12 @@ const NAV_ITEMS = [
   { to: "/", key: "nav.overview", end: true },
   { to: "/channels", key: "nav.allChannels", end: true },
   { to: "/analytics", key: "nav.analytics", end: false },
-  { to: "/actionable", key: "nav.actionable", end: false },
+  {
+    to: "/actionable",
+    key: "nav.closeNavLabel",
+    end: false,
+    ariaKey: "nav.closeNavAria",
+  },
   { to: "/finalized", key: "nav.finalized", end: false },
   { to: "/guide", key: "nav.guide", end: false },
 ] as const;
@@ -67,23 +72,37 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur-md dark:border-zinc-800 dark:bg-zinc-950/80">
-      <div className="mx-auto flex h-14 max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex min-h-14 max-w-7xl items-center gap-3 px-4 py-1.5 sm:gap-4 sm:px-6 sm:py-2 lg:px-8">
         {/* Logo */}
-        <NavLink to="/" className="flex shrink-0 items-center gap-2">
-          <Activity className="size-5 text-accent" strokeWidth={2} />
-          <span className="text-sm font-semibold tracking-tight">
-            {t("app.title")}
-          </span>
+        <NavLink
+          to="/"
+          className="flex min-w-0 shrink-0 items-center gap-2"
+        >
+          <Activity className="size-5 shrink-0 text-accent" strokeWidth={2} />
+          <div className="min-w-0 leading-tight">
+            <span className="block text-sm font-semibold tracking-tight text-slate-900 dark:text-zinc-100">
+              {t("app.brandName")}
+            </span>
+            <span className="mt-0.5 block truncate text-[10px] font-normal text-slate-500 dark:text-zinc-500 sm:text-[11px] md:max-w-[14rem] lg:max-w-[18rem]">
+              {t("app.brandSubtitle")}
+            </span>
+          </div>
         </NavLink>
 
         {/* Desktop nav */}
-        <nav className="hidden items-center gap-6 md:flex" aria-label="Main">
+        <nav
+          className="hidden items-center gap-4 lg:gap-5 xl:gap-6 md:flex"
+          aria-label="Main"
+        >
           {NAV_ITEMS.map((item) => (
             <NavLink
               key={item.to}
               to={item.to}
               end={item.end}
               className={navLinkClass}
+              {...("ariaKey" in item && item.ariaKey
+                ? { "aria-label": t(item.ariaKey) }
+                : {})}
             >
               {t(item.key)}
             </NavLink>
@@ -235,6 +254,9 @@ export default function Header() {
                 to={item.to}
                 end={item.end}
                 onClick={() => setMobileMenuOpen(false)}
+                {...("ariaKey" in item && item.ariaKey
+                  ? { "aria-label": t(item.ariaKey) }
+                  : {})}
                 className={({ isActive }) =>
                   clsx(
                     "block rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",

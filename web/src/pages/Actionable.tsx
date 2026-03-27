@@ -30,6 +30,9 @@ export default function Actionable() {
       <h1 className="text-2xl font-semibold tracking-tight">
         {t("pages.actionable.title")}
       </h1>
+      <p className="mt-2 max-w-2xl text-sm text-slate-600 dark:text-zinc-400">
+        {t("pages.actionable.subtitle")}
+      </p>
 
       <div className="relative mt-4">
         <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-400 dark:text-zinc-500" />

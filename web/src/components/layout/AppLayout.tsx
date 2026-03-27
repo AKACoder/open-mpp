@@ -57,6 +57,9 @@ export default function AppLayout() {
           <p className="text-center text-xs text-slate-500 dark:text-zinc-500">
             {t("footer.copyright", { year })}
           </p>
+          <p className="text-center text-[11px] text-slate-500 dark:text-zinc-500">
+            {t("footer.formalBrand")}
+          </p>
           <p className="text-center text-xs text-slate-400 dark:text-zinc-600">
             {t("footer.powered")}
           </p>

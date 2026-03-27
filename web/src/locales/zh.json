@@ -1,6 +1,8 @@
 {
   "app": {
     "title": "Open MPP Explorer",
+    "brandName": "Open MPP",
+    "brandSubtitle": "Tempo · 通道与链上 Session 分析",
     "description": "Tempo 上 MPP / TempoStreamChannel 的链上资金与通道生命周期"
   },
   "common": {
@@ -15,6 +17,8 @@
     "allChannels": "通道列表",
     "analytics": "分析",
     "actionable": "待操作",
+    "closeNavLabel": "关单",
+    "closeNavAria": "付款方通道：可提现、宽限期或可申请关单 — 只读索引列表",
     "finalized": "已终结",
     "guide": "指南"
   },
@@ -196,7 +200,8 @@
       "title": "地址视图"
     },
     "actionable": {
-      "title": "待操作通道"
+      "title": "关单与提现（付款方）",
+      "subtitle": "仅展示索引库中的 TempoStreamChannel；不连接钱包、不发送交易。列表与 /channels/actions/* 接口一致。"
     },
     "finalized": {
       "title": "已终结通道"
@@ -235,7 +240,7 @@
     "howAnalytics": "分析 — 同步高度、链信息，后续将扩展时间序列等。",
     "howSearch": "顶栏或概览搜索 — 付款方地址或 66 字符通道 ID（0x + 64 hex）。按收款方筛选请使用路径 /address/payee/ 加地址。",
     "howDetail": "通道详情 — 收付方、代币、存款与状态、生命周期事件、资金演进；可跳转浏览器查看交易。",
-    "howActionable": "待操作（付款方）— 可按关单/宽限/可提现等维度分组（只读提示）。",
+    "howActionable": "导航「关单」/ 付款方 — 列表对应可提现、宽限或可申请关单等状态（只读，接口 /channels/actions/*）。",
     "howFinalized": "已终结 — 已达终态通道的历史浏览。",
     "readOnly": "应用为只读：不连接钱包、不广播交易。",
     "settlementTitle": "结算（概要）",
@@ -243,6 +248,7 @@
     "backChannels": "全部通道"
   },
   "footer": {
+    "formalBrand": "Open MPP Explorer — Tempo 通道与 MPP Session 只读数据",
     "powered": "由链下索引器驱动",
     "copyright": "© {{year}} open-mpp.akacoder.net",
     "linkX": "在 X 上打开",

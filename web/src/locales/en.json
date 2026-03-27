@@ -25,6 +25,8 @@
   "search": {
     "placeholder": "Address or channel ID (0x + 64 hex)…",
     "placeholderHeader": "Address or channel ID…",
+    "placeholderUnified": "Channel ID (0x + 64) or address (0x + 40)…",
+    "invalidQuery": "Enter a valid channel ID (0x + 64 hex) or EVM address (0x + 40 hex).",
     "aria": "Search by address or channel ID",
     "rolePayer": "Payer",
     "rolePayee": "Payee",
@@ -187,8 +189,7 @@
       "title": "Overview",
       "subtitle": "Tempo channels and on-chain session analytics — read-only explorer.",
       "scopeLink": "On-chain scope & FAQ →",
-      "syncStripTitle": "Indexer sync",
-      "syncStripNote": "Heights reflect the indexer, not necessarily the live chain tip.",
+      "syncStripTitle": "Indexer",
       "indexerFreshnessAria": "Indexer sync height and data freshness (from /meta/sync)",
       "searchSection": "Search",
       "exploreSection": "Explore",
@@ -222,7 +223,11 @@
       "phaseBNote": "For per-channel inspection and paginated lists, use"
     },
     "addressView": {
-      "title": "Address View"
+      "title": "Address View",
+      "invalidAddress": "This path expects an EVM address: 0x followed by exactly 40 hexadecimal characters.",
+      "emptyAsPayer": "No channels where this address is the payer. Try the Payee tab if you expected listings.",
+      "emptyAsPayee": "No channels where this address is the payee. Try the Payer tab if you expected listings.",
+      "roleTabsAria": "Channel list role"
     },
     "actionable": {
       "title": "Close & withdraw (payer)",
@@ -260,7 +265,7 @@
     "howOverview": "Overview — KPIs (active / finalized counts, remaining escrow) and quick search.",
     "howChannels": "Channels — full paginated list of indexed channels.",
     "howAnalytics": "Analytics — network KPIs, UTC-bucket time series, rankings, token and contract breakdowns, indexer sync; filters stay in the URL.",
-    "howSearch": "Header or Overview search — payer address or 66-character channel ID (0x + 64 hex). For payee-scoped lists, use the path /address/payee/ with the payee address.",
+    "howSearch": "Header or Overview search: type a 42-character EVM address (0x + 40 hex) to open the unified address page (Payer tab by default; switch to Payee in-page), or a 66-character channel ID (0x + 64 hex) for channel detail. Legacy URLs /address/payer/… and /address/payee/… redirect to the same page with the matching tab.",
     "howDetail": "Channel detail — payer, payee, token, deposits, status, lifecycle events, balance evolution; links to the block explorer when available.",
     "howActionable": "Close (nav) / payer — lists channels that are withdraw-ready, in grace, or can request close (read-only indexer /channels/actions/*).",
     "howFinalized": "Channels — switch to Finalized or open /channels?finalized=1; data from GET /channels?c_finalized=1&sort=c_updated_block.",

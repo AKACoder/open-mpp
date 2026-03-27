@@ -24,11 +24,11 @@ This repository contains **the frontend only** (`web/`). The indexing service th
 
 | Area | Capabilities |
 |------|----------------|
-| **Overview** `/` | Network KPIs (from `/analytics/summary`), payer/payee-scoped quick search, links to channels / analytics / guide. |
+| **Overview** `/` | Network KPIs (from `/analytics/summary`), unified quick search (40‑hex address → `/address/:addr?role=payer` by default, 64‑hex channel ID → `/channel/:id`), links to channels / analytics / guide. |
 | **Channels** `/channels` | Paginated all channels; row → detail. **Finalized-only** view: `/channels?finalized=1` → `GET /channels?c_finalized=1&sort=c_updated_block`. |
 | **Analytics** `/analytics` | URL-synced filters (`chain`, `from`, `to`, `bucket`, optional settlement token, summary window); KPIs, optional range metrics, three UTC-bucket time series, rankings, token/contract breakdowns, `/meta/sync` table, **metric definitions** (collapsible), **non-real-time** disclaimer. |
 | **Partner analytics** `/analytics/payer/:addr`, `/analytics/payee/:addr` | Summary + payer event time series (with row-limit error UX); query params for chain / dates / bucket. |
-| **Address lists** `/address/payer|payee/:addr` | Paginated channel lists. |
+| **Address lists** `/address/:addr` + `?role=payer` or `?role=payee` | Paginated payer or payee channel lists (tabs; legacy `/address/payer/:addr` and `/address/payee/:addr` redirect here). |
 | **Channel detail** `/channel/:id` | Metadata, **events summary**, lifecycle timeline, balance history, on-chain storage note, tx hash links. |
 | **Actionable** `/actionable` | Payer address → grouped actionable channels (read-only). |
 | **Finalized** `/channels?finalized=1` | Paginated finalized channels (legacy path `/finalized` redirects here). |

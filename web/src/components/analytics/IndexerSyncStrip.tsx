@@ -21,7 +21,7 @@ interface Props {
   "aria-label"?: string;
 }
 
-/** Compact per-chain sync height (Overview / Analytics toolbar). */
+/** Per-chain synced height — inline metadata (Overview beside search, Analytics in hero row). */
 export default function IndexerSyncStrip({
   syncRows,
   chains,
@@ -45,38 +45,32 @@ export default function IndexerSyncStrip({
     <aside
       aria-label={ariaLabel}
       className={clsx(
-        "rounded-lg border border-slate-200 bg-slate-50/90 px-3 py-2 dark:border-zinc-700 dark:bg-zinc-900/50",
+        "inline-flex max-w-full flex-wrap items-baseline gap-x-2 gap-y-0.5 text-[11px] leading-snug text-slate-500 dark:text-zinc-500",
         className,
       )}
     >
-      <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-        <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-500 dark:text-zinc-500">
-          {t("pages.home.syncStripTitle")}
+      <span className="shrink-0 text-slate-400 dark:text-zinc-600">
+        {t("pages.home.syncStripTitle")}
+      </span>
+      {loadError ? (
+        <span className="text-slate-600 dark:text-zinc-400">
+          {t("analytics.indexerSyncErrorShort")}
         </span>
-        {loadError ? (
-          <span className="text-xs text-slate-600 dark:text-zinc-400">
-            {t("analytics.indexerSyncErrorShort")}
-          </span>
-        ) : isLoading && !syncRows?.length ? (
-          <span className="text-xs text-slate-500 dark:text-zinc-500">…</span>
-        ) : items.length === 0 ? (
-          <span className="text-xs text-slate-500 dark:text-zinc-500">—</span>
-        ) : (
-          items.map((it) => (
-            <span
-              key={it.id}
-              className="text-xs text-slate-800 dark:text-zinc-200"
-            >
-              <span className="font-medium">{it.label}</span>
-              <span className="mx-1 text-slate-400 dark:text-zinc-600">·</span>
-              <span className="font-mono tabular-nums">{it.height}</span>
+      ) : isLoading && !syncRows?.length ? (
+        <span>…</span>
+      ) : items.length === 0 ? (
+        <span>—</span>
+      ) : (
+        items.map((it) => (
+          <span key={it.id} className="text-slate-600 dark:text-zinc-400">
+            <span className="font-medium text-slate-700 dark:text-zinc-300">
+              {it.label}
             </span>
-          ))
-        )}
-      </div>
-      <p className="mt-1 text-[10px] leading-snug text-slate-500 dark:text-zinc-500">
-        {t("pages.home.syncStripNote")}
-      </p>
+            <span className="mx-1 text-slate-300 dark:text-zinc-600">·</span>
+            <span className="font-mono tabular-nums">{it.height}</span>
+          </span>
+        ))
+      )}
     </aside>
   );
 }

@@ -36,30 +36,29 @@ export default function Home() {
       <h1 className="text-2xl font-semibold tracking-tight">
         {t("pages.home.title")}
       </h1>
-      <p className="mt-2 max-w-2xl text-sm text-slate-600 dark:text-zinc-400">
-        {t("pages.home.subtitle")}
-      </p>
-      <p className="mt-2 text-xs">
+      <p className="mt-2 flex max-w-2xl flex-wrap items-baseline gap-x-2 gap-y-1 text-sm text-slate-600 dark:text-zinc-400">
+        <span>{t("pages.home.subtitle")}</span>
         <Link
           to="/guide"
-          className="font-medium text-accent underline-offset-2 hover:underline"
+          className="text-xs font-medium text-accent underline-offset-2 hover:underline"
         >
           {t("pages.home.scopeLink")}
         </Link>
       </p>
 
-      <div className="mt-5 w-full max-w-3xl">
-        <QuickSearch />
+      <div className="mt-5 flex w-full max-w-3xl flex-col gap-2 sm:flex-row sm:items-center sm:gap-x-4">
+        <div className="min-w-0 flex-1">
+          <QuickSearch />
+        </div>
+        <IndexerSyncStrip
+          className="shrink-0 sm:max-w-[min(100%,18rem)] sm:justify-end"
+          syncRows={syncQuery.data}
+          chains={chainsQuery.data}
+          isLoading={syncQuery.isLoading}
+          loadError={!!syncQuery.error}
+          aria-label={t("pages.home.indexerFreshnessAria")}
+        />
       </div>
-
-      <IndexerSyncStrip
-        className="mt-4 max-w-3xl"
-        syncRows={syncQuery.data}
-        chains={chainsQuery.data}
-        isLoading={syncQuery.isLoading}
-        loadError={!!syncQuery.error}
-        aria-label={t("pages.home.indexerFreshnessAria")}
-      />
 
       <section
         className="mt-10 w-full"

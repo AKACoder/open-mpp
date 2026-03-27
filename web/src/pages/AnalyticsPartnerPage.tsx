@@ -255,7 +255,7 @@ export default function AnalyticsPartnerPage() {
         </Link>
         {" · "}
         <Link
-          to={`/address/${variant}/${address}`}
+          to={`/address/${address}?role=${variant}`}
           className="text-accent underline-offset-2 hover:underline"
         >
           {t("pages.analyticsPartner.channelList")}

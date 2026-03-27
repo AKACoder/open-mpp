@@ -76,18 +76,19 @@ export default function Analytics() {
       <h1 className="text-2xl font-semibold tracking-tight">
         {t("pages.analytics.title")}
       </h1>
-      <p className="mt-2 max-w-2xl text-sm text-slate-600 dark:text-zinc-400">
-        {t("pages.analytics.subtitle")}
-      </p>
-
-      <IndexerSyncStrip
-        className="mt-4 max-w-4xl"
-        syncRows={syncQuery.data}
-        chains={chainsQuery.data}
-        isLoading={syncQuery.isLoading}
-        loadError={!!syncQuery.error}
-        aria-label={t("pages.analytics.syncStripAria")}
-      />
+      <div className="mt-2 flex flex-wrap items-end justify-between gap-x-4 gap-y-2">
+        <p className="max-w-2xl text-sm text-slate-600 dark:text-zinc-400">
+          {t("pages.analytics.subtitle")}
+        </p>
+        <IndexerSyncStrip
+          className="max-w-full sm:max-w-[20rem] sm:justify-end"
+          syncRows={syncQuery.data}
+          chains={chainsQuery.data}
+          isLoading={syncQuery.isLoading}
+          loadError={!!syncQuery.error}
+          aria-label={t("pages.analytics.syncStripAria")}
+        />
+      </div>
 
       <AnalyticsMetricsGlossary className="mt-4" />
 

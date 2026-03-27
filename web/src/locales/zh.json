@@ -25,6 +25,8 @@
   "search": {
     "placeholder": "地址或通道 ID（0x + 64 位 hex）…",
     "placeholderHeader": "地址或通道 ID…",
+    "placeholderUnified": "通道 ID（0x + 64）或地址（0x + 40）…",
+    "invalidQuery": "请输入有效的通道 ID（0x + 64 位十六进制）或 EVM 地址（0x + 40 位十六进制）。",
     "aria": "按地址或通道 ID 搜索",
     "rolePayer": "付款方",
     "rolePayee": "收款方",
@@ -187,8 +189,7 @@
       "title": "概览",
       "subtitle": "Tempo 通道与链上 Session 分析 — 只读浏览器。",
       "scopeLink": "链上范围与常见问题 →",
-      "syncStripTitle": "索引同步",
-      "syncStripNote": "高度来自索引器，未必等于链尖实时。",
+      "syncStripTitle": "索引",
       "indexerFreshnessAria": "索引同步高度与数据新鲜度说明（来源 /meta/sync）",
       "searchSection": "检索",
       "exploreSection": "探索",
@@ -222,7 +223,11 @@
       "phaseBNote": "单通道与分页列表请使用"
     },
     "addressView": {
-      "title": "地址视图"
+      "title": "地址视图",
+      "invalidAddress": "此路径需要 EVM 地址：0x 后接恰好 40 个十六进制字符。",
+      "emptyAsPayer": "该地址作为付款方暂无通道。若预期有列表，可切换到「收款方」标签查看。",
+      "emptyAsPayee": "该地址作为收款方暂无通道。若预期有列表，可切换到「付款方」标签查看。",
+      "roleTabsAria": "通道列表角色"
     },
     "actionable": {
       "title": "关单与提现（付款方）",
@@ -260,7 +265,7 @@
     "howOverview": "概览 — 核心 KPI（活跃/已终结数量、剩余托管）与快捷检索。",
     "howChannels": "通道列表 — 全量分页列表。",
     "howAnalytics": "分析 — 网络 KPI、按 UTC 分桶的时间序列、排行榜、代币/合约拆分、索引同步；筛选与 URL 同步便于分享。",
-    "howSearch": "顶栏或概览搜索 — 付款方地址或 66 字符通道 ID（0x + 64 hex）。按收款方筛选请使用路径 /address/payee/ 加地址。",
+    "howSearch": "顶栏或概览搜索：输入 42 字符的 EVM 地址（0x + 40 hex）进入统一地址页（默认「付款方」标签；在页面内可切到「收款方」），或 66 字符通道 ID（0x + 64 hex）进入通道详情。旧链接 /address/payer/… 与 /address/payee/… 会重定向到同一页面并选中对应标签。",
     "howDetail": "通道详情 — 收付方、代币、存款与状态、生命周期事件、资金演进；可跳转浏览器查看交易。",
     "howActionable": "导航「关单」/ 付款方 — 列表对应可提现、宽限或可申请关单等状态（只读，接口 /channels/actions/*）。",
     "howFinalized": "通道列表 — 可切换「已终结」或打开 /channels?finalized=1；数据来自 GET /channels?c_finalized=1&sort=c_updated_block。",
